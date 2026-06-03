@@ -1,0 +1,17 @@
+
+title: Phishing Email Detected
+
+logsource:
+  product: email
+
+detection:
+  selection:
+    sender: attacker@evil.com
+    risk_score: 860
+
+condition: selection
+
+level: high
+
+tags:
+  - attack.t1566

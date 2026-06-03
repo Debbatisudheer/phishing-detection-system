@@ -1,0 +1,29 @@
+====================================
+PHISHING INVESTIGATION REPORT
+====================================
+
+Sender:
+attacker@evil.com
+
+Subject:
+Real Macro Test
+
+URLs:
+[]
+
+Findings:
+[Thread hijack indicator: invoice attached SPF FAIL DKIM FAIL DMARC FAIL Suspicious sender reputation detected Repeated malicious sender detected Impossible travel detected Detonation: PowerShell execution Detonation: Office macro execution Macro-enabled Office document detected]
+
+Risk Score:
+860
+
+Risk Level:
+CRITICAL
+
+Decision:
+QUARANTINE
+
+MITRE:
+T1598 - Phishing for Information
+
+====================================

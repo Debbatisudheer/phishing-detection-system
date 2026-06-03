@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 16:47:15",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "RE: Invoice #12345",
+  "risk_score": 1000,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

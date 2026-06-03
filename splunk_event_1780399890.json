@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 17:01:30",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "Detonation Test",
+  "risk_score": 1000,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

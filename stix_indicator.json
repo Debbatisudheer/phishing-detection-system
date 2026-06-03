@@ -1,0 +1,10 @@
+{
+  "type": "indicator",
+  "spec_version": "2.1",
+  "id": "indicator--2026-06-02T12:48:52Z",
+  "created": "2026-06-02T12:48:52Z",
+  "modified": "2026-06-02T12:48:52Z",
+  "name": "Malicious URL",
+  "pattern": "[url:value = 'https://paypal-login-security.com/login']",
+  "pattern_type": "stix"
+}

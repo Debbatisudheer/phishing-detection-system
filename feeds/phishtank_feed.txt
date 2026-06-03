@@ -1,0 +1,4 @@
+paypal-login-security.com
+microsoft-secure-login.net
+fake-google-auth.com
+evil.com

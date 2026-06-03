@@ -1,0 +1,12 @@
+{
+  "sender": "attacker@evil.com",
+  "urls": null,
+  "domains": [],
+  "hashes": [],
+  "attachments": [
+    "uploads\\invoice.docm"
+  ],
+  "mitre": "T1598 - Phishing for Information",
+  "risk_score": 860,
+  "risk_level": "CRITICAL"
+}

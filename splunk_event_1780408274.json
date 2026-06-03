@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 19:21:14",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "Real Macro Test",
+  "risk_score": 860,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

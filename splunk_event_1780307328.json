@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-01 15:30:00",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "Microsoft Security Alert",
+  "risk_score": 770,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

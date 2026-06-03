@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 11:53:45",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "YARA Test",
+  "risk_score": 1000,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

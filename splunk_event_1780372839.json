@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 09:30:39",
+  "event_type": "phishing_detected",
+  "sender": "support@microsoft.com",
+  "subject": "Microsoft Security Alert",
+  "risk_score": 555,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

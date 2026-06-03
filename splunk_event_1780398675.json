@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 16:41:15",
+  "event_type": "phishing_detected",
+  "sender": "attacker@evil.com",
+  "subject": "Homograph Test",
+  "risk_score": 810,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

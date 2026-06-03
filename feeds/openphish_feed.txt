@@ -1,0 +1,4 @@
+evil.com
+phishing-login.com
+fake-microsoft.xyz
+malicious-bank.com

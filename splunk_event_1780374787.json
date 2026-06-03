@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-02 10:03:07",
+  "event_type": "phishing_detected",
+  "sender": "CEO \u003cceo@company.com\u003e",
+  "subject": "Urgent Payment",
+  "risk_score": 630,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

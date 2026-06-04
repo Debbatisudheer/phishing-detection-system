@@ -6,6 +6,7 @@ import (
 	"phishing-platform/internal/api"
 	"phishing-platform/internal/handlers"
 	"phishing-platform/internal/websocket"
+	"phishing-platform/internal/middleware"
 )
 
 func SetupRoutes() {
@@ -37,6 +38,64 @@ http.HandleFunc(
 http.HandleFunc(
 	"/api/high-risk-files",
 	api.HighRiskFilesHandler,
+)
+
+http.HandleFunc(
+	"/api/file/",
+	api.FileDetailsHandler,
+)
+
+http.HandleFunc(
+	"/api/search",
+	middleware.JWTMiddleware(
+		api.SearchHandler,
+	),
+)
+
+http.HandleFunc(
+	"/api/case",
+	api.CreateCaseHandler,
+)
+
+http.HandleFunc(
+	"/api/cases",
+	middleware.JWTMiddleware(
+		api.GetCasesHandler,
+	),
+)
+
+http.HandleFunc(
+	"/api/case/",
+	api.UpdateCaseHandler,
+)
+
+http.HandleFunc(
+	"/api/case-details/",
+	api.GetCaseHandler,
+)
+
+http.HandleFunc(
+	"/api/case-close/",
+	middleware.JWTMiddleware(
+		api.CloseCaseHandler,
+	),
+)
+
+http.HandleFunc(
+	"/api/export/iocs",
+	middleware.JWTMiddleware(
+		api.ExportIOCsHandler,
+	),
+)
+
+http.HandleFunc(
+	"/api/register",
+	api.RegisterHandler,
+)
+
+http.HandleFunc(
+	"/api/login",
+	api.LoginHandler,
 )
 	// Home Route
 	http.HandleFunc(

@@ -31,3 +31,52 @@ func MapTechnique(
 
 	return "T1598 - Phishing for Information"
 }
+
+func MapFileTechniques(
+	findings []string,
+) []string {
+
+	var techniques []string
+
+	for _, finding := range findings {
+
+		text := strings.ToLower(
+			finding,
+		)
+
+		if strings.Contains(
+			text,
+			"powershell",
+		) {
+
+			techniques = append(
+				techniques,
+				"T1059.001 - PowerShell",
+			)
+		}
+
+		if strings.Contains(
+			text,
+			"macro",
+		) {
+
+			techniques = append(
+				techniques,
+				"T1566.001 - Spearphishing Attachment",
+			)
+		}
+
+		if strings.Contains(
+			text,
+			"url",
+		) {
+
+			techniques = append(
+				techniques,
+				"T1566.002 - Spearphishing Link",
+			)
+		}
+	}
+
+	return techniques
+}

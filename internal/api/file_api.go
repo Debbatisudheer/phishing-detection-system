@@ -17,6 +17,9 @@ import (
 "phishing-platform/internal/parser"
 "fmt"
 "phishing-platform/database"
+"phishing-platform/internal/hash"
+"phishing-platform/internal/mitre"
+"phishing-platform/internal/threatintel"
 )
 
 type AnalyzeFileResponse struct {
@@ -98,6 +101,7 @@ func AnalyzeFileHandler(
 	}
 
 	var findings []string
+	var extractedURLs []string
 
 	// DOCM ANALYSIS
 	if strings.HasSuffix(
@@ -154,11 +158,36 @@ func AnalyzeFileHandler(
 
 		for _, qrURL := range qrResults {
 
-			findings = append(
-				findings,
-				"QR URL extracted: "+qrURL,
-			)
-		}
+	extractedURLs = append(
+		extractedURLs,
+		qrURL,
+	)
+
+	findings = append(
+		findings,
+		"QR URL extracted: "+qrURL,
+	)
+
+	threatFindings :=
+		threatintel.CheckThreatIntel(
+			qrURL,
+		)
+
+	findings = append(
+		findings,
+		threatFindings...,
+	)
+
+	reputationFindings :=
+		threatintel.CheckURLReputation(
+			qrURL,
+		)
+
+	findings = append(
+		findings,
+		reputationFindings...,
+	)
+}
 	}
 
 	// ZIP ANALYSIS
@@ -222,15 +251,43 @@ func AnalyzeFileHandler(
 				pdfText,
 			)
 
+			extractedURLs = append(
+	extractedURLs,
+	urls...,
+)
+
 		for _, url := range urls {
 
-			findings = append(
-				findings,
-				"PDF URL extracted: "+url,
-			)
-		}
-	}
+	findings = append(
+		findings,
+		"PDF URL extracted: "+url,
+	)
 
+	threatFindings :=
+		threatintel.CheckThreatIntel(
+			url,
+		)
+
+	findings = append(
+		findings,
+		threatFindings...,
+	)
+
+	reputationFindings :=
+		threatintel.CheckURLReputation(
+			url,
+		)
+
+	findings = append(
+		findings,
+		reputationFindings...,
+	)
+}
+	}
+mitreTechniques :=
+	mitre.MapFileTechniques(
+		findings,
+	)
 	riskScore :=
 		risk.CalculateRisk(
 			header.Filename,
@@ -259,11 +316,35 @@ func AnalyzeFileHandler(
 		verdict = "QUARANTINE"
 	}
 
+	sha256 :=
+	hash.CalculateSHA256(
+		savePath,
+	)
+
+	fmt.Println(
+	"SHA256:",
+	sha256,
+)
+
+
 	err = database.SaveAnalysisResult(
 	header.Filename,
 	riskScore,
 	riskLevel,
 	verdict,
+	strings.Join(
+		findings,
+		"\n",
+	),
+	sha256,
+	strings.Join(
+		extractedURLs,
+		"\n",
+	),
+	strings.Join(
+		mitreTechniques,
+		"\n",
+	),
 )
 
 if err != nil {

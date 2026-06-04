@@ -22,15 +22,34 @@ func main() {
 
 	fmt.Println("Server running on port 8081")
 
-	handler := cors.Default().Handler(http.DefaultServeMux)
+
+	c := cors.New(
+	cors.Options{
+		AllowedOrigins: []string{
+			"http://localhost:5173",
+		},
+		AllowedMethods: []string{
+			"GET",
+			"POST",
+			"PUT",
+			"DELETE",
+			"OPTIONS",
+		},
+		AllowedHeaders: []string{
+			"*",
+		},
+		AllowCredentials: true,
+	},
+)
+
+handler := c.Handler(
+	http.DefaultServeMux,
+)
 
 http.ListenAndServe(
 	":8081",
 	handler,
 )
 
-http.HandleFunc(
-	"/ws",
-	websocket.HandleConnections,
-)
+
 }

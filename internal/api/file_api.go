@@ -20,6 +20,8 @@ import (
 "phishing-platform/internal/hash"
 "phishing-platform/internal/mitre"
 "phishing-platform/internal/threatintel"
+"phishing-platform/internal/websocket"
+"phishing-platform/internal/virustotal"
 )
 
 type AnalyzeFileResponse struct {
@@ -316,10 +318,42 @@ mitreTechniques :=
 		verdict = "QUARANTINE"
 	}
 
+	if riskLevel == "HIGH" ||
+	riskLevel == "CRITICAL" {
+
+	alert :=
+		fmt.Sprintf(
+			"ALERT | File=%s | Risk=%s | Verdict=%s",
+			header.Filename,
+			riskLevel,
+			verdict,
+		)
+
+	websocket.Broadcast <-
+		[]byte(alert)
+}
+
 	sha256 :=
 	hash.CalculateSHA256(
 		savePath,
 	)
+	vtResponse, err :=
+	virustotal.QueryHash(
+		sha256,
+	)
+
+if err == nil {
+
+	vtFindings :=
+		virustotal.CheckHashReputation(
+			vtResponse,
+		)
+
+	findings = append(
+		findings,
+		vtFindings...,
+	)
+}
 
 	fmt.Println(
 	"SHA256:",

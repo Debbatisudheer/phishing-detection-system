@@ -7,13 +7,13 @@ import (
 	"phishing-platform/database"
 )
 
-func RecentFindingsHandler(
+func ThreatHuntingHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	results, err :=
-		database.GetRecentFindings()
+	data, err :=
+		database.GetThreatHuntingStats()
 
 	if err != nil {
 
@@ -32,6 +32,6 @@ func RecentFindingsHandler(
 	)
 
 	json.NewEncoder(w).Encode(
-		results,
+		data,
 	)
 }

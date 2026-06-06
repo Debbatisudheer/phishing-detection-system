@@ -1,6 +1,7 @@
 package virustotal
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -46,7 +47,30 @@ func QueryHash(
 
 	defer resp.Body.Close()
 
-	return io.ReadAll(
-		resp.Body,
+	fmt.Println(
+		"VT Status:",
+		resp.Status,
 	)
+
+	if resp.StatusCode == 404 {
+
+		return []byte(`{"message":"hash_not_found"}`),
+			nil
+	}
+
+	body, err :=
+		io.ReadAll(
+			resp.Body,
+		)
+
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(
+		"VT Response:",
+		string(body),
+	)
+
+	return body, nil
 }

@@ -42,7 +42,7 @@ func JWTMiddleware(
 				"Bearer ",
 			)
 
-		_, err :=
+		token, err :=
 			jwtlib.Parse(
 				tokenString,
 				func(
@@ -56,6 +56,11 @@ func JWTMiddleware(
 
 		if err != nil {
 
+			println(
+				"JWT ERROR:",
+				err.Error(),
+			)
+
 			http.Error(
 				w,
 				"Invalid token",
@@ -64,6 +69,25 @@ func JWTMiddleware(
 
 			return
 		}
+
+		if !token.Valid {
+
+			println(
+				"TOKEN NOT VALID",
+			)
+
+			http.Error(
+				w,
+				"Invalid token",
+				http.StatusUnauthorized,
+			)
+
+			return
+		}
+
+		println(
+			"TOKEN VALID",
+		)
 
 		next.ServeHTTP(
 			w,

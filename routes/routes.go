@@ -33,8 +33,11 @@ http.HandleFunc(
 
 http.HandleFunc(
 	"/api/recent-findings",
-	api.RecentFindingsHandler,
+	middleware.JWTMiddleware(
+		api.RecentFindingsHandler,
+	),
 )
+
 http.HandleFunc(
 	"/api/high-risk-files",
 	api.HighRiskFilesHandler,
@@ -96,6 +99,38 @@ http.HandleFunc(
 http.HandleFunc(
 	"/api/login",
 	api.LoginHandler,
+)
+
+http.HandleFunc(
+	"/api/threat-hunting",
+	middleware.JWTMiddleware(
+		api.ThreatHuntingHandler,
+	),
+)
+
+http.HandleFunc(
+	"/api/mitre-stats",
+	api.MITREStatsHandler,
+)
+
+http.HandleFunc(
+	"/api/case-note",
+	api.AddCaseNoteHandler,
+)
+
+http.HandleFunc(
+	"/api/case-notes/",
+	api.GetCaseNotesHandler,
+)
+
+http.HandleFunc(
+	"/api/incident-dashboard",
+	api.IncidentDashboardHandler,
+)
+
+http.HandleFunc(
+	"/api/recent-incidents",
+	api.RecentIncidentsHandler,
 )
 	// Home Route
 	http.HandleFunc(

@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import api from "../services/api";
 
-function RecentFindings() {
+function MITREDashboard() {
 
-  const [findings, setFindings] =
+  const [stats, setStats] =
     useState([]);
 
   useEffect(() => {
 
-    const fetchFindings =
+    const fetchData =
       async () => {
 
         try {
@@ -21,7 +20,7 @@ function RecentFindings() {
 
           const response =
             await api.get(
-              "/api/recent-findings",
+              "/api/mitre-stats",
               {
                 headers: {
                   Authorization:
@@ -30,8 +29,12 @@ function RecentFindings() {
               },
             );
 
-          setFindings(
-            response.data,
+          setStats(
+            Array.isArray(
+              response.data,
+            )
+              ? response.data
+              : [],
           );
 
         } catch (error) {
@@ -42,7 +45,7 @@ function RecentFindings() {
         }
       };
 
-    fetchFindings();
+    fetchData();
 
   }, []);
 
@@ -55,12 +58,12 @@ function RecentFindings() {
     >
 
       <h1>
-        Recent Findings
+        MITRE Dashboard
       </h1>
 
-      {findings.map(
+      {stats.map(
         (
-          finding,
+          item,
           index,
         ) => (
 
@@ -70,46 +73,17 @@ function RecentFindings() {
           >
 
             <h3>
-
-              <Link
-                to={`/file/${finding.file_name}`}
-              >
-                {finding.file_name}
-              </Link>
-
+              Techniques
             </h3>
 
-            <p>
-
-              <b>
-                Risk Score:
-              </b>
-
-              {" "}
-              {finding.risk_score}
-
-            </p>
+            <pre>
+              {item.technique}
+            </pre>
 
             <p>
-
-              <b>
-                Risk Level:
-              </b>
-
+              Count:
               {" "}
-              {finding.risk_level}
-
-            </p>
-
-            <p>
-
-              <b>
-                Verdict:
-              </b>
-
-              {" "}
-              {finding.verdict}
-
+              {item.count}
             </p>
 
           </div>
@@ -120,4 +94,4 @@ function RecentFindings() {
   );
 }
 
-export default RecentFindings;
+export default MITREDashboard;

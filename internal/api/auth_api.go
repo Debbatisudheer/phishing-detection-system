@@ -59,26 +59,27 @@ func RegisterHandler(
 	}
 
 	token, err :=
-	jwt.GenerateToken(
-		req.Username,
+		jwt.GenerateToken(
+			req.Username,
+			"ANALYST",
+		)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			err.Error(),
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
+
+	json.NewEncoder(w).Encode(
+		map[string]string{
+			"token": token,
+		},
 	)
-
-if err != nil {
-
-	http.Error(
-		w,
-		err.Error(),
-		http.StatusInternalServerError,
-	)
-
-	return
-}
-
-json.NewEncoder(w).Encode(
-	map[string]string{
-		"token": token,
-	},
-)
 }
 
 func LoginHandler(
@@ -105,7 +106,9 @@ func LoginHandler(
 		return
 	}
 
-	storedPassword, err :=
+	storedPassword,
+		role,
+		err :=
 		database.GetUserByUsername(
 			req.Username,
 		)
@@ -133,24 +136,25 @@ func LoginHandler(
 	}
 
 	token, err :=
-	jwt.GenerateToken(
-		req.Username,
+		jwt.GenerateToken(
+			req.Username,
+			role,
+		)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			err.Error(),
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
+
+	json.NewEncoder(w).Encode(
+		map[string]string{
+			"token": token,
+		},
 	)
-
-if err != nil {
-
-	http.Error(
-		w,
-		err.Error(),
-		http.StatusInternalServerError,
-	)
-
-	return
-}
-
-json.NewEncoder(w).Encode(
-	map[string]string{
-		"token": token,
-	},
-)
 }

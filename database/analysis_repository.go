@@ -420,3 +420,156 @@ func ExportIOCs() (
 		"mitre":  mitres,
 	}, nil
 }
+
+func GetRecentFindings() (
+	[]map[string]interface{},
+	error,
+) {
+
+	rows, err := DB.Query(
+		`SELECT
+			file_name,
+			risk_score,
+			risk_level,
+			verdict
+		FROM analysis_results
+		ORDER BY id DESC
+		LIMIT 10`,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var results []map[string]interface{}
+
+	for rows.Next() {
+
+		var fileName string
+		var riskScore int
+		var riskLevel string
+		var verdict string
+
+		rows.Scan(
+			&fileName,
+			&riskScore,
+			&riskLevel,
+			&verdict,
+		)
+
+		results = append(
+			results,
+			map[string]interface{}{
+				"file_name":  fileName,
+				"risk_score": riskScore,
+				"risk_level": riskLevel,
+				"verdict":    verdict,
+			},
+		)
+	}
+
+	return results, nil
+}
+
+func GetThreatHuntingStats() (
+	map[string]interface{},
+	error,
+) {
+
+	totalCritical := 0
+	totalQuarantine := 0
+
+	rows, err := DB.Query(
+		`SELECT
+			risk_level,
+			verdict,
+			mitre
+		FROM analysis_results`,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	mitreMap :=
+		make(map[string]int)
+
+	for rows.Next() {
+
+		var riskLevel string
+		var verdict string
+		var mitre string
+
+		rows.Scan(
+			&riskLevel,
+			&verdict,
+			&mitre,
+		)
+
+		if riskLevel == "CRITICAL" {
+			totalCritical++
+		}
+
+		if verdict == "QUARANTINE" {
+			totalQuarantine++
+		}
+
+		if mitre != "" {
+			mitreMap[mitre]++
+		}
+	}
+
+	return map[string]interface{}{
+		"critical_files":   totalCritical,
+		"quarantine_files": totalQuarantine,
+		"top_mitre":        mitreMap,
+	}, nil
+}
+
+func GetMITREStats() (
+	[]map[string]interface{},
+	error,
+) {
+
+	rows, err :=
+		DB.Query(
+			`SELECT
+				mitre,
+				COUNT(*)
+			FROM analysis_results
+			GROUP BY mitre`,
+		)
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var results []map[string]interface{}
+
+	for rows.Next() {
+
+		var mitre string
+		var count int
+
+		rows.Scan(
+			&mitre,
+			&count,
+		)
+
+		results = append(
+			results,
+			map[string]interface{}{
+				"technique": mitre,
+				"count": count,
+			},
+		)
+	}
+
+	return results, nil
+}

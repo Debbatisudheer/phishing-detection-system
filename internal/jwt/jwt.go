@@ -12,16 +12,18 @@ var SecretKey = []byte(
 
 func GenerateToken(
 	username string,
+	role string,
 ) (string, error) {
 
 	token := jwtlib.NewWithClaims(
 		jwtlib.SigningMethodHS256,
 		jwtlib.MapClaims{
-			"username": username,
-			"exp": time.Now().
-				Add(24 * time.Hour).
-				Unix(),
-		},
+	"username": username,
+	"role": role,
+	"exp": time.Now().
+		Add(24 * time.Hour).
+		Unix(),
+},
 	)
 
 	return token.SignedString(

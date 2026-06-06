@@ -7,13 +7,13 @@ import (
 	"phishing-platform/database"
 )
 
-func RecentFindingsHandler(
+func IncidentDashboardHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	results, err :=
-		database.GetRecentFindings()
+	stats, err :=
+		database.GetIncidentStats()
 
 	if err != nil {
 
@@ -26,12 +26,7 @@ func RecentFindingsHandler(
 		return
 	}
 
-	w.Header().Set(
-		"Content-Type",
-		"application/json",
-	)
-
 	json.NewEncoder(w).Encode(
-		results,
+		stats,
 	)
 }

@@ -18,22 +18,33 @@ func CreateUser(
 
 func GetUserByUsername(
 	username string,
-) (string, error) {
+) (
+	string,
+	string,
+	error,
+) {
 
 	var password string
+	var role string
 
 	err := DB.QueryRow(
-		`SELECT password
+		`SELECT password, role
 		FROM users
 		WHERE username = $1`,
 		username,
 	).Scan(
 		&password,
+		&role,
 	)
 
 	if err != nil {
-		return "", err
+
+		return "",
+			"",
+			err
 	}
 
-	return password, nil
+	return password,
+		role,
+		nil
 }

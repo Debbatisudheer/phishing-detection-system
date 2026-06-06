@@ -7,46 +7,81 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var Clients = make(map[*websocket.Conn]bool)
+var Clients = make(
+	map[*websocket.Conn]bool,
+)
 
-var Broadcast = make(chan []byte)
+var Broadcast =
+	make(chan []byte)
 
-var upgrader = websocket.Upgrader{
+var upgrader =
+	websocket.Upgrader{
 
-	CheckOrigin: func(r *http.Request) bool {
-		return true
-	},
-}
+		CheckOrigin: func(
+			r *http.Request,
+		) bool {
+
+			return true
+		},
+	}
 
 func HandleConnections(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	ws, err := upgrader.Upgrade(
-		w,
-		r,
-		nil,
+	log.Println(
+		"New WebSocket Connection",
 	)
+
+	ws, err :=
+		upgrader.Upgrade(
+			w,
+			r,
+			nil,
+		)
 
 	if err != nil {
 
-		log.Println(err)
+		log.Println(
+			"Upgrade Error:",
+			err,
+		)
 
 		return
 	}
 
-	defer ws.Close()
-
 	Clients[ws] = true
+
+	log.Println(
+		"Client Connected",
+	)
+
+	defer func() {
+
+		delete(
+			Clients,
+			ws,
+		)
+
+		ws.Close()
+
+		log.Println(
+			"Client Disconnected",
+		)
+	}()
 
 	for {
 
-		_, _, err := ws.ReadMessage()
+		_, _, err :=
+			ws.ReadMessage()
 
 		if err != nil {
 
-			delete(Clients, ws)
+			log.Println(
+				"Read Error:",
+				err,
+			)
 
 			break
 		}
@@ -57,20 +92,35 @@ func HandleMessages() {
 
 	for {
 
-		msg := <-Broadcast
+		msg :=
+			<-Broadcast
+
+		log.Println(
+			"Broadcasting:",
+			string(msg),
+		)
 
 		for client := range Clients {
 
-			err := client.WriteMessage(
-				websocket.TextMessage,
-				msg,
-			)
+			err :=
+				client.WriteMessage(
+					websocket.TextMessage,
+					msg,
+				)
 
 			if err != nil {
 
+				log.Println(
+					"Write Error:",
+					err,
+				)
+
 				client.Close()
 
-				delete(Clients, client)
+				delete(
+					Clients,
+					client,
+				)
 			}
 		}
 	}

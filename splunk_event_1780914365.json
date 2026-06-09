@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-08 15:56:05",
+  "event_type": "phishing_detected",
+  "sender": "security@micr0soft-login.com",
+  "subject": "Test IOC Correlation",
+  "risk_score": 510,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

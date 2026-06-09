@@ -1,5 +1,9 @@
 package database
 
+import (
+	"strings"
+)
+
 func SaveAnalysisResult(
 	fileName string,
 	riskScore int,
@@ -519,8 +523,29 @@ func GetThreatHuntingStats() (
 		}
 
 		if mitre != "" {
-			mitreMap[mitre]++
+
+	techniques :=
+		strings.Split(
+			mitre,
+			"\n",
+		)
+
+	for _, technique := range techniques {
+
+		technique =
+			strings.TrimSpace(
+				technique,
+			)
+
+		if technique == "" {
+			continue
 		}
+
+		mitreMap[
+			technique,
+		]++
+	}
+}
 	}
 
 	return map[string]interface{}{
@@ -537,11 +562,8 @@ func GetMITREStats() (
 
 	rows, err :=
 		DB.Query(
-			`SELECT
-				mitre,
-				COUNT(*)
-			FROM analysis_results
-			GROUP BY mitre`,
+			`SELECT mitre
+			 FROM analysis_results`,
 		)
 
 	if err != nil {
@@ -550,22 +572,49 @@ func GetMITREStats() (
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	techniqueCount :=
+		make(map[string]int)
 
 	for rows.Next() {
 
 		var mitre string
-		var count int
 
 		rows.Scan(
 			&mitre,
-			&count,
 		)
+
+		techniques :=
+			strings.Split(
+				mitre,
+				"\n",
+			)
+
+		for _, technique := range techniques {
+
+			technique =
+				strings.TrimSpace(
+					technique,
+				)
+
+			if technique == "" {
+				continue
+			}
+
+			techniqueCount[
+				technique,
+			]++
+		}
+	}
+
+	var results []map[string]interface{}
+
+	for technique, count :=
+		range techniqueCount {
 
 		results = append(
 			results,
 			map[string]interface{}{
-				"technique": mitre,
+				"technique": technique,
 				"count": count,
 			},
 		)
@@ -573,3 +622,32 @@ func GetMITREStats() (
 
 	return results, nil
 }
+
+func SaveAlert(
+	fileName string,
+	riskLevel string,
+	verdict string,
+	message string,
+) error {
+
+	query := `
+	INSERT INTO alerts (
+		file_name,
+		risk_level,
+		verdict,
+		message
+	)
+	VALUES ($1,$2,$3,$4)
+	`
+
+	_, err := DB.Exec(
+		query,
+		fileName,
+		riskLevel,
+		verdict,
+		message,
+	)
+
+	return err
+}
+

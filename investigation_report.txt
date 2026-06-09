@@ -3,19 +3,19 @@ PHISHING INVESTIGATION REPORT
 ====================================
 
 Sender:
-attacker@evil.com
+security@micr0soft-login.com
 
 Subject:
-Real Macro Test
+Test IOC Correlation
 
 URLs:
-[]
+[http://micr0soft-login.com/reset]
 
 Findings:
-[Thread hijack indicator: invoice attached SPF FAIL DKIM FAIL DMARC FAIL Suspicious sender reputation detected Repeated malicious sender detected Impossible travel detected Detonation: PowerShell execution Detonation: Office macro execution Macro-enabled Office document detected]
+[Sandbox behavior: Network communication YARA rule matched: URL Indicator SPF FAIL DKIM FAIL DMARC FAIL Repeated malicious sender detected Lookalike domain detected: microsoft]
 
 Risk Score:
-860
+510
 
 Risk Level:
 CRITICAL
@@ -24,6 +24,6 @@ Decision:
 QUARANTINE
 
 MITRE:
-T1598 - Phishing for Information
+T1566 - Phishing
 
 ====================================

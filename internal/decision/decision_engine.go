@@ -1,13 +1,17 @@
 package decision
 
-func MakeDecision(riskScore int) string {
+func MakeDecision(
+	riskScore int,
+) string {
 
-	if riskScore >= 70 {
+	if riskScore >= 400 {
+
 		return "QUARANTINE"
 	}
 
-	if riskScore >= 40 {
-		return "WARNING"
+	if riskScore >= 100 {
+
+		return "SUSPICIOUS"
 	}
 
 	return "ALLOW"

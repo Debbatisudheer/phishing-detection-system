@@ -63,6 +63,12 @@ function Navbar() {
 
 {" | "}
 
+<Link to="/alert-history">
+  Alert History
+</Link>
+
+{" | "}
+
 <Link to="/threat-hunting">
   Threat Hunting
 </Link>
@@ -83,11 +89,62 @@ function Navbar() {
 </Link>
 
 {" | "}
+
+<Link to="/mitre-heatmap">
+  MITRE Heatmap
+</Link>
+
+{" | "}
+
 <Link
   to="/incidents"
 >
   Incidents
 </Link>
+
+{" | "}
+
+<Link to="/correlation">
+  IOC Correlation
+</Link>
+
+{" | "}
+
+<Link to="/campaigns">
+  Campaigns
+</Link>
+
+{" | "}
+
+<Link to="/campaign-timeline">
+  Campaign Timeline
+</Link>
+
+{" | "}
+
+<Link to="/ioc-graph">
+  IOC Graph
+</Link>
+
+{" | "}
+
+<Link to="/ioc-trends">
+  IOC Trends
+</Link>
+
+{" | "}
+
+<Link to="/ioc-network">
+  IOC Network
+</Link>
+
+{" | "}
+
+<Link to="/investigation">
+  Investigation
+</Link>
+
+{" | "}
       <button
         onClick={logout}
       >

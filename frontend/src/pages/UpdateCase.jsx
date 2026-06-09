@@ -83,7 +83,7 @@ function UpdateCase() {
 
       loadNotes();
     };
-
+    
   const loadNotes =
     async () => {
 

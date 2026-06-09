@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-06 16:20:31",
+  "event_type": "phishing_detected",
+  "sender": "hr@company.com",
+  "subject": "Team Lunch Tomorrow",
+  "risk_score": 200,
+  "decision": "QUARANTINE",
+  "mitre": "T1598 - Phishing for Information"
+}

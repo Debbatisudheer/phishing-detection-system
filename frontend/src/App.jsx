@@ -28,6 +28,20 @@ import MITREDashboard
 from "./pages/MITREDashboard";
 import IncidentDashboard
 from "./pages/IncidentDashboard";
+import AlertHistory from "./pages/AlertHistory";
+import Correlation from "./pages/Correlation";
+import Campaigns from "./pages/Campaigns";
+import IOCGraph from "./pages/IOCGraph";
+import MITREHeatmap
+from "./pages/MITREHeatmap";
+import CampaignTimeline
+from "./pages/CampaignTimeline";
+import IOCTrends
+from "./pages/IOCTrends";
+import IOCNetworkGraph
+from "./pages/IOCNetworkGraph";
+import InvestigationWorkbench
+from "./pages/InvestigationWorkbench";
 
 function App() {
 
@@ -134,13 +148,59 @@ function App() {
     <MITREDashboard />
   }
 />
+
+<Route
+  path="/mitre-heatmap"
+  element={<MITREHeatmap />}
+/>
+
 <Route
   path="/incidents"
   element={
     <IncidentDashboard />
   }
 />
+<Route
+  path="/alert-history"
+  element={<AlertHistory />}
+/>
+<Route
+  path="/correlation"
+  element={<Correlation />}
+/>
 
+<Route
+  path="/campaigns"
+  element={<Campaigns />}
+/>
+
+<Route
+  path="/ioc-graph"
+  element={<IOCGraph />}
+/>
+
+<Route
+  path="/campaign-timeline"
+  element={<CampaignTimeline />}
+/>
+<Route
+  path="/ioc-trends"
+  element={<IOCTrends />}
+/>
+
+<Route
+  path="/ioc-network"
+  element={
+    <IOCNetworkGraph />
+  }
+/>
+
+<Route
+  path="/investigation"
+  element={
+    <InvestigationWorkbench />
+  }
+/>
       </Routes>
 
     </BrowserRouter>

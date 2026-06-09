@@ -22,6 +22,7 @@ import (
 "phishing-platform/internal/threatintel"
 "phishing-platform/internal/websocket"
 "phishing-platform/internal/virustotal"
+"phishing-platform/internal/domain"
 )
 
 type AnalyzeFileResponse struct {
@@ -148,17 +149,36 @@ func AnalyzeFileHandler(
 	}
 
 	// PNG ANALYSIS
-	if strings.HasSuffix(
-		strings.ToLower(savePath),
-		".png",
-	) {
+if strings.HasSuffix(
+	strings.ToLower(savePath),
+	".png",
+) {
 
-		qrResults :=
-			qr.DecodeQRImage(
-				savePath,
-			)
+	qrResults :=
+		qr.DecodeQRImage(
+			savePath,
+		)
 
-		for _, qrURL := range qrResults {
+	fmt.Println(
+		"QR Results:",
+		qrResults,
+	)
+
+	for _, qrURL := range qrResults {
+
+		err := database.SaveIOC(
+	qrURL,
+	"QR",
+	header.Filename,
+)
+
+if err != nil {
+
+	fmt.Println(
+		"IOC Save Error:",
+		err,
+	)
+}
 
 	extractedURLs = append(
 		extractedURLs,
@@ -168,6 +188,16 @@ func AnalyzeFileHandler(
 	findings = append(
 		findings,
 		"QR URL extracted: "+qrURL,
+	)
+
+	domainFindings :=
+		domain.AnalyzeURL(
+			qrURL,
+		)
+
+	findings = append(
+		findings,
+		domainFindings...,
 	)
 
 	threatFindings :=
@@ -190,7 +220,7 @@ func AnalyzeFileHandler(
 		reputationFindings...,
 	)
 }
-	}
+}
 
 	// ZIP ANALYSIS
 	if strings.HasSuffix(
@@ -234,14 +264,44 @@ func AnalyzeFileHandler(
 	) {
 
 		pdfText :=
-			pdfanalyzer.ExtractPDFText(
-				savePath,
-			)
+	pdfanalyzer.ExtractPDFText(
+		savePath,
+	)
 
-		pdfFindings :=
-			pdfanalyzer.AnalyzePDFText(
-				pdfText,
-			)
+pdfText = strings.ReplaceAll(
+	pdfText,
+	"\r\n",
+	" ",
+)
+
+pdfText = strings.ReplaceAll(
+	pdfText,
+	"\n",
+	" ",
+)
+
+pdfText = strings.ReplaceAll(
+	pdfText,
+	" - ",
+	"-",
+)
+
+pdfText = strings.ReplaceAll(
+	pdfText,
+	" -",
+	"-",
+)
+
+pdfText = strings.ReplaceAll(
+	pdfText,
+	"- ",
+	"-",
+)
+
+pdfFindings :=
+	pdfanalyzer.AnalyzePDFText(
+		pdfText,
+	)
 
 		findings = append(
 			findings,
@@ -259,11 +319,34 @@ func AnalyzeFileHandler(
 )
 
 		for _, url := range urls {
+			err := database.SaveIOC(
+	url,
+	"PDF",
+	header.Filename,
+)
+
+if err != nil {
+
+	fmt.Println(
+		"IOC Save Error:",
+		err,
+	)
+}
 
 	findings = append(
 		findings,
 		"PDF URL extracted: "+url,
 	)
+
+	domainFindings :=
+	domain.AnalyzeURL(
+		url,
+	)
+
+findings = append(
+	findings,
+	domainFindings...,
+)
 
 	threatFindings :=
 		threatintel.CheckThreatIntel(
@@ -329,6 +412,22 @@ mitreTechniques :=
 			verdict,
 		)
 
+	err :=
+		database.SaveAlert(
+			header.Filename,
+			riskLevel,
+			verdict,
+			alert,
+		)
+
+	if err != nil {
+
+		fmt.Println(
+			"Save Alert Error:",
+			err,
+		)
+	}
+
 	websocket.Broadcast <-
 		[]byte(alert)
 }
@@ -359,7 +458,27 @@ if err == nil {
 	"SHA256:",
 	sha256,
 )
+uniqueMitres :=
+	make(map[string]bool)
 
+for _, technique :=
+	range mitreTechniques {
+
+	uniqueMitres[
+		technique,
+	] = true
+}
+
+var cleanMitres []string
+
+for technique :=
+	range uniqueMitres {
+
+	cleanMitres = append(
+		cleanMitres,
+		technique,
+	)
+}
 
 	err = database.SaveAnalysisResult(
 	header.Filename,
@@ -376,9 +495,9 @@ if err == nil {
 		"\n",
 	),
 	strings.Join(
-		mitreTechniques,
-		"\n",
-	),
+	cleanMitres,
+	", ",
+),
 )
 
 if err != nil {

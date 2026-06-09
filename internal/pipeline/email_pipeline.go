@@ -14,7 +14,6 @@ import (
 	"phishing-platform/internal/parser"
 	"phishing-platform/internal/risk"
 	"phishing-platform/internal/threatintel"
-	"phishing-platform/internal/ueba"
 	"phishing-platform/internal/websocket"
 	"phishing-platform/internal/emailauth"
 	"phishing-platform/internal/sender"
@@ -61,6 +60,27 @@ func ProcessEmail(
 
 	// URL Extraction
 	urls := parser.ExtractURLs(body)
+	for _, url := range urls {
+
+	err := database.SaveIOC(
+		url,
+		"EMAIL",
+		subject,
+	)
+
+	if err != nil {
+
+		fmt.Println(
+			"IOC SAVE ERROR:",
+			err,
+		)
+	}
+
+	fmt.Println(
+		"SAVING IOC:",
+		url,
+	)
+}
 
 	fmt.Println("URLs:", urls)
 
@@ -407,25 +427,7 @@ findings = append(
 	}
 
 	// UEBA
-	previousLogin := ueba.LoginEvent{
-		User:      "sudheer",
-		Country:   "India",
-		Timestamp: time.Now().Add(
-			-30 * time.Minute,
-		),
-	}
-
-	currentLogin := ueba.LoginEvent{
-		User:      "sudheer",
-		Country:   "USA",
-		Timestamp: time.Now(),
-	}
-
-	uebaFindings :=
-		ueba.DetectImpossibleTravel(
-			previousLogin,
-			currentLogin,
-		)
+	var uebaFindings []string
 
 		fmt.Println(
 	"UEBA Findings:",

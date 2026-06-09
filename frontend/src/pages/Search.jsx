@@ -29,8 +29,10 @@ function Search() {
         );
 
       setResults(
-        response.data,
-      );
+  Array.isArray(response.data)
+    ? response.data
+    : [],
+);
     };
 
   return (
@@ -56,47 +58,46 @@ function Search() {
         Search
       </button>
 
-      {results.map(
-        (r, index) => (
+      {results.length > 0 ? (
+  results.map(
+    (r, index) => (
 
-          <div
-            key={index}
-            style={{
-              border:
-                "1px solid black",
-              margin: "10px",
-              padding: "10px",
-            }}
-          >
+      <div
+        key={index}
+        style={{
+          border: "1px solid black",
+          margin: "10px",
+          padding: "10px",
+        }}
+      >
 
-            <h3>
-              {r.file_name}
-            </h3>
+        <h3>{r.file_name}</h3>
 
-            <p>
-              Risk:
-              {r.risk_level}
-            </p>
+        <p>
+          Risk: {r.risk_level}
+        </p>
 
-            <p>
-              Verdict:
-              {r.verdict}
-            </p>
+        <p>
+          Verdict: {r.verdict}
+        </p>
 
-            <p>
-              SHA256:
-              {r.sha256}
-            </p>
+        <p>
+          SHA256: {r.sha256}
+        </p>
 
-            <p>
-              MITRE:
-              {r.mitre}
-            </p>
+        <p>
+          MITRE: {r.mitre}
+        </p>
 
-          </div>
-        ),
-      )}
+      </div>
 
+    ),
+  )
+) : (
+  query !== "" && (
+    <h3>No results found</h3>
+  )
+)}
     </div>
   );
 }

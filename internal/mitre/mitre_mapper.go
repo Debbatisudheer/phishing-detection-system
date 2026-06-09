@@ -13,30 +13,41 @@ func MapTechnique(
 	body =
 		strings.ToLower(body)
 
+	// Strong phishing indicators
 	if strings.Contains(
 		body,
 		"http",
-	) {
+	) ||
+		strings.Contains(
+			body,
+			"https",
+		) {
 
 		return "T1566 - Phishing"
 	}
 
+	// Credential harvesting indicators
 	if strings.Contains(
 		body,
-		"login",
-	) {
+		"reset password",
+	) ||
+		strings.Contains(
+			body,
+			"login",
+		) {
 
 		return "T1204 - User Execution"
 	}
 
-	return "T1598 - Phishing for Information"
+	return "NO_MITRE_MATCH"
 }
 
 func MapFileTechniques(
 	findings []string,
 ) []string {
 
-	var techniques []string
+	techniqueMap :=
+		make(map[string]bool)
 
 	for _, finding := range findings {
 
@@ -49,10 +60,9 @@ func MapFileTechniques(
 			"powershell",
 		) {
 
-			techniques = append(
-				techniques,
+			techniqueMap[
 				"T1059.001 - PowerShell",
-			)
+			] = true
 		}
 
 		if strings.Contains(
@@ -60,10 +70,9 @@ func MapFileTechniques(
 			"macro",
 		) {
 
-			techniques = append(
-				techniques,
+			techniqueMap[
 				"T1566.001 - Spearphishing Attachment",
-			)
+			] = true
 		}
 
 		if strings.Contains(
@@ -71,11 +80,21 @@ func MapFileTechniques(
 			"url",
 		) {
 
-			techniques = append(
-				techniques,
+			techniqueMap[
 				"T1566.002 - Spearphishing Link",
-			)
+			] = true
 		}
+	}
+
+	var techniques []string
+
+	for technique :=
+		range techniqueMap {
+
+		techniques = append(
+			techniques,
+			technique,
+		)
 	}
 
 	return techniques

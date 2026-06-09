@@ -1,12 +1,12 @@
 {
-  "sender": "attacker@evil.com",
-  "urls": null,
+  "sender": "security@micr0soft-login.com",
+  "urls": [
+    "http://micr0soft-login.com/reset"
+  ],
   "domains": [],
   "hashes": [],
-  "attachments": [
-    "uploads\\invoice.docm"
-  ],
-  "mitre": "T1598 - Phishing for Information",
-  "risk_score": 860,
+  "attachments": null,
+  "mitre": "T1566 - Phishing",
+  "risk_score": 510,
   "risk_level": "CRITICAL"
 }

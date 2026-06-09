@@ -32,6 +32,11 @@ http.HandleFunc(
 )
 
 http.HandleFunc(
+	"/api/alerts",
+	api.AlertsHandler,
+)
+
+http.HandleFunc(
 	"/api/recent-findings",
 	middleware.JWTMiddleware(
 		api.RecentFindingsHandler,
@@ -131,6 +136,64 @@ http.HandleFunc(
 http.HandleFunc(
 	"/api/recent-incidents",
 	api.RecentIncidentsHandler,
+)
+
+http.HandleFunc(
+	"/api/correlation",
+	api.CorrelationHandler,
+)
+
+http.HandleFunc(
+	"/api/campaigns",
+	api.CampaignHandler,
+)
+http.HandleFunc(
+	"/api/ioc-sources",
+	api.IOCSourcesHandler,
+)
+
+http.HandleFunc(
+	"/api/campaign-stats",
+	api.CampaignStatsHandler,
+)
+
+http.HandleFunc(
+	"/api/ioc-graph",
+	api.IOCGraphHandler,
+)
+
+http.HandleFunc(
+	"/api/mitre-heatmap",
+	api.MITREHeatmapHandler,
+)
+
+http.HandleFunc(
+	"/api/campaign-timeline",
+	api.CampaignTimelineHandler,
+)
+
+http.HandleFunc(
+	"/api/ioc-trends",
+	api.IOCTrendsHandler,
+)
+
+http.HandleFunc(
+	"/api/investigation-summary",
+	api.InvestigationSummaryHandler,
+)
+
+http.HandleFunc(
+	"/api/notes",
+	api.SaveNoteHandler,
+)
+
+http.HandleFunc(
+	"/api/get-notes",
+	api.GetNotesHandler,
+)
+http.HandleFunc(
+	"/api/ioc-reputation",
+	api.IOCReputationHandler,
 )
 	// Home Route
 	http.HandleFunc(

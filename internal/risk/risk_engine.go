@@ -419,29 +419,28 @@ if strings.Contains(
 		}
 
 		// SPF Failure
-		if strings.Contains(
-			finding,
-			"SPF FAIL",
-		) {
-			score += 40
-		}
+if strings.Contains(
+	finding,
+	"SPF FAIL",
+) {
+	score += 10
+}
 
-		// DKIM Failure
-		if strings.Contains(
-			finding,
-			"DKIM FAIL",
-		) {
-			score += 30
-		}
+// DKIM Failure
+if strings.Contains(
+	finding,
+	"DKIM FAIL",
+) {
+	score += 10
+}
 
-		// DMARC Failure
-		if strings.Contains(
-			finding,
-			"DMARC FAIL",
-		) {
-			score += 50
-		}
-
+// DMARC Failure
+if strings.Contains(
+	finding,
+	"DMARC FAIL",
+) {
+	score += 10
+}
 		fmt.Println(
 			"CURRENT SCORE:",
 			score,

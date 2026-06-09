@@ -62,6 +62,20 @@ func EmailHandler(w http.ResponseWriter, r *http.Request) {
 	// URL + Domain + Threat Intel Analysis
 	for _, extractedURL := range urls {
 
+		err := database.SaveIOC(
+	extractedURL,
+	"EMAIL",
+		email.Subject,
+)
+
+if err != nil {
+
+	fmt.Println(
+		"IOC Save Error:",
+		err,
+	)
+}
+
 		findings := domain.AnalyzeURL(extractedURL)
 
 		threatIntelFindings :=

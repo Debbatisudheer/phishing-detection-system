@@ -6,8 +6,8 @@ logsource:
 
 detection:
   selection:
-    sender: attacker@evil.com
-    risk_score: 860
+    sender: security@micr0soft-login.com
+    risk_score: 510
 
 condition: selection
 

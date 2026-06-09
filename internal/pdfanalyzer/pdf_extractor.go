@@ -57,5 +57,10 @@ func ExtractPDFText(
 		}
 	}
 
+	fmt.Println(
+		"EXTRACTED PDF TEXT:",
+		text,
+	)
+
 	return text
 }

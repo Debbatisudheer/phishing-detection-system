@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-06-06 16:15:31",
+  "event_type": "phishing_detected",
+  "sender": "admin@fakebank-login.com",
+  "subject": "Verify Account Immediately",
+  "risk_score": 665,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

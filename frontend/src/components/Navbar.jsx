@@ -77,7 +77,7 @@ function Navbar() {
 
 
 <Link
-  to="/threat-intel"
+  to="/api/threat-intel"
 >
   Threat Intel
 </Link>

@@ -138,7 +138,7 @@ function App() {
 />
 
 <Route
-  path="/threat-intel"
+  path="/api/threat-intel"
   element={
     <ThreatIntel />
   }

@@ -10,14 +10,14 @@ func GetCampaigns() (
 	rows, err := DB.Query(`
 		SELECT
 			ioc,
-			COUNT(*) as count,
+			SUM(hit_count) as count,
 			STRING_AGG(
 				DISTINCT source_type,
 				', '
 			) as sources
 		FROM ioc_correlation
 		GROUP BY ioc
-		HAVING COUNT(*) >= 2
+		HAVING SUM(hit_count) >= 2
 		ORDER BY count DESC
 	`)
 

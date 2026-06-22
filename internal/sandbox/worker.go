@@ -66,6 +66,56 @@ func StartSandboxWorker() {
 	AnalyzeSandboxContent(
 		job.FilePath,
 	)
+	output,
+duration,
+err :=
+	ExecuteInDocker(
+		job.FilePath,
+	)
+
+fmt.Println(
+	"DOCKER OUTPUT:",
+	output,
+)
+
+dockerFindings :=
+	BuildDockerReport(
+		output,
+		err,
+	)
+
+	executionStatus := "SUCCESS"
+
+if err != nil {
+
+	executionStatus = "FAILED"
+}
+
+err = database.SaveDockerReport(
+	job.ID,
+	"DESTROYED",
+	executionStatus,
+	duration,
+)
+
+if err != nil {
+
+	fmt.Println(
+		"Docker Report Error:",
+		err,
+	)
+}
+
+contentFindings = append(
+	contentFindings,
+	dockerFindings...,
+)
+contentFindings = append(
+	contentFindings,
+	"Docker Duration: "+
+		fmt.Sprint(duration)+
+		" seconds",
+)
 
 timeline :=
 	BuildTimeline(

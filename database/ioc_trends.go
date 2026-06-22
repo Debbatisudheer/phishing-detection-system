@@ -8,7 +8,7 @@ func GetIOCTrends() (
 	rows, err := DB.Query(`
 		SELECT
 			DATE(created_at) as trend_date,
-			COUNT(*) as count
+			SUM(hit_count) as count
 		FROM ioc_correlation
 		GROUP BY DATE(created_at)
 		ORDER BY trend_date

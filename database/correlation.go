@@ -8,7 +8,7 @@ func GetCorrelatedIOCsDetailed() (
 	rows, err := DB.Query(`
 		SELECT
 			ioc,
-			COUNT(*) as count,
+			SUM(hit_count) as count,
 			STRING_AGG(
 				DISTINCT source_type,
 				', '

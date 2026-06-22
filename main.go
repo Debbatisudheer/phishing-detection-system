@@ -2,18 +2,35 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
-	"phishing-platform/routes"
 	"phishing-platform/database"
+	"phishing-platform/internal/sandbox"
 	"phishing-platform/internal/smtpserver"
 	"phishing-platform/internal/websocket"
-	"phishing-platform/internal/sandbox"
+	"phishing-platform/routes"
 
+	"github.com/joho/godotenv"
 	"github.com/rs/cors"
 )
 
 func main() {
+
+	err := godotenv.Load()
+
+	if err != nil {
+
+		log.Println(
+			".env file not loaded",
+		)
+
+	} else {
+
+		fmt.Println(
+			".env loaded successfully",
+		)
+	}
 
 	database.ConnectDatabase()
 

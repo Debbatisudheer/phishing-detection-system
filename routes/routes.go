@@ -200,6 +200,11 @@ http.HandleFunc(
 	"/api/sandbox-jobs",
 	api.GetSandboxJobsHandler,
 )
+
+http.HandleFunc(
+	"/api/threat-intel",
+	api.ThreatIntelHandler,
+)
 	// Home Route
 	http.HandleFunc(
 		"/",

@@ -42,6 +42,7 @@ import IOCNetworkGraph
 from "./pages/IOCNetworkGraph";
 import InvestigationWorkbench
 from "./pages/InvestigationWorkbench";
+import SandboxDashboard from "./pages/SandboxDashboard";
 
 function App() {
 
@@ -200,6 +201,10 @@ function App() {
   element={
     <InvestigationWorkbench />
   }
+/>
+<Route
+  path="/sandbox"
+  element={<SandboxDashboard />}
 />
       </Routes>
 

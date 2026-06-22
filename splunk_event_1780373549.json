@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-02 09:42:29",
-  "event_type": "phishing_detected",
-  "sender": "Microsoft Security \u003cattacker@gmail.com\u003e",
-  "subject": "Microsoft Security Alert",
-  "risk_score": 435,
-  "decision": "QUARANTINE",
-  "mitre": "T1598 - Phishing for Information"
-}

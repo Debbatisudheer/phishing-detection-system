@@ -10,7 +10,11 @@ func GetCampaigns() (
 	rows, err := DB.Query(`
 		SELECT
 			ioc,
-			COUNT(*) as count
+			COUNT(*) as count,
+			STRING_AGG(
+				DISTINCT source_type,
+				', '
+			) as sources
 		FROM ioc_correlation
 		GROUP BY ioc
 		HAVING COUNT(*) >= 2
@@ -27,51 +31,58 @@ func GetCampaigns() (
 
 	for rows.Next() {
 
-	var ioc string
-	var count int
+		var ioc string
+		var count int
+		var sources string
 
-	rows.Scan(
-		&ioc,
-		&count,
-	)
-
-	severity := "MEDIUM"
-
-	if count >= 3 {
-		severity = "HIGH"
-	}
-
-	if count >= 5 {
-		severity = "CRITICAL"
-	}
-
-	if count >= 2 {
-
-		err :=
-			SaveCampaignAlert(
-				ioc,
-				count,
-				severity,
-			)
+		err := rows.Scan(
+			&ioc,
+			&count,
+			&sources,
+		)
 
 		if err != nil {
-
-			fmt.Println(
-				"Campaign Alert Error:",
-				err,
-			)
+			continue
 		}
-	}
 
-	campaigns = append(
-		campaigns,
-		map[string]interface{}{
-			"ioc":      ioc,
-			"count":    count,
-			"severity": severity,
-		},
-	)
-}
+		severity := "MEDIUM"
+
+		if count >= 3 {
+			severity = "HIGH"
+		}
+
+		if count >= 5 {
+			severity = "CRITICAL"
+		}
+
+		if count >= 2 {
+
+			err :=
+				SaveCampaignAlert(
+					ioc,
+					count,
+					severity,
+				)
+
+			if err != nil {
+
+				fmt.Println(
+					"Campaign Alert Error:",
+					err,
+				)
+			}
+		}
+
+		campaigns = append(
+			campaigns,
+			map[string]interface{}{
+				"ioc":      ioc,
+				"count":    count,
+				"severity": severity,
+				"sources":  sources,
+			},
+		)
+	}
 
 	return campaigns, nil
 }

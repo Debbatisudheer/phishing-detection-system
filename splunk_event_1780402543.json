@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-02 17:45:43",
-  "event_type": "phishing_detected",
-  "sender": "attacker@evil.com",
-  "subject": "QR Debug Test",
-  "risk_score": 480,
-  "decision": "QUARANTINE",
-  "mitre": "T1598 - Phishing for Information"
-}

@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-08 12:52:20",
-  "event_type": "phishing_detected",
-  "sender": "",
-  "subject": "",
-  "risk_score": 425,
-  "decision": "QUARANTINE",
-  "mitre": "T1566 - Phishing"
-}

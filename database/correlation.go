@@ -1,6 +1,6 @@
 package database
 
-func GetCorrelatedIOCs() (
+func GetCorrelatedIOCsDetailed() (
 	[]map[string]interface{},
 	error,
 ) {
@@ -8,7 +8,11 @@ func GetCorrelatedIOCs() (
 	rows, err := DB.Query(`
 		SELECT
 			ioc,
-			COUNT(*) as count
+			COUNT(*) as count,
+			STRING_AGG(
+				DISTINCT source_type,
+				', '
+			) as sources
 		FROM ioc_correlation
 		GROUP BY ioc
 		HAVING COUNT(*) > 1
@@ -27,17 +31,20 @@ func GetCorrelatedIOCs() (
 
 		var ioc string
 		var count int
+		var sources string
 
 		rows.Scan(
 			&ioc,
 			&count,
+			&sources,
 		)
 
 		results = append(
 			results,
 			map[string]interface{}{
-				"ioc":   ioc,
-				"count": count,
+				"ioc":     ioc,
+				"count":   count,
+				"sources": sources,
 			},
 		)
 	}

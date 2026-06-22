@@ -232,6 +232,18 @@ if err != nil {
 			zipanalyzer.ExtractZIPContents(
 				savePath,
 			)
+			artifactPaths, err :=
+	zipanalyzer.ExtractArtifactsForSandbox(
+		savePath,
+	)
+
+if err != nil {
+
+	fmt.Println(
+		"Artifact Extraction Error:",
+		err,
+	)
+}
 
 		if err == nil {
 
@@ -244,6 +256,84 @@ if err != nil {
 				findings,
 				contentFindings...,
 			)
+
+			for _, file := range files {
+
+	lower :=
+		strings.ToLower(
+			file,
+		)
+
+	if strings.HasSuffix(
+		lower,
+		".exe",
+	) ||
+		strings.HasSuffix(
+			lower,
+			".ps1",
+		) ||
+		strings.HasSuffix(
+			lower,
+			".docm",
+		) ||
+		strings.HasSuffix(
+			lower,
+			".xlsm",
+		) {
+
+		
+			for _, artifactPath :=
+	range artifactPaths {
+
+	lower :=
+		strings.ToLower(
+			artifactPath,
+		)
+
+	if strings.HasSuffix(
+		lower,
+		".exe",
+	) ||
+		strings.HasSuffix(
+			lower,
+			".ps1",
+		) ||
+		strings.HasSuffix(
+			lower,
+			".docm",
+		) ||
+		strings.HasSuffix(
+			lower,
+			".xlsm",
+		) {
+
+		err :=
+			database.CreateSandboxJob(
+				filepath.Base(
+					artifactPath,
+				),
+				artifactPath,
+			)
+
+		if err != nil {
+
+			fmt.Println(
+				"Sandbox Job Error:",
+				err,
+			)
+		}
+	}
+}
+
+		if err != nil {
+
+			fmt.Println(
+				"Sandbox Job Error:",
+				err,
+			)
+		}
+	}
+}
 
 			nestedFindings :=
 				zipanalyzer.DetectNestedZIP(

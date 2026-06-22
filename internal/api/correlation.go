@@ -13,7 +13,7 @@ func CorrelationHandler(
 ) {
 
 	data, err :=
-		database.GetCorrelatedIOCs()
+		database.GetCorrelatedIOCsDetailed()
 
 	if err != nil {
 
@@ -31,7 +31,18 @@ func CorrelationHandler(
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	err = json.NewEncoder(w).Encode(
 		data,
 	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			err.Error(),
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
 }

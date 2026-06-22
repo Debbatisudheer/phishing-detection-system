@@ -52,6 +52,11 @@ func QueryHash(
 		resp.Status,
 	)
 
+	fmt.Println(
+	"VT Hash Queried:",
+	hash,
+)
+
 	if resp.StatusCode == 404 {
 
 		return []byte(`{"message":"hash_not_found"}`),

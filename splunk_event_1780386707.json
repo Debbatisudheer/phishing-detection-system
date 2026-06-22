@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-02 13:21:47",
-  "event_type": "phishing_detected",
-  "sender": "attacker@evil.com",
-  "subject": "IOC Test",
-  "risk_score": 1000,
-  "decision": "QUARANTINE",
-  "mitre": "T1566 - Phishing"
-}

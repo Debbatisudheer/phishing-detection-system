@@ -195,6 +195,11 @@ http.HandleFunc(
 	"/api/ioc-reputation",
 	api.IOCReputationHandler,
 )
+
+http.HandleFunc(
+	"/api/sandbox-jobs",
+	api.GetSandboxJobsHandler,
+)
 	// Home Route
 	http.HandleFunc(
 		"/",

@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-06 17:34:24",
-  "event_type": "phishing_detected",
-  "sender": "support@amazon-security-help.com",
-  "subject": "Verify Your Amazon Account",
-  "risk_score": 440,
-  "decision": "QUARANTINE",
-  "mitre": "T1566 - Phishing"
-}

@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-06 17:19:47",
-  "event_type": "phishing_detected",
-  "sender": "hr@company.com",
-  "subject": "Team Lunch Tomorrow",
-  "risk_score": 30,
-  "decision": "ALLOW",
-  "mitre": "NO_MITRE_MATCH"
-}

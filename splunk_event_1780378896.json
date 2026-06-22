@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-02 11:11:36",
-  "event_type": "phishing_detected",
-  "sender": "attacker@evil.com",
-  "subject": "PDF Test",
-  "risk_score": 720,
-  "decision": "QUARANTINE",
-  "mitre": "T1598 - Phishing for Information"
-}

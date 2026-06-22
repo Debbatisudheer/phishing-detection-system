@@ -1,9 +1,0 @@
-{
-  "timestamp": "2026-06-02 09:12:30",
-  "event_type": "phishing_detected",
-  "sender": "support@microsoft.com",
-  "subject": "Test Header",
-  "risk_score": 200,
-  "decision": "QUARANTINE",
-  "mitre": "T1598 - Phishing for Information"
-}

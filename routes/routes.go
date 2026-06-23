@@ -205,6 +205,11 @@ http.HandleFunc(
 	"/api/threat-intel",
 	api.ThreatIntelHandler,
 )
+
+http.HandleFunc(
+	"/api/export-report",
+	api.ExportReportHandler,
+)
 	// Home Route
 	http.HandleFunc(
 		"/",

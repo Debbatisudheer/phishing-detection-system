@@ -2,6 +2,8 @@ package database
 
 import (
 	"time"
+	"fmt"
+	"phishing-platform/internal/models"
 )
 
 type SandboxReport struct {
@@ -38,7 +40,7 @@ func SaveSandboxReport(
 	mitre string,
 ) error {
 
-	_, err := DB.Exec(
+	result, err := DB.Exec(
 		`
 		INSERT INTO sandbox_reports
 		(
@@ -74,70 +76,65 @@ func SaveSandboxReport(
 		mitre,
 	)
 
-	return err
+	if err != nil {
+
+    fmt.Println(
+        "DATABASE INSERT ERROR:",
+        err,
+    )
+
+    return err
 }
 
-func GetSandboxReports() (
-	[]SandboxReport,
-	error,
+rows, _ := result.RowsAffected()
+
+fmt.Println(
+    "ROWS INSERTED:",
+    rows,
+)
+
+return nil
+}
+
+func GetSandboxReportByID(
+    id int,
+) (
+    models.SandboxReport,
+    error,
 ) {
 
-	rows, err := DB.Query(
-		`
-		SELECT
-			id,
-			job_id,
-			file_name,
-			file_size,
-			extension,
-			mime_type,
-			md5,
-			sha256,
-			findings,
-			risk_score,
-			risk_level,
-			verdict,
-			mitre,
-			created_at
-		FROM sandbox_reports
-		ORDER BY id DESC
-		`,
-	)
+    var report models.SandboxReport
 
-	if err != nil {
-		return nil, err
-	}
+    err := DB.QueryRow(`
+        SELECT
+            id,
+            file_name,
+            file_size,
+            extension,
+            mime_type,
+            md5,
+            sha256,
+            findings,
+            risk_score,
+            risk_level,
+            verdict,
+            mitre
+        FROM sandbox_reports
+        WHERE id=$1
+    `, id).Scan(
+        &report.ID,
+        &report.FileName,
+        &report.FileSize,
+        &report.Extension,
+        &report.MimeType,
+        &report.MD5,
+        &report.SHA256,
+        &report.Findings,
+        &report.RiskScore,
+        &report.RiskLevel,
+        &report.Verdict,
+        &report.MITRE,
+    )
 
-	defer rows.Close()
-
-	var reports []SandboxReport
-
-	for rows.Next() {
-
-		var report SandboxReport
-
-		rows.Scan(
-			&report.ID,
-			&report.JobID,
-			&report.FileName,
-			&report.FileSize,
-			&report.Extension,
-			&report.MIMEType,
-			&report.MD5,
-			&report.SHA256,
-			&report.Findings,
-			&report.RiskScore,
-			&report.RiskLevel,
-			&report.Verdict,
-			&report.Mitre,
-			&report.CreatedAt,
-		)
-
-		reports = append(
-			reports,
-			report,
-		)
-	}
-
-	return reports, nil
+    return report, err
 }

@@ -1,0 +1,14 @@
+FROM ubuntu:22.04
+
+RUN apt-get update && \
+    apt-get install -y \
+    file \
+    yara \
+    clamav \
+    clamav-freshclam \
+    binutils && \
+    apt-get clean
+
+RUN freshclam
+
+WORKDIR /sandbox

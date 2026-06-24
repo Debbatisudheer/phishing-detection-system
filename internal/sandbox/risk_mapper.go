@@ -1,5 +1,7 @@
 package sandbox
 
+import "strings"
+
 func CalculateSandboxRisk(
 	findings []string,
 ) (
@@ -12,63 +14,124 @@ func CalculateSandboxRisk(
 
 	for _, finding := range findings {
 
+		lower := strings.ToLower(
+			finding,
+		)
+
 		switch {
 
-		case finding ==
-			"YARA rule matched: PowerShell":
+		case strings.Contains(
+			lower,
+			"known malware hash",
+		):
+
+			score += 500
+
+		case strings.Contains(
+			lower,
+			"virustotal malicious",
+		):
+
+			score += 500
+
+		case strings.Contains(
+			lower,
+			"virustotal suspicious",
+		):
 
 			score += 250
 
-		case finding ==
-			"YARA rule matched: URL Indicator":
+		case strings.Contains(
+			lower,
+			"powershell downloader",
+		):
+
+			score += 250
+
+		case strings.Contains(
+			lower,
+			"encoded powershell",
+		):
+
+			score += 200
+
+		case strings.Contains(
+			lower,
+			"registry persistence",
+		):
+
+			score += 200
+
+		case strings.Contains(
+			lower,
+			"download activity",
+		):
+
+			score += 150
+
+		case strings.Contains(
+			lower,
+			"payload download",
+		):
+
+			score += 150
+
+		case strings.Contains(
+			lower,
+			"dropped file",
+		):
+
+			score += 150
+
+		case strings.Contains(
+			lower,
+			"network activity",
+		):
 
 			score += 100
 
-		case finding ==
-			"Known malware hash detected":
+		case strings.Contains(
+			lower,
+			"url indicator",
+		):
 
-			score += 500
+			score += 100
 
-		case finding ==
-			"VirusTotal malicious hash detected":
+		case strings.Contains(
+			lower,
+			"powershell",
+		):
 
-			score += 500
+			score += 100
 
-		case finding ==
-			"VirusTotal suspicious hash detected":
+		case strings.Contains(
+			lower,
+			"executable reference",
+		):
 
-			score += 250
-
-		case finding ==
-			"VirusTotal: hash not found":
-
-			score += 0
+			score += 100
 		}
 	}
 
 	riskLevel := "LOW"
-
 	verdict := "ALLOW"
 
-	if score >= 100 {
+	switch {
 
-		riskLevel = "MEDIUM"
-
-		verdict = "SUSPICIOUS"
-	}
-
-	if score >= 250 {
-
-		riskLevel = "HIGH"
-
-		verdict = "QUARANTINE"
-	}
-
-	if score >= 500 {
+	case score >= 1000:
 
 		riskLevel = "CRITICAL"
-
 		verdict = "QUARANTINE"
+
+	case score >= 600:
+
+		riskLevel = "HIGH"
+		verdict = "QUARANTINE"
+
+	case score >= 300:
+
+		riskLevel = "MEDIUM"
+		verdict = "SUSPICIOUS"
 	}
 
 	return score,

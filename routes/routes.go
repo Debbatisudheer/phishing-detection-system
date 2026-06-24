@@ -210,6 +210,16 @@ http.HandleFunc(
 	"/api/export-report",
 	api.ExportReportHandler,
 )
+
+http.HandleFunc(
+	"/api/sandbox/reports",
+	handlers.GetSandboxReportsHandler,
+)
+http.HandleFunc(
+	"/api/sandbox/report/",
+	handlers.GetSandboxReportHandler,
+)
+
 	// Home Route
 	http.HandleFunc(
 		"/",

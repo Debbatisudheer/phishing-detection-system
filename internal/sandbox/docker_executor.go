@@ -3,6 +3,7 @@ package sandbox
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
 	"time"
@@ -26,15 +27,23 @@ func ExecuteInDocker(
 	fullPath :=
 		absPath + "\\" + filePath
 
-	println(
+	rulesPath :=
+		absPath + "\\rules"
+
+	fmt.Println(
 		"DOCKER FILE:",
 		fullPath,
+	)
+
+	fmt.Println(
+		"RULES PATH:",
+		rulesPath,
 	)
 
 	ctx, cancel :=
 		context.WithTimeout(
 			context.Background(),
-			30*time.Second,
+			120*time.Second,
 		)
 
 	defer cancel()
@@ -46,17 +55,26 @@ func ExecuteInDocker(
 
 		"--rm",
 
-		"--memory=256m",
+		"--memory=512m",
 
 		"--cpus=1",
 
 		"-v",
 		fullPath+":/sample",
 
-		"ubuntu:22.04",
+		"-v",
+		rulesPath+":/rules",
 
-		"cat",
-		"/sample",
+		"phishing-sandbox",
+
+		"sh",
+		"-c",
+
+		"file /sample ; " +
+"strings /sample | head -100 ; " +
+"sha256sum /sample ; " +
+"timeout 45 clamscan --no-summary /sample ; " +
+"yara /rules/malware.yar /sample",
 	)
 
 	var out bytes.Buffer
@@ -76,6 +94,41 @@ func ExecuteInDocker(
 			).Seconds(),
 		)
 
+	fmt.Println(
+		"DOCKER EXIT ERROR:",
+		err,
+	)
+
+	fmt.Println(
+		"DOCKER OUTPUT LENGTH:",
+		len(out.String()),
+	)
+
+	if ctx.Err() != nil {
+
+		fmt.Println(
+			"CONTEXT ERROR:",
+			ctx.Err(),
+		)
+	}
+
+	fmt.Println(
+		"COMMAND:",
+		cmd.String(),
+	)
+
+	fmt.Println(
+		"========== RAW DOCKER RESULT ==========",
+	)
+
+	fmt.Println(
+		out.String(),
+	)
+
+	fmt.Println(
+		"=======================================",
+	)
+
 	if ctx.Err() ==
 		context.DeadlineExceeded {
 
@@ -84,7 +137,9 @@ func ExecuteInDocker(
 			ctx.Err()
 	}
 
+	// YARA often returns exit status 1 when matches occur.
+	// We still want the output.
 	return out.String(),
 		duration,
-		err
+		nil
 }

@@ -43,6 +43,8 @@ from "./pages/IOCNetworkGraph";
 import InvestigationWorkbench
 from "./pages/InvestigationWorkbench";
 import SandboxDashboard from "./pages/SandboxDashboard";
+import SandboxReportDetails
+from "./pages/SandboxReportDetails";
 
 function App() {
 
@@ -205,6 +207,13 @@ function App() {
 <Route
   path="/sandbox"
   element={<SandboxDashboard />}
+/>
+
+<Route
+  path="/sandbox-report/:id"
+  element={
+    <SandboxReportDetails />
+  }
 />
       </Routes>
 

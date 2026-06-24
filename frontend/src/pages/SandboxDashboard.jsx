@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function SandboxDashboard() {
 
   const [jobs, setJobs] =
     useState([]);
+
+  const navigate =
+    useNavigate();
 
   const loadJobs =
     async () => {
@@ -16,7 +20,7 @@ function SandboxDashboard() {
 
       const response =
         await api.get(
-          "/api/sandbox-jobs",
+          "/api/sandbox/reports",
           {
             headers: {
               Authorization:
@@ -31,7 +35,9 @@ function SandboxDashboard() {
     };
 
   useEffect(() => {
+
     loadJobs();
+
   }, []);
 
   return (
@@ -57,8 +63,10 @@ function SandboxDashboard() {
 
             <th>ID</th>
             <th>File</th>
-            <th>Status</th>
-            <th>Submitted</th>
+            <th>Risk Score</th>
+            <th>Risk Level</th>
+            <th>Verdict</th>
+            <th>Action</th>
 
           </tr>
 
@@ -80,11 +88,29 @@ function SandboxDashboard() {
                 </td>
 
                 <td>
-                  {job.status}
+                  {job.risk_score}
                 </td>
 
                 <td>
-                  {job.submitted_at}
+                  {job.risk_level}
+                </td>
+
+                <td>
+                  {job.verdict}
+                </td>
+
+                <td>
+
+                  <button
+                    onClick={() =>
+                      navigate(
+                        `/sandbox-report/${job.id}`,
+                      )
+                    }
+                  >
+                    View
+                  </button>
+
                 </td>
 
               </tr>

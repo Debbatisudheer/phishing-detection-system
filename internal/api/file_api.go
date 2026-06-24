@@ -306,7 +306,6 @@ if err != nil {
 			lower,
 			".xlsm",
 		) {
-
 		err :=
 			database.CreateSandboxJob(
 				filepath.Base(
@@ -596,6 +595,43 @@ if err != nil {
 		"DB SAVE ERROR:",
 		err,
 	)
+}
+
+lowerFile :=
+	strings.ToLower(
+		header.Filename,
+	)
+
+if strings.HasSuffix(
+	lowerFile,
+	".exe",
+) ||
+	strings.HasSuffix(
+		lowerFile,
+		".ps1",
+	) ||
+	strings.HasSuffix(
+		lowerFile,
+		".docm",
+	) ||
+	strings.HasSuffix(
+		lowerFile,
+		".xlsm",
+	) {
+
+	err :=
+		database.CreateSandboxJob(
+			header.Filename,
+			savePath,
+		)
+
+	if err != nil {
+
+		fmt.Println(
+			"Sandbox Job Error:",
+			err,
+		)
+	}
 }
 	response :=
 		AnalyzeFileResponse{

@@ -2,15 +2,16 @@ package database
 
 import (
 	"time"
+	"fmt"
 )
 
 type SandboxJob struct {
 	ID          int       `json:"id"`
-	FileName    string    `json:"file_name"`
+	FileName    *string    `json:"file_name"`
 	FilePath    string    `json:"file_path"`
 	Status      string    `json:"status"`
 	SubmittedAt time.Time `json:"submitted_at"`
-	CompletedAt time.Time `json:"completed_at"`
+	CompletedAt *time.Time `json:"completed_at"`
 }
 
 func CreateSandboxJob(
@@ -71,14 +72,24 @@ func GetSandboxJobs() (
 
 		var job SandboxJob
 
-		rows.Scan(
-			&job.ID,
-			&job.FileName,
-			&job.FilePath,
-			&job.Status,
-			&job.SubmittedAt,
-			&job.CompletedAt,
-		)
+		err = rows.Scan(
+	&job.ID,
+	&job.FileName,
+	&job.FilePath,
+	&job.Status,
+	&job.SubmittedAt,
+	&job.CompletedAt,
+)
+
+if err != nil {
+
+	fmt.Println(
+		"SCAN ERROR:",
+		err,
+	)
+
+	continue
+}
 
 		jobs = append(
 			jobs,

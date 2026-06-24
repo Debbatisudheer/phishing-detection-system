@@ -66,12 +66,28 @@ func StartSandboxWorker() {
 	AnalyzeSandboxContent(
 		job.FilePath,
 	)
-	output,
+
+fmt.Println(
+	"SANDBOX PATH:",
+		job.FilePath,
+)
+
+output,
 duration,
 err :=
 	ExecuteInDocker(
 		job.FilePath,
 	)
+
+	fmt.Println(
+    "========== DOCKER OUTPUT ==========",
+)
+fmt.Println(
+    output,
+)
+fmt.Println(
+    "===================================",
+)
 
 fmt.Println(
 	"DOCKER OUTPUT:",
@@ -83,6 +99,16 @@ dockerFindings :=
 		output,
 		err,
 	)
+
+	analysisFindings :=
+	AnalyzeDockerOutput(
+		output,
+	)
+
+contentFindings = append(
+	contentFindings,
+	analysisFindings...,
+)
 
 	executionStatus := "SUCCESS"
 
@@ -178,6 +204,21 @@ fmt.Println(
 						contentFindings,
 					)
 
+					fmt.Println(
+    "RISK SCORE:",
+    riskScore,
+)
+
+fmt.Println(
+    "RISK LEVEL:",
+    riskLevel,
+)
+
+fmt.Println(
+    "VERDICT:",
+    verdict,
+)
+
 				mitre :=
 					MapSandboxMITRE(
 						contentFindings,
@@ -195,36 +236,82 @@ fmt.Println(
 )
 
 				err =
-					database.SaveSandboxReport(
-	job.ID,
+    database.SaveSandboxReport(
+        job.ID,
+        metadata.FileName,
+        metadata.FileSize,
+        metadata.Extension,
+        metadata.MIMEType,
+        metadata.MD5,
+        sha256,
+        findings,
+        riskScore,
+        riskLevel,
+        verdict,
+        mitre,
+    )
 
-	metadata.FileName,
-	metadata.FileSize,
-	metadata.Extension,
-	metadata.MIMEType,
-	metadata.MD5,
-	sha256,
+if err != nil {
 
-	findings,
-	riskScore,
-	riskLevel,
-	verdict,
-	mitre,
+    fmt.Println(
+        "Sandbox Report Error:",
+        err,
+    )
+
+} else {
+
+    fmt.Println(
+        "SANDBOX REPORT SAVED SUCCESSFULLY",
+    )
+
+    fmt.Println(
+        "JOB ID:",
+        job.ID,
+    )
+
+    fmt.Println(
+        "RISK SCORE:",
+        riskScore,
+    )
+
+    fmt.Println(
+        "RISK LEVEL:",
+        riskLevel,
+    )
+}
+
+				status := "COMPLETED"
+
+if riskLevel == "HIGH" ||
+    riskLevel == "CRITICAL" {
+
+    status = "MALICIOUS"
+
+} else if riskLevel == "MEDIUM" {
+
+    status = "SUSPICIOUS"
+}
+
+fmt.Println(
+    "SANDBOX RISK SCORE:",
+    riskScore,
 )
 
-				if err != nil {
+fmt.Println(
+    "SANDBOX RISK LEVEL:",
+    riskLevel,
+)
 
-					fmt.Println(
-						"Sandbox Report Error:",
-						err,
-					)
-				}
+fmt.Println(
+    "SANDBOX STATUS:",
+    status,
+)
 
-				err =
-					database.UpdateSandboxJobStatus(
-						job.ID,
-						"COMPLETED",
-					)
+err =
+    database.UpdateSandboxJobStatus(
+        job.ID,
+        status,
+    )
 
 				if err != nil {
 

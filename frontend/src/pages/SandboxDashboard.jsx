@@ -1,11 +1,27 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import api from "../services/api";
+
+import LoadingSpinner
+from "../components/common/LoadingSpinner";
+
+import BackendOfflineCard
+from "../components/errors/BackendOfflineCard";
+
+import EmptyStateCard
+from "../components/errors/EmptyStateCard";
 
 function SandboxDashboard() {
 
   const [jobs, setJobs] =
     useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState(false);
 
   const navigate =
     useNavigate();
@@ -13,32 +29,75 @@ function SandboxDashboard() {
   const loadJobs =
     async () => {
 
-      const token =
-        localStorage.getItem(
-          "token",
+      try {
+
+        setLoading(true);
+
+        const response =
+          await api.get(
+            "/api/sandbox/reports",
+          );
+
+        setJobs(
+          response.data,
         );
 
-      const response =
-        await api.get(
-          "/api/sandbox/reports",
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          },
-        );
+        setError(false);
 
-      setJobs(
-        response.data,
-      );
+      } catch (err) {
+
+        console.error(err);
+
+        setError(true);
+
+      } finally {
+
+        setLoading(false);
+      }
     };
 
   useEffect(() => {
 
     loadJobs();
 
+    const interval =
+      setInterval(
+        loadJobs,
+        30000,
+      );
+
+    return () =>
+      clearInterval(
+        interval,
+      );
+
   }, []);
+
+  if (loading) {
+
+    return (
+      <LoadingSpinner />
+    );
+  }
+
+  if (error) {
+
+    return (
+      <BackendOfflineCard />
+    );
+  }
+
+  if (jobs.length === 0) {
+
+    return (
+
+      <EmptyStateCard
+        title="📂 No Sandbox Reports"
+        message="No sandbox reports found."
+      />
+
+    );
+  }
 
   return (
 
@@ -51,6 +110,15 @@ function SandboxDashboard() {
       <h1>
         Sandbox Dashboard
       </h1>
+
+      <button
+        onClick={loadJobs}
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        Refresh
+      </button>
 
       <table
         border="1"
@@ -79,25 +147,15 @@ function SandboxDashboard() {
 
               <tr key={job.id}>
 
-                <td>
-                  {job.id}
-                </td>
+                <td>{job.id}</td>
 
-                <td>
-                  {job.file_name}
-                </td>
+                <td>{job.file_name}</td>
 
-                <td>
-                  {job.risk_score}
-                </td>
+                <td>{job.risk_score}</td>
 
-                <td>
-                  {job.risk_level}
-                </td>
+                <td>{job.risk_level}</td>
 
-                <td>
-                  {job.verdict}
-                </td>
+                <td>{job.verdict}</td>
 
                 <td>
 

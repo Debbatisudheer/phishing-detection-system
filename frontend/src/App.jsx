@@ -45,12 +45,17 @@ from "./pages/InvestigationWorkbench";
 import SandboxDashboard from "./pages/SandboxDashboard";
 import SandboxReportDetails
 from "./pages/SandboxReportDetails";
+import NotFound
+from "./pages/NotFound";
+import HealthBanner
+from "./components/common/HealthBanner";
 
 function App() {
 
   return (
 
     <BrowserRouter>
+    <HealthBanner />
 
       <Navbar />
 
@@ -214,6 +219,11 @@ function App() {
   element={
     <SandboxReportDetails />
   }
+/>
+
+<Route
+  path="*"
+  element={<NotFound />}
 />
       </Routes>
 

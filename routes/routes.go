@@ -202,6 +202,11 @@ http.HandleFunc(
 )
 
 http.HandleFunc(
+	"/api/sandbox-report/",
+	api.GetSandboxReportHandler,
+)
+
+http.HandleFunc(
 	"/api/threat-intel",
 	api.ThreatIntelHandler,
 )

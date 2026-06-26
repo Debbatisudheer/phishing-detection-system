@@ -4,12 +4,11 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"phishing-platform/internal/parser"
 	"phishing-platform/internal/domain"
-	"phishing-platform/internal/threatfeed"
-	"phishing-platform/internal/risk"
+	"phishing-platform/internal/parser"
 	"phishing-platform/internal/phishtank"
-	
+	"phishing-platform/internal/risk"
+	"phishing-platform/internal/threatfeed"
 )
 
 type AnalyzeEmailRequest struct {
@@ -18,10 +17,10 @@ type AnalyzeEmailRequest struct {
 }
 
 type AnalyzeEmailResponse struct {
-	URLs       []string `json:"urls"`
-	Findings   []string `json:"findings"`
-	RiskScore  int      `json:"risk_score"`
-	RiskLevel  string   `json:"risk_level"`
+	URLs      []string `json:"urls"`
+	Findings  []string `json:"findings"`
+	RiskScore int      `json:"risk_score"`
+	RiskLevel string   `json:"risk_level"`
 }
 
 func AnalyzeEmailHandler(
@@ -31,10 +30,9 @@ func AnalyzeEmailHandler(
 
 	var req AnalyzeEmailRequest
 
-	err :=
-		json.NewDecoder(
-			r.Body,
-		).Decode(&req)
+	err := json.NewDecoder(
+		r.Body,
+	).Decode(&req)
 
 	if err != nil {
 
@@ -47,75 +45,96 @@ func AnalyzeEmailHandler(
 		return
 	}
 
-	urls :=
-	parser.ExtractURLs(
+	urls := parser.ExtractURLs(
 		req.Body,
 	)
+
+	// Never return null
+	if urls == nil {
+		urls = []string{}
+	}
 
 	var findings []string
 
-for _, extractedURL := range urls {
+	for _, extractedURL := range urls {
 
-	domainFindings :=
-		domain.AnalyzeURL(
-			extractedURL,
+		domainFindings :=
+			domain.AnalyzeURL(
+				extractedURL,
+			)
+
+		findings = append(
+			findings,
+			domainFindings...,
 		)
 
-	findings = append(
-		findings,
-		domainFindings...,
-	)
+		threatFeedFindings :=
+			threatfeed.CheckThreatFeed(
+				extractedURL,
+			)
 
-	threatFeedFindings :=
-		threatfeed.CheckThreatFeed(
-			extractedURL,
+		findings = append(
+			findings,
+			threatFeedFindings...,
 		)
 
-	findings = append(
-		findings,
-		threatFeedFindings...,
-	)
+		phishTankFindings :=
+			phishtank.CheckPhishTank(
+				extractedURL,
+			)
 
-	phishTankFindings :=
-	phishtank.CheckPhishTank(
-		extractedURL,
-	)
+		findings = append(
+			findings,
+			phishTankFindings...,
+		)
 
-findings = append(
-	findings,
-	phishTankFindings...,
-)
-}
-
-
-
-riskScore :=
-	risk.CalculateRisk(
-		req.Subject,
-		req.Body,
-		urls,
-		findings,
-	)
-
-riskLevel :=
-	risk.GetRiskLevel(
-		riskScore,
-	)
-
-response :=
-	AnalyzeEmailResponse{
-		URLs:      urls,
-		Findings:  findings,
-		RiskScore: riskScore,
-		RiskLevel: riskLevel,
 	}
+
+	// Never return null
+	if findings == nil {
+		findings = []string{}
+	}
+
+	riskScore :=
+		risk.CalculateRisk(
+			req.Subject,
+			req.Body,
+			urls,
+			findings,
+		)
+
+	riskLevel :=
+		risk.GetRiskLevel(
+			riskScore,
+		)
+
+	response :=
+		AnalyzeEmailResponse{
+			URLs:      urls,
+			Findings:  findings,
+			RiskScore: riskScore,
+			RiskLevel: riskLevel,
+		}
 
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	err = json.NewEncoder(
+		w,
+	).Encode(
 		response,
 	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Failed to encode response",
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
 }

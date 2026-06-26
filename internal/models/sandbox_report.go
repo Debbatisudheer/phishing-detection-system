@@ -2,6 +2,7 @@ package models
 
 type SandboxReport struct {
 	ID         int    `json:"id"`
+	JobID      int      `json:"job_id"`
 	FileName   string `json:"file_name"`
 	FileSize   int64  `json:"file_size"`
 	Extension  string `json:"extension"`

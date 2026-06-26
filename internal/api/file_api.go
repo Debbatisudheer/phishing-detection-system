@@ -26,13 +26,18 @@ import (
 )
 
 type AnalyzeFileResponse struct {
-	FileName  string   `json:"file_name"`
-	FilePath  string   `json:"file_path"`
-	Findings  []string `json:"findings"`
-	RiskScore int      `json:"risk_score"`
-	RiskLevel string   `json:"risk_level"`
-	Verdict   string   `json:"verdict"`
-	Message   string   `json:"message"`
+
+    FileName      string   `json:"file_name"`
+    FilePath      string   `json:"file_path"`
+    Findings      []string `json:"findings"`
+    RiskScore     int      `json:"risk_score"`
+    RiskLevel     string   `json:"risk_level"`
+    Verdict       string   `json:"verdict"`
+    Message       string   `json:"message"`
+
+    SandboxJobID  int      `json:"sandbox_job_id"`
+    SandboxStatus string   `json:"sandbox_status"`
+
 }
 
 func AnalyzeFileHandler(
@@ -148,6 +153,22 @@ func AnalyzeFileHandler(
 		)
 	}
 
+	if strings.HasSuffix(
+    strings.ToLower(savePath),
+    ".ps1",
+) {
+
+    psFindings :=
+        sandbox.AnalyzeSandboxContent(
+            savePath,
+        )
+
+    findings = append(
+        findings,
+        psFindings...,
+    )
+}
+
 	// PNG ANALYSIS
 if strings.HasSuffix(
 	strings.ToLower(savePath),
@@ -232,10 +253,10 @@ if err != nil {
 			zipanalyzer.ExtractZIPContents(
 				savePath,
 			)
-			artifactPaths, err :=
-	zipanalyzer.ExtractArtifactsForSandbox(
-		savePath,
-	)
+			_, err =
+    zipanalyzer.ExtractArtifactsForSandbox(
+        savePath,
+    )
 
 if err != nil {
 
@@ -259,79 +280,19 @@ if err != nil {
 
 			for _, file := range files {
 
-	lower :=
-		strings.ToLower(
-			file,
-		)
+    lower :=
+        strings.ToLower(file)
 
-	if strings.HasSuffix(
-		lower,
-		".exe",
-	) ||
-		strings.HasSuffix(
-			lower,
-			".ps1",
-		) ||
-		strings.HasSuffix(
-			lower,
-			".docm",
-		) ||
-		strings.HasSuffix(
-			lower,
-			".xlsm",
-		) {
+    if strings.HasSuffix(lower, ".exe") ||
+        strings.HasSuffix(lower, ".ps1") ||
+        strings.HasSuffix(lower, ".docm") ||
+        strings.HasSuffix(lower, ".xlsm") {
 
-		
-			for _, artifactPath :=
-	range artifactPaths {
-
-	lower :=
-		strings.ToLower(
-			artifactPath,
-		)
-
-	if strings.HasSuffix(
-		lower,
-		".exe",
-	) ||
-		strings.HasSuffix(
-			lower,
-			".ps1",
-		) ||
-		strings.HasSuffix(
-			lower,
-			".docm",
-		) ||
-		strings.HasSuffix(
-			lower,
-			".xlsm",
-		) {
-		err :=
-			database.CreateSandboxJob(
-				filepath.Base(
-					artifactPath,
-				),
-				artifactPath,
-			)
-
-		if err != nil {
-
-			fmt.Println(
-				"Sandbox Job Error:",
-				err,
-			)
-		}
-	}
-}
-
-		if err != nil {
-
-			fmt.Println(
-				"Sandbox Job Error:",
-				err,
-			)
-		}
-	}
+        findings = append(
+            findings,
+            "Sandbox candidate: "+file,
+        )
+    }
 }
 
 			nestedFindings :=
@@ -521,29 +482,41 @@ mitreTechniques :=
 		[]byte(alert)
 }
 
-	sha256 :=
+	
+
+sha256 :=
 	hash.CalculateSHA256(
 		savePath,
 	)
+
+// Query VirusTotal only if it has NOT already
+// been done inside AnalyzeSandboxContent()
+
+if !strings.HasSuffix(
+	strings.ToLower(savePath),
+	".ps1",
+) {
+
 	vtResponse, err :=
-	virustotal.QueryHash(
-		sha256,
-	)
-
-if err == nil {
-
-	vtFindings :=
-		virustotal.CheckHashReputation(
-			vtResponse,
+		virustotal.QueryHash(
+			sha256,
 		)
 
-	findings = append(
-		findings,
-		vtFindings...,
-	)
+	if err == nil {
+
+		vtFindings :=
+			virustotal.CheckHashReputation(
+				vtResponse,
+			)
+
+		findings = append(
+			findings,
+			vtFindings...,
+		)
+	}
 }
 
-	fmt.Println(
+fmt.Println(
 	"SHA256:",
 	sha256,
 )
@@ -601,48 +574,62 @@ lowerFile :=
 	strings.ToLower(
 		header.Filename,
 	)
+sandboxJobID := 0
+sandboxStatus := "NOT_REQUIRED"
 
 if strings.HasSuffix(
-	lowerFile,
-	".exe",
+    lowerFile,
+    ".exe",
 ) ||
-	strings.HasSuffix(
-		lowerFile,
-		".ps1",
-	) ||
-	strings.HasSuffix(
-		lowerFile,
-		".docm",
-	) ||
-	strings.HasSuffix(
-		lowerFile,
-		".xlsm",
-	) {
+    strings.HasSuffix(
+        lowerFile,
+        ".ps1",
+    ) ||
+    strings.HasSuffix(
+        lowerFile,
+        ".docm",
+    ) ||
+    strings.HasSuffix(
+        lowerFile,
+        ".xlsm",
+    ) {
 
-	err :=
-		database.CreateSandboxJob(
-			header.Filename,
-			savePath,
-		)
+    sandboxStatus = "RUNNING"
 
-	if err != nil {
+    jobID, err :=
+        database.CreateSandboxJob(
+            header.Filename,
+            savePath,
+        )
 
-		fmt.Println(
-			"Sandbox Job Error:",
-			err,
-		)
-	}
+    if err != nil {
+
+        fmt.Println(
+            "Sandbox Job Error:",
+            err,
+        )
+
+    } else {
+
+        sandboxJobID = jobID
+
+    }
+
 }
+
 	response :=
-		AnalyzeFileResponse{
-			FileName:  header.Filename,
-			FilePath:  savePath,
-			Findings:  findings,
-			RiskScore: riskScore,
-			RiskLevel: riskLevel,
-			Verdict:   verdict,
-			Message:   "File analyzed",
-		}
+    AnalyzeFileResponse{
+        FileName:      header.Filename,
+        FilePath:      savePath,
+        Findings:      findings,
+        RiskScore:     riskScore,
+        RiskLevel:     riskLevel,
+        Verdict:       verdict,
+        Message:       "File analyzed",
+
+        SandboxJobID:  sandboxJobID,
+        SandboxStatus: sandboxStatus,
+    }
 
 	w.Header().Set(
 		"Content-Type",

@@ -171,6 +171,10 @@ function Navbar() {
         Threat Hunting
       </Link>
 
+      <Link to="/playground">
+    Playground
+</Link>
+
       <button
         className="logout-btn"
         onClick={logout}

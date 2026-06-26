@@ -445,6 +445,66 @@ if strings.Contains(
 			"CURRENT SCORE:",
 			score,
 		)
+
+		// DMARC Failure
+if strings.Contains(
+    finding,
+    "DMARC FAIL",
+) {
+    score += 10
+}
+
+// ==========================
+// SANDBOX FINDINGS
+// ==========================
+
+if strings.Contains(finding, "Sandbox IOC URL") {
+    score += 120
+}
+
+if strings.Contains(finding, "Sandbox IOC Domain") {
+    score += 80
+}
+
+if strings.Contains(finding, "Process Tree") {
+    score += 120
+}
+
+if strings.Contains(finding, "Network Activity") {
+    score += 100
+}
+
+if strings.Contains(finding, "Dropped File") {
+    score += 150
+}
+
+if strings.Contains(finding, "Persistence Detected") {
+    score += 200
+}
+
+if strings.Contains(finding, "Behavior Rule") {
+    score += 250
+}
+
+if strings.Contains(finding, "Docker Analysis") {
+    score += 120
+}
+
+if strings.Contains(finding, "Docker YARA") {
+    score += 200
+}
+
+if strings.Contains(
+    strings.ToLower(finding),
+    "encoded powershell",
+) {
+    score += 200
+}
+
+fmt.Println(
+    "CURRENT SCORE:",
+    score,
+)
 	}
 
 	// Normalize text
@@ -499,6 +559,8 @@ if strings.Contains(
 		"RISK LEVEL:",
 		GetRiskLevel(score),
 	)
+
+	
 
 	return score
 }

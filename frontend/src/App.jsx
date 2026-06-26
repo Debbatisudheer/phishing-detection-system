@@ -49,6 +49,7 @@ import NotFound
 from "./pages/NotFound";
 import HealthBanner
 from "./components/common/HealthBanner";
+import Playground from "./pages/Playground";
 
 function App() {
 
@@ -218,6 +219,15 @@ function App() {
   path="/sandbox-report/:id"
   element={
     <SandboxReportDetails />
+  }
+/>
+
+<Route
+  path="/playground"
+  element={
+    <ProtectedRoute>
+      <Playground />
+    </ProtectedRoute>
   }
 />
 

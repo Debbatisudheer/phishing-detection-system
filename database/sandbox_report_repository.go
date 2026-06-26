@@ -138,3 +138,48 @@ func GetSandboxReportByID(
 
     return report, err
 }
+
+func GetSandboxReportByJobID(
+    jobID int,
+) (
+    models.SandboxReport,
+    error,
+) {
+
+    var report models.SandboxReport
+
+    err := DB.QueryRow(`
+        SELECT
+            id,
+            job_id,
+            file_name,
+            file_size,
+            extension,
+            mime_type,
+            md5,
+            sha256,
+            findings,
+            risk_score,
+            risk_level,
+            verdict,
+            mitre
+        FROM sandbox_reports
+        WHERE job_id = $1
+    `, jobID).Scan(
+        &report.ID,
+        &report.JobID,
+        &report.FileName,
+        &report.FileSize,
+        &report.Extension,
+        &report.MimeType,
+        &report.MD5,
+        &report.SHA256,
+        &report.Findings,
+        &report.RiskScore,
+        &report.RiskLevel,
+        &report.Verdict,
+        &report.MITRE,
+    )
+
+    return report, err
+}

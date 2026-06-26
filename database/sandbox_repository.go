@@ -17,9 +17,14 @@ type SandboxJob struct {
 func CreateSandboxJob(
 	fileName string,
 	filePath string,
-) error {
+) (
+	int,
+	error,
+) {
 
-	_, err := DB.Exec(
+	var jobID int
+
+	err := DB.QueryRow(
 		`
 		INSERT INTO sandbox_jobs
 		(
@@ -33,12 +38,19 @@ func CreateSandboxJob(
 			$2,
 			'PENDING'
 		)
+		RETURNING id
 		`,
 		fileName,
 		filePath,
+	).Scan(
+		&jobID,
 	)
 
-	return err
+	if err != nil {
+		return 0, err
+	}
+
+	return jobID, nil
 }
 
 func GetSandboxJobs() (

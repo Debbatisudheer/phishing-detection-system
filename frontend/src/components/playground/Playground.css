@@ -1,0 +1,461 @@
+/* ===========================
+   Playground Layout
+=========================== */
+
+.playground-container {
+
+    display: grid;
+
+    grid-template-columns: 1fr 2fr 1.3fr;
+
+    gap: 24px;
+
+    padding: 30px;
+
+    background: #f5f7fb;
+
+    min-height: 100vh;
+
+    align-items: flex-start;
+
+}
+
+
+/* ===========================
+   Cards
+=========================== */
+
+.playground-card {
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 14px;
+
+    padding: 24px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,.08);
+
+}
+
+
+/* ===========================
+   Headings
+=========================== */
+
+.playground-card h2 {
+
+    margin: 0 0 22px 0;
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+    color: #111827;
+
+}
+
+.playground-card h3 {
+
+    margin: 24px 0 12px;
+
+    font-size: 18px;
+
+    font-weight: 600;
+
+    color: #374151;
+
+}
+
+.playground-card p {
+
+    color: #4b5563;
+
+    font-size: 15px;
+
+}
+
+
+/* ===========================
+   Sample Buttons
+=========================== */
+
+.sample-button {
+
+    width: 100%;
+
+    text-align: left;
+
+    padding: 12px 14px;
+
+    margin-bottom: 10px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: #ffffff;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    transition: all .25s;
+
+}
+
+.sample-button:hover {
+
+    background: #eff6ff;
+
+    border-color: #2563eb;
+
+    color: #2563eb;
+
+    transform: translateY(-1px);
+
+}
+
+
+/* ===========================
+   Inputs
+=========================== */
+
+.playground-card input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    margin-bottom: 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+}
+
+.playground-card input:focus {
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+
+/* ===========================
+   Textarea
+=========================== */
+
+.playground-card textarea {
+
+    width: 100%;
+
+    height: 320px;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    resize: vertical;
+
+    background: white;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    outline: none;
+
+    box-sizing: border-box;
+
+}
+
+.playground-card textarea:focus {
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37,99,235,.15);
+
+}
+
+
+/* ===========================
+   Buttons
+=========================== */
+
+.playground-card button {
+
+    padding: 11px 22px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .25s;
+
+}
+
+.playground-card button:hover {
+
+    background: #1d4ed8;
+
+}
+
+.playground-card button:last-child {
+
+    background: #6b7280;
+
+}
+
+.playground-card button:last-child:hover {
+
+    background: #4b5563;
+
+}
+
+
+/* ===========================
+   Result Sections
+=========================== */
+
+.result-section {
+
+    margin-bottom: 22px;
+
+    padding-bottom: 18px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+}
+
+.result-section:last-child {
+
+    border-bottom: none;
+
+}
+
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width:1200px){
+
+    .playground-container{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* ==========================
+   Search
+========================== */
+
+.sample-search{
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:20px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    font-size:15px;
+
+    color:#111827;
+
+    background:white;
+
+}
+
+/* ==========================
+   Active Button
+========================== */
+
+.sample-button.active{
+
+    background:#2563eb;
+
+    color:white;
+
+    border-color:#2563eb;
+
+}
+
+/* ==========================
+   Smooth Hover
+========================== */
+
+.sample-button{
+
+    transition:.25s;
+
+}
+
+.sample-button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+/* ==========================
+   Better Sections
+========================== */
+
+.playground-card h3{
+
+    margin-top:24px;
+
+    margin-bottom:10px;
+
+    color:#374151;
+
+    font-size:16px;
+
+}
+
+/* ===========================
+   Email Editor
+=========================== */
+
+.playground-card label{
+
+    display:block;
+
+    margin-top:12px;
+
+    margin-bottom:6px;
+
+    font-weight:600;
+
+    color:#374151;
+
+    font-size:14px;
+
+}
+
+.editor-buttons{
+
+    margin-top:20px;
+
+    display:flex;
+
+    gap:12px;
+
+}
+
+.editor-buttons button{
+
+    flex:1;
+
+}
+
+/* ===========================
+   Email Header
+=========================== */
+
+.email-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:25px;
+
+}
+
+.avatar{
+
+    width:55px;
+
+    height:55px;
+
+    border-radius:50%;
+
+    background:#2563eb;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:24px;
+
+}
+
+.email-header h2{
+
+    margin:0;
+
+    color:#111827;
+
+}
+
+.email-header p{
+
+    margin:4px 0 0;
+
+    color:#6b7280;
+
+}
+
+.email-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.email-body{
+
+    margin-top:20px;
+
+}
+
+.email-body strong{
+
+    display:block;
+
+    margin-bottom:8px;
+
+}

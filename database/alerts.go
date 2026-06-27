@@ -25,7 +25,9 @@ func GetAlerts() (
 
 	defer rows.Close()
 
-	var alerts []map[string]interface{}
+	// IMPORTANT:
+	// Initialize as an empty slice so JSON becomes [] instead of null.
+	alerts := []map[string]interface{}{}
 
 	for rows.Next() {
 
@@ -36,7 +38,7 @@ func GetAlerts() (
 		var verdict string
 		var message string
 
-		rows.Scan(
+		err := rows.Scan(
 			&id,
 			&alertTime,
 			&fileName,
@@ -44,6 +46,10 @@ func GetAlerts() (
 			&verdict,
 			&message,
 		)
+
+		if err != nil {
+			return alerts, err
+		}
 
 		alerts = append(
 			alerts,

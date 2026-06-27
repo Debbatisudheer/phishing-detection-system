@@ -25,7 +25,10 @@ func GetCorrelatedIOCsDetailed() (
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for rows.Next() {
 

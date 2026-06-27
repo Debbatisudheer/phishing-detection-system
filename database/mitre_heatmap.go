@@ -55,7 +55,10 @@ func GetMITREHeatmap() (
 		}
 	}
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for technique, count :=
 		range techniqueCounts {

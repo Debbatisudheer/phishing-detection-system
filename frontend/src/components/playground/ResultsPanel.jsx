@@ -97,13 +97,13 @@ function ResultsPanel({
 
                         sandboxDone
 
-                        ?
+                            ?
 
-                        "Overall Risk"
+                            "Overall Risk"
 
-                        :
+                            :
 
-                        "Quick Analysis"
+                            "Quick Analysis"
 
                     }
 
@@ -117,7 +117,7 @@ function ResultsPanel({
 
                         style={{
 
-                            width: `${Math.min(score,1000)/10}%`,
+                            width: `${Math.min(score, 1000) / 10}%`,
 
                         }}
 
@@ -139,6 +139,8 @@ function ResultsPanel({
 
             </div>
 
+            {/* Sandbox Status */}
+
             <div className="section">
 
                 <h3>
@@ -147,25 +149,55 @@ function ResultsPanel({
 
                 </h3>
 
-                <div className="item">
+                {
 
-                    {
-
-                        sandboxDone
+                    display.sandbox_status === "RUNNING"
 
                         ?
 
-                        "✅ Sandbox Analysis Completed"
+                        (
+
+                            <div className="item">
+
+                                🟡 Sandbox Analysis Running...
+
+                            </div>
+
+                        )
 
                         :
 
-                        "🟡 Waiting for Sandbox Analysis..."
+                        sandboxDone
 
-                    }
+                            ?
 
-                </div>
+                            (
+
+                                <div className="item">
+
+                                    ✅ Sandbox Analysis Completed
+
+                                </div>
+
+                            )
+
+                            :
+
+                            (
+
+                                <div className="item">
+
+                                    ⚪ Sandbox Not Required
+
+                                </div>
+
+                            )
+
+                }
 
             </div>
+
+            {/* Final Verdict */}
 
             <div className="section">
 
@@ -175,25 +207,39 @@ function ResultsPanel({
 
                 </h3>
 
-                <div className="item">
+                {
 
-                    {
-
-                        sandboxDone
+                    display.sandbox_status === "RUNNING"
 
                         ?
 
-                        display.verdict
+                        (
+
+                            <div className="item">
+
+                                ⏳ Waiting for Sandbox Result
+
+                            </div>
+
+                        )
 
                         :
 
-                        "Pending Sandbox Result"
+                        (
 
-                    }
+                            <div className="item">
 
-                </div>
+                                {display.verdict}
+
+                            </div>
+
+                        )
+
+                }
 
             </div>
+
+            {/* Findings */}
 
             <div className="section">
 
@@ -207,43 +253,61 @@ function ResultsPanel({
 
                     (display.findings || []).length === 0
 
-                    ?
+                        ?
 
-                    <div className="empty-item">
+                        (
 
-                        No Findings
+                            <div className="empty-item">
 
-                    </div>
-
-                    :
-
-                    (
-    Array.isArray(display.findings)
-        ? display.findings
-        : (display.findings || "").split("\n")
-).map(
-
-                        (finding,index)=>(
-
-                            <div
-
-                                key={index}
-
-                                className="item"
-
-                            >
-
-                                ✓ {finding}
+                                No Findings
 
                             </div>
 
                         )
 
-                    )
+                        :
+
+                        (
+
+                            (
+
+                                Array.isArray(display.findings)
+
+                                    ?
+
+                                    display.findings
+
+                                    :
+
+                                    (display.findings || "").split("\n")
+
+                            ).map(
+
+                                (finding, index) => (
+
+                                    <div
+
+                                        key={index}
+
+                                        className="item"
+
+                                    >
+
+                                        ✓ {finding}
+
+                                    </div>
+
+                                ),
+
+                            )
+
+                        )
 
                 }
 
             </div>
+
+            {/* Recommendation */}
 
             <div className="recommendation">
 

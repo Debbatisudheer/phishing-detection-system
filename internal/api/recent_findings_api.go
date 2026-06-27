@@ -26,6 +26,13 @@ func RecentFindingsHandler(
 		return
 	}
 
+	// Never return null
+	if results == nil {
+
+		results = []map[string]interface{}{}
+
+	}
+
 	w.Header().Set(
 		"Content-Type",
 		"application/json",

@@ -6,6 +6,7 @@ import (
 
 	"phishing-platform/database"
 	"phishing-platform/internal/hash"
+	"phishing-platform/internal/macroanalyzer"
 	"phishing-platform/internal/virustotal"
 	"phishing-platform/internal/yara"
 )
@@ -16,33 +17,85 @@ func AnalyzeSandboxContent(
 
 	var findings []string
 
-	data, err :=
-		os.ReadFile(
-			filePath,
-		)
+	var content string
 
-	if err != nil {
+	// ----------------------------------
+	// Read File
+	// ----------------------------------
 
-		findings = append(
-			findings,
-			"Failed to read file",
-		)
+	if strings.HasSuffix(
+		strings.ToLower(filePath),
+		".docm",
+	) {
 
-		return findings
+		// Read VBA Macro instead of DOCM XML
+		content =
+			strings.ToLower(
+				macroanalyzer.ExtractMacroText(
+					filePath,
+				),
+			)
+
+	} else {
+
+		data, err :=
+			os.ReadFile(
+				filePath,
+			)
+
+		if err != nil {
+
+			findings = append(
+				findings,
+				"Failed to read file",
+			)
+
+			return findings
+		}
+
+		content =
+			strings.ToLower(
+				string(data),
+			)
 	}
-
-	content :=
-		strings.ToLower(
-			string(data),
-		)
 
 	println("========== CONTENT ==========")
 	println(content)
 	println("============================")
 
-	// -------------------
+	// ----------------------------------
+	// DOCM Macro Analysis
+	// ----------------------------------
+
+	if strings.HasSuffix(
+		strings.ToLower(filePath),
+		".docm",
+	) {
+
+		macroFindings :=
+			macroanalyzer.AnalyzeMacroContent(
+				content,
+			)
+
+		findings = append(
+			findings,
+			macroFindings...,
+		)
+
+		behaviorFindings :=
+			AnalyzeBehavior(
+				content,
+			)
+
+		findings = append(
+			findings,
+			behaviorFindings...,
+		)
+	}
+
+	// ----------------------------------
 	// URL Extraction
-	// -------------------
+	// ----------------------------------
 
 	urls :=
 		ExtractSandboxURLs(
@@ -72,9 +125,9 @@ func AnalyzeSandboxContent(
 		}
 	}
 
-	// -------------------
+	// ----------------------------------
 	// Domain Extraction
-	// -------------------
+	// ----------------------------------
 
 	domains :=
 		ExtractSandboxDomains(
@@ -104,9 +157,9 @@ func AnalyzeSandboxContent(
 		}
 	}
 
-	// -------------------
+	// ----------------------------------
 	// IP Extraction
-	// -------------------
+	// ----------------------------------
 
 	ips :=
 		ExtractSandboxIPs(
@@ -136,9 +189,9 @@ func AnalyzeSandboxContent(
 		}
 	}
 
-	// -------------------
+	// ----------------------------------
 	// Email Extraction
-	// -------------------
+	// ----------------------------------
 
 	emails :=
 		ExtractSandboxEmails(
@@ -168,9 +221,9 @@ func AnalyzeSandboxContent(
 		}
 	}
 
-	// -------------------
-	// YARA Analysis
-	// -------------------
+	// ----------------------------------
+	// YARA
+	// ----------------------------------
 
 	yaraFindings :=
 		yara.ScanContent(
@@ -182,67 +235,84 @@ func AnalyzeSandboxContent(
 		yaraFindings...,
 	)
 
-	behaviorFindings :=
-	AnalyzeBehaviorRules(
+	// ----------------------------------
+	// Behavior Rules
+	// ----------------------------------
+
+	ruleFindings :=
+		AnalyzeBehaviorRules(
+			findings,
+		)
+
+	findings = append(
 		findings,
+		ruleFindings...,
 	)
+
+	// ----------------------------------
+	// Process Tree
+	// ----------------------------------
 
 	processFindings :=
-	SimulateProcessTree(
-		content,
+		SimulateProcessTree(
+			content,
+		)
+
+	findings = append(
+		findings,
+		processFindings...,
 	)
 
-findings = append(
-	findings,
-	processFindings...,
-)
+	// ----------------------------------
+	// Network
+	// ----------------------------------
 
-networkFindings :=
-	AnalyzeNetworkActivity(
-		content,
-	)
+	networkFindings :=
+		AnalyzeNetworkActivity(
+			content,
+		)
 
-findings = append(
+	findings = append(
 		findings,
 		networkFindings...,
-)
-
-droppedFindings :=
-	DetectDroppedFiles(
-		content,
 	)
 
-findings = append(
+	// ----------------------------------
+	// Dropped Files
+	// ----------------------------------
+
+	droppedFindings :=
+		DetectDroppedFiles(
+			content,
+		)
+
+	findings = append(
 		findings,
 		droppedFindings...,
-)
-
-persistenceFindings :=
-	DetectPersistence(
-		content,
 	)
 
-findings = append(
+	// ----------------------------------
+	// Persistence
+	// ----------------------------------
+
+	persistenceFindings :=
+		DetectPersistence(
+			content,
+		)
+
+	findings = append(
 		findings,
 		persistenceFindings...,
-)
-findings = append(
-	findings,
-	behaviorFindings...,
-)
+	)
 
-	// -------------------
+	// ----------------------------------
 	// SHA256
-	// -------------------
+	// ----------------------------------
 
 	sha256 :=
 		hash.CalculateSHA256(
 			filePath,
 		)
-
-	// -------------------
-	// Local Hash Reputation
-	// -------------------
 
 	hashFindings :=
 		hash.CheckHashReputation(
@@ -254,9 +324,9 @@ findings = append(
 		hashFindings...,
 	)
 
-	// -------------------
+	// ----------------------------------
 	// VirusTotal
-	// -------------------
+	// ----------------------------------
 
 	vtResponse, err :=
 		virustotal.QueryHash(

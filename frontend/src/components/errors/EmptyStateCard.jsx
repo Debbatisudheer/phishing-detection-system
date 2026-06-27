@@ -11,7 +11,7 @@ function EmptyStateCard({
   return (
 
     <ErrorCard
-      icon="📂"
+      
       title={title}
       message={message}
       buttonText="Refresh"

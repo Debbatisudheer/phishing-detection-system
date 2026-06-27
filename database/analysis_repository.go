@@ -57,7 +57,10 @@ func GetAllAnalysisResults() (
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for rows.Next() {
 
@@ -126,7 +129,10 @@ func GetHighRiskAnalysisResults() (
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for rows.Next() {
 
@@ -319,7 +325,10 @@ func SearchAnalysisResults(
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for rows.Next() {
 
@@ -447,7 +456,10 @@ func GetRecentFindings() (
 
 	defer rows.Close()
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for rows.Next() {
 
@@ -606,7 +618,10 @@ func GetMITREStats() (
 		}
 	}
 
-	var results []map[string]interface{}
+	results := make(
+	[]map[string]interface{},
+	0,
+)
 
 	for technique, count :=
 		range techniqueCount {

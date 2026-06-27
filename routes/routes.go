@@ -225,6 +225,11 @@ http.HandleFunc(
 	handlers.GetSandboxReportHandler,
 )
 
+http.HandleFunc(
+	"/api/system-health",
+	api.GetSystemHealthHandler,
+)
+
 	// Home Route
 	http.HandleFunc(
 		"/",

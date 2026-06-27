@@ -36,6 +36,8 @@ func main() {
 
 	sandbox.StartSandboxWorker()
 
+	database.StartCleanupWorker()
+
 	go smtpserver.StartSMTPServer()
 
 	go websocket.HandleMessages()

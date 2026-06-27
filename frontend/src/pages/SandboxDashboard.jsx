@@ -39,7 +39,9 @@ function SandboxDashboard() {
           );
 
         setJobs(
-          response.data,
+          Array.isArray(response.data)
+            ? response.data
+            : [],
         );
 
         setError(false);
@@ -48,12 +50,16 @@ function SandboxDashboard() {
 
         console.error(err);
 
+        setJobs([]);
+
         setError(true);
 
       } finally {
 
         setLoading(false);
+
       }
+
     };
 
   useEffect(() => {
@@ -75,28 +81,27 @@ function SandboxDashboard() {
 
   if (loading) {
 
-    return (
-      <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
+
   }
 
   if (error) {
 
-    return (
-      <BackendOfflineCard />
-    );
+    return <BackendOfflineCard />;
+
   }
 
-  if (jobs.length === 0) {
+  if (!Array.isArray(jobs) || jobs.length === 0) {
 
     return (
 
       <EmptyStateCard
-        title="📂 No Sandbox Reports"
+        title="No Sandbox Reports"
         message="No sandbox reports found."
       />
 
     );
+
   }
 
   return (
@@ -142,45 +147,46 @@ function SandboxDashboard() {
 
         <tbody>
 
-          {jobs.map(
-            (job) => (
+          {jobs.map((job) => (
 
-              <tr key={job.id}>
+            <tr key={job.id}>
 
-                <td>{job.id}</td>
+              <td>{job.id}</td>
 
-                <td>{job.file_name}</td>
+              <td>{job.file_name}</td>
 
-                <td>{job.risk_score}</td>
+              <td>{job.risk_score}</td>
 
-                <td>{job.risk_level}</td>
+              <td>{job.risk_level}</td>
 
-                <td>{job.verdict}</td>
+              <td>{job.verdict}</td>
 
-                <td>
+              <td>
 
-                  <button
-                    onClick={() =>
-                      navigate(
-                        `/sandbox-report/${job.id}`,
-                      )
-                    }
-                  >
-                    View
-                  </button>
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/sandbox-report/${job.id}`,
+                    )
+                  }
+                >
+                  View
+                </button>
 
-                </td>
+              </td>
 
-              </tr>
-            ),
-          )}
+            </tr>
+
+          ))}
 
         </tbody>
 
       </table>
 
     </div>
+
   );
+
 }
 
 export default SandboxDashboard;

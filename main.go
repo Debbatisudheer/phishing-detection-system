@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"phishing-platform/database"
 	"phishing-platform/internal/sandbox"
@@ -32,7 +33,15 @@ func main() {
 		)
 	}
 
+	// -------------------------
+	// Database
+	// -------------------------
+
 	database.ConnectDatabase()
+
+	// -------------------------
+	// Background Workers
+	// -------------------------
 
 	sandbox.StartSandboxWorker()
 
@@ -42,27 +51,58 @@ func main() {
 
 	go websocket.HandleMessages()
 
+	// -------------------------
+	// Routes
+	// -------------------------
+
 	routes.SetupRoutes()
 
+	// -------------------------
+	// Railway / Local Port
+	// -------------------------
+
+	port := os.Getenv("PORT")
+
+	if port == "" {
+
+		port = "8081"
+
+	}
+
 	fmt.Println(
-		"Server running on port 8081",
+		"Server running on port",
+		port,
 	)
 
+	// -------------------------
+	// CORS
+	// -------------------------
+
 	c := cors.New(
+
 		cors.Options{
+
 			AllowedOrigins: []string{
+
 				"http://localhost:5173",
+
+				// Add your Vercel URL here later.
 			},
+
 			AllowedMethods: []string{
+
 				"GET",
 				"POST",
 				"PUT",
 				"DELETE",
 				"OPTIONS",
 			},
+
 			AllowedHeaders: []string{
+
 				"*",
 			},
+
 			AllowCredentials: true,
 		},
 	)
@@ -71,8 +111,17 @@ func main() {
 		http.DefaultServeMux,
 	)
 
-	http.ListenAndServe(
-		":8081",
-		handler,
+	// -------------------------
+	// Start Server
+	// -------------------------
+
+	log.Fatal(
+
+		http.ListenAndServe(
+
+			":"+port,
+
+			handler,
+		),
 	)
 }

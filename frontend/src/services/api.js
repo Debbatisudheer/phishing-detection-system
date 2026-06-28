@@ -1,7 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8081",
+
+  baseURL:
+    import.meta.env.VITE_API_URL ||
+    "http://localhost:8081",
+
 });
 
 api.interceptors.request.use(
@@ -17,9 +21,11 @@ api.interceptors.request.use(
 
       config.headers.Authorization =
         `Bearer ${token}`;
+
     }
 
     return config;
+
   },
 
   (error) => {
@@ -27,7 +33,9 @@ api.interceptors.request.use(
     return Promise.reject(
       error,
     );
+
   },
+
 );
 
 api.interceptors.response.use(
@@ -46,12 +54,15 @@ api.interceptors.response.use(
 
       window.location.href =
         "/login";
+
     }
 
     return Promise.reject(
       error,
     );
+
   },
+
 );
 
 export default api;

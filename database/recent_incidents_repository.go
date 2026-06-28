@@ -23,6 +23,7 @@ func GetRecentIncidents() (
 	defer rows.Close()
 
 	var incidents []map[string]interface{}
+	
 
 	for rows.Next() {
 

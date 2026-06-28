@@ -33,7 +33,11 @@ function IncidentDashboard() {
             );
 
           setStats(
-            response.data,
+    response.data || {
+        open: 0,
+        closed: 0,
+        total: 0,
+    }
           );
 
           const recentResponse =

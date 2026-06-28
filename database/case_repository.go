@@ -41,7 +41,7 @@ func GetAllCases() (
 
 	defer rows.Close()
 
-	var cases []map[string]interface{}
+	cases := []map[string]interface{}{}
 
 	for rows.Next() {
 

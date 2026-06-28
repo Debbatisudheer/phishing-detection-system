@@ -27,8 +27,7 @@ function Cases() {
             },
           );
 
-        setCases(
-          response.data,
+        setCases(response.data || []
         );
       };
 

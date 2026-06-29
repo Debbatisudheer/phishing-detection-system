@@ -11,6 +11,8 @@ import (
 
 func SetupRoutes() {
 
+	RegisterAuthRoutes()
+
 	http.HandleFunc(
 	"/health",
 	api.HealthHandler,
@@ -96,15 +98,6 @@ http.HandleFunc(
 	),
 )
 
-http.HandleFunc(
-	"/api/register",
-	api.RegisterHandler,
-)
-
-http.HandleFunc(
-	"/api/login",
-	api.LoginHandler,
-)
 
 http.HandleFunc(
 	"/api/threat-hunting",

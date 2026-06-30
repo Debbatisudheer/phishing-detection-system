@@ -10,5 +10,9 @@ func ExtractURLs(text string) []string {
 
 	urls := re.FindAllString(text, -1)
 
+	if urls == nil {
+		return []string{}
+	}
+
 	return urls
 }

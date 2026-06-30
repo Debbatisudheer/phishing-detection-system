@@ -1,0 +1,26 @@
+mode: set
+phishing-platform/internal/parser/attachment_parser.go:9.12,18.16 3 1
+phishing-platform/internal/parser/attachment_parser.go:18.16,20.3 1 1
+phishing-platform/internal/parser/attachment_parser.go:22.2,24.20 2 1
+phishing-platform/internal/parser/attachment_parser.go:24.20,30.3 1 1
+phishing-platform/internal/parser/attachment_parser.go:32.2,32.20 1 1
+phishing-platform/internal/parser/email_parser.go:25.25,31.16 3 1
+phishing-platform/internal/parser/email_parser.go:31.16,33.3 1 0
+phishing-platform/internal/parser/email_parser.go:35.2,47.16 8 1
+phishing-platform/internal/parser/email_parser.go:47.16,49.3 1 1
+phishing-platform/internal/parser/email_parser.go:51.2,64.34 5 1
+phishing-platform/internal/parser/email_parser.go:64.34,72.7 2 0
+phishing-platform/internal/parser/email_parser.go:72.7,77.18 2 0
+phishing-platform/internal/parser/email_parser.go:77.18,78.10 1 0
+phishing-platform/internal/parser/email_parser.go:81.4,83.19 2 0
+phishing-platform/internal/parser/email_parser.go:83.19,101.16 4 0
+phishing-platform/internal/parser/email_parser.go:101.16,118.3 3 0
+phishing-platform/internal/parser/email_parser.go:120.2,120.10 1 0
+phishing-platform/internal/parser/email_parser.go:123.4,129.30 3 0
+phishing-platform/internal/parser/email_parser.go:132.8,140.17 3 1
+phishing-platform/internal/parser/email_parser.go:140.17,142.4 1 0
+phishing-platform/internal/parser/email_parser.go:144.3,144.28 1 1
+phishing-platform/internal/parser/email_parser.go:147.2,165.20 4 1
+phishing-platform/internal/parser/url_parser.go:7.40,13.17 3 1
+phishing-platform/internal/parser/url_parser.go:13.17,15.3 1 1
+phishing-platform/internal/parser/url_parser.go:17.2,17.13 1 1

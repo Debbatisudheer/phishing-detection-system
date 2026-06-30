@@ -1,19 +1,19 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    alertrepo "phishing-platform/database/alerts"
+	threatrepo "phishing-platform/database/threathunting"
 )
 
-func AlertsHandler(
+func ThreatHuntingHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	alerts, err :=
-		alertrepo.GetAlerts()
+	data, err :=
+		threatrepo.GetThreatHuntingStats()
 
 	if err != nil {
 
@@ -32,6 +32,6 @@ func AlertsHandler(
 	)
 
 	json.NewEncoder(w).Encode(
-		alerts,
+		data,
 	)
 }

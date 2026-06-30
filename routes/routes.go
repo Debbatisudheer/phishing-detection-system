@@ -1,12 +1,17 @@
 package routes
 
 import (
-	"net/http"
+    
+    dashboardapi "phishing-platform/internal/api/dashboard"
+    analysisapi "phishing-platform/internal/api/analysis"
+    caseapi "phishing-platform/internal/api/cases"
+	incidentapi "phishing-platform/internal/api/incidents"
 
-	"phishing-platform/internal/api"
-	"phishing-platform/internal/handlers"
-	"phishing-platform/internal/websocket"
-	"phishing-platform/internal/middleware"
+    "phishing-platform/internal/handlers"
+    "phishing-platform/internal/middleware"
+    "phishing-platform/internal/websocket"
+	"net/http"
+	 "phishing-platform/internal/api"
 )
 
 func SetupRoutes() {
@@ -30,7 +35,7 @@ http.HandleFunc(
 
 http.HandleFunc(
 	"/api/dashboard",
-	api.DashboardHandler,
+	dashboardapi.DashboardHandler,
 )
 
 http.HandleFunc(
@@ -41,60 +46,60 @@ http.HandleFunc(
 http.HandleFunc(
 	"/api/recent-findings",
 	middleware.JWTMiddleware(
-		api.RecentFindingsHandler,
+		analysisapi.RecentFindingsHandler,
 	),
 )
 
 http.HandleFunc(
 	"/api/high-risk-files",
-	api.HighRiskFilesHandler,
+	analysisapi.HighRiskFilesHandler,
 )
 
 http.HandleFunc(
 	"/api/file/",
-	api.FileDetailsHandler,
+	analysisapi.FileDetailsHandler,
 )
 
 http.HandleFunc(
 	"/api/search",
 	middleware.JWTMiddleware(
-		api.SearchHandler,
+		analysisapi.SearchHandler,
 	),
 )
 
 http.HandleFunc(
 	"/api/case",
-	api.CreateCaseHandler,
+	caseapi.CreateCaseHandler,
 )
 
 http.HandleFunc(
 	"/api/cases",
 	middleware.JWTMiddleware(
-		api.GetCasesHandler,
+		caseapi.GetCasesHandler,
 	),
 )
 
 http.HandleFunc(
 	"/api/case/",
-	api.UpdateCaseHandler,
+	caseapi.UpdateCaseHandler,
 )
 
 http.HandleFunc(
 	"/api/case-details/",
-	api.GetCaseHandler,
+	caseapi.GetCaseHandler,
 )
 
 http.HandleFunc(
 	"/api/case-close/",
 	middleware.JWTMiddleware(
-		api.CloseCaseHandler,
+		caseapi.CloseCaseHandler,
 	),
 )
 
 http.HandleFunc(
 	"/api/export/iocs",
 	middleware.JWTMiddleware(
-		api.ExportIOCsHandler,
+		analysisapi.ExportIOCsHandler,
 	),
 )
 
@@ -102,33 +107,33 @@ http.HandleFunc(
 http.HandleFunc(
 	"/api/threat-hunting",
 	middleware.JWTMiddleware(
-		api.ThreatHuntingHandler,
+		analysisapi.ThreatHuntingHandler,
 	),
 )
 
 http.HandleFunc(
 	"/api/mitre-stats",
-	api.MITREStatsHandler,
+	analysisapi.MITREStatsHandler,
 )
 
 http.HandleFunc(
 	"/api/case-note",
-	api.AddCaseNoteHandler,
+	caseapi.AddCaseNoteHandler,
 )
 
 http.HandleFunc(
 	"/api/case-notes/",
-	api.GetCaseNotesHandler,
+	caseapi.GetCaseNotesHandler,
 )
 
 http.HandleFunc(
 	"/api/incident-dashboard",
-	api.IncidentDashboardHandler,
+	incidentapi.IncidentDashboardHandler,
 )
 
 http.HandleFunc(
 	"/api/recent-incidents",
-	api.RecentIncidentsHandler,
+	incidentapi.RecentIncidentsHandler,
 )
 
 http.HandleFunc(

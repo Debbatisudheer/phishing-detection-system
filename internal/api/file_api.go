@@ -16,13 +16,15 @@ import (
 "phishing-platform/internal/pdfanalyzer"
 "phishing-platform/internal/parser"
 "fmt"
-"phishing-platform/database"
 "phishing-platform/internal/hash"
 "phishing-platform/internal/mitre"
 "phishing-platform/internal/threatintel"
 "phishing-platform/internal/websocket"
 "phishing-platform/internal/virustotal"
 "phishing-platform/internal/domain"
+"phishing-platform/database"
+analysisrepo "phishing-platform/database/analysis"
+alertsrepo "phishing-platform/database/alerts"
 )
 
 type AnalyzeFileResponse struct {
@@ -463,7 +465,7 @@ mitreTechniques :=
 		)
 
 	err :=
-		database.SaveAlert(
+		alertsrepo.SaveAlert(
 			header.Filename,
 			riskLevel,
 			verdict,
@@ -542,7 +544,7 @@ for technique :=
 	)
 }
 
-	err = database.SaveAnalysisResult(
+	err = analysisrepo.SaveAnalysisResult(
 	header.Filename,
 	riskScore,
 	riskLevel,

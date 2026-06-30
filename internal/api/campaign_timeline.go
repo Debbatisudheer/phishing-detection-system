@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	campaignrepo "phishing-platform/database/campaign"
 )
 
 func CampaignTimelineHandler(
@@ -13,7 +12,7 @@ func CampaignTimelineHandler(
 ) {
 
 	data, err :=
-		database.GetCampaignTimeline()
+		campaignrepo.GetCampaignTimeline()
 
 	if err != nil {
 

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"phishing-platform/database"
+	threatrepo "phishing-platform/database/threatintel"
 )
 
 func ThreatIntelHandler(
@@ -13,13 +13,13 @@ func ThreatIntelHandler(
 ) {
 
 	stats, _ :=
-		database.GetThreatIntelStats()
+		threatrepo.GetThreatIntelStats()
 
 	files, _ :=
-		database.GetTopRiskFiles()
+		threatrepo.GetTopRiskFiles()
 
 	iocs, _ :=
-		database.GetTopIOCs()
+		threatrepo.GetTopIOCs()
 
 	json.NewEncoder(w).Encode(
 		map[string]interface{}{

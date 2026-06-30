@@ -1,10 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-	"net/http"
+    "encoding/json"
+    "net/http"
 
-	"phishing-platform/database"
+    threatrepo "phishing-platform/database/threatintel"
 )
 
 func IOCTrendsHandler(
@@ -13,7 +13,7 @@ func IOCTrendsHandler(
 ) {
 
 	data, err :=
-		database.GetIOCTrends()
+		threatrepo.GetIOCTrends()
 
 	if err != nil {
 

@@ -1,19 +1,26 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    alertrepo "phishing-platform/database/alerts"
+	searchrepo "phishing-platform/database/search"
 )
 
-func AlertsHandler(
+func SearchHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	alerts, err :=
-		alertrepo.GetAlerts()
+	query :=
+		r.URL.Query().Get(
+			"q",
+		)
+
+	results, err :=
+		searchrepo.SearchAnalysisResults(
+			query,
+		)
 
 	if err != nil {
 
@@ -32,6 +39,6 @@ func AlertsHandler(
 	)
 
 	json.NewEncoder(w).Encode(
-		alerts,
+		results,
 	)
 }

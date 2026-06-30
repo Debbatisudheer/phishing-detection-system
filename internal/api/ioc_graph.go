@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	threatrepo "phishing-platform/database/threatintel"
 )
 
 func IOCGraphHandler(
@@ -13,7 +12,7 @@ func IOCGraphHandler(
 ) {
 
 	data, err :=
-		database.GetIOCGraph()
+		threatrepo.GetIOCGraph()
 
 	if err != nil {
 

@@ -1,19 +1,19 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    alertrepo "phishing-platform/database/alerts"
+	dashboardrepo "phishing-platform/database/dashboard"
 )
 
-func AlertsHandler(
+func RecentFindingsHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	alerts, err :=
-		alertrepo.GetAlerts()
+	results, err :=
+		dashboardrepo.GetRecentFindings()
 
 	if err != nil {
 
@@ -26,12 +26,19 @@ func AlertsHandler(
 		return
 	}
 
+	// Never return null
+	if results == nil {
+
+		results = []map[string]interface{}{}
+
+	}
+
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
 	)
 
 	json.NewEncoder(w).Encode(
-		alerts,
+		results,
 	)
 }

@@ -1,10 +1,10 @@
 package api
 
 import (
-	"encoding/json"
-	"net/http"
+    "encoding/json"
+    "net/http"
 
-	"phishing-platform/database"
+    threatrepo "phishing-platform/database/threatintel"
 )
 
 func IOCSourcesHandler(
@@ -18,7 +18,7 @@ func IOCSourcesHandler(
 		)
 
 	data, err :=
-		database.GetIOCSources(
+		threatrepo.GetIOCSources(
 			ioc,
 		)
 

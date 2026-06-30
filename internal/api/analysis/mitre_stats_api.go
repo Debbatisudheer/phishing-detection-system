@@ -1,19 +1,19 @@
-package handlers
+package api
 
 import (
 	"encoding/json"
 	"net/http"
 
-	sandboxrepo "phishing-platform/database/sandbox"
+	mitrerepo "phishing-platform/database/mitre"
 )
 
-func GetSandboxReportsHandler(
+func MITREStatsHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	reports, err :=
-		sandboxrepo.GetSandboxReports()
+	stats, err :=
+		mitrerepo.GetMITREStats()
 
 	if err != nil {
 
@@ -26,12 +26,7 @@ func GetSandboxReportsHandler(
 		return
 	}
 
-	w.Header().Set(
-		"Content-Type",
-		"application/json",
-	)
-
 	json.NewEncoder(w).Encode(
-		reports,
+		stats,
 	)
 }

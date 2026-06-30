@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	campaignrepo "phishing-platform/database/campaign"
 )
 
 func CampaignHandler(
@@ -13,7 +12,7 @@ func CampaignHandler(
 ) {
 
 	data, err :=
-		database.GetCampaigns()
+		campaignrepo.GetCampaigns()
 
 	if err != nil {
 

@@ -8,7 +8,7 @@ func DetectDisplayNameSpoofing(
 	from string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	lower :=
 		strings.ToLower(from)

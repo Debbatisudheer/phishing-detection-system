@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "net/http"
 
-    "phishing-platform/database"
+    userrepo "phishing-platform/database/users"
     "phishing-platform/internal/jwt"
 )
 
@@ -32,7 +32,7 @@ func RegisterHandler(
 		return
 	}
 
-	err = database.CreateUser(
+	err = userrepo.CreateUser(
 		req.Username,
 		req.Password,
 	)

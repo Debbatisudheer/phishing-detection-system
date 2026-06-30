@@ -1,12 +1,16 @@
 package database
 
+import (
+    "phishing-platform/database"
+)
+
 func SaveAnalystNote(
 	ioc string,
 	analyst string,
 	notes string,
 ) error {
 
-	_, err := DB.Exec(`
+	_, err := database.DB.Exec(`
 		INSERT INTO analyst_notes (
 			ioc,
 			analyst,
@@ -29,7 +33,7 @@ func GetAnalystNotes(
 	error,
 ) {
 
-	rows, err := DB.Query(`
+	rows, err := database.DB.Query(`
 		SELECT
 			analyst,
 			notes,

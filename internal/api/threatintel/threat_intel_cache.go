@@ -3,7 +3,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"phishing-platform/database"
+	threatrepo "phishing-platform/database/threatintel"
 )
 
 func IOCReputationHandler(
@@ -17,7 +17,7 @@ func IOCReputationHandler(
 		)
 
 	data, err :=
-		database.GetIOCReputation(
+		threatrepo.GetIOCReputation(
 			ioc,
 		)
 

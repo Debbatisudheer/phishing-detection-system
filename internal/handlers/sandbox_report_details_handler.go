@@ -5,8 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-
-	"phishing-platform/database"
+	sandboxrepo "phishing-platform/database/sandbox"
 )
 
 func GetSandboxReportHandler(
@@ -35,7 +34,7 @@ func GetSandboxReportHandler(
 	}
 
 	report, err :=
-		database.GetSandboxReportByID(
+		sandboxrepo.GetSandboxReportByID(
 			id,
 		)
 

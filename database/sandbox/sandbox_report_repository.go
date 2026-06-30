@@ -4,6 +4,7 @@ import (
 	"time"
 	"fmt"
 	"phishing-platform/internal/models"
+     "phishing-platform/database"
 )
 
 type SandboxReport struct {
@@ -40,7 +41,7 @@ func SaveSandboxReport(
 	mitre string,
 ) error {
 
-	result, err := DB.Exec(
+	result, err := database.DB.Exec(
 		`
 		INSERT INTO sandbox_reports
 		(
@@ -105,7 +106,7 @@ func GetSandboxReportByID(
 
     var report models.SandboxReport
 
-    err := DB.QueryRow(`
+    err := database.DB.QueryRow(`
         SELECT
             id,
             file_name,
@@ -148,7 +149,7 @@ func GetSandboxReportByJobID(
 
     var report models.SandboxReport
 
-    err := DB.QueryRow(`
+    err := database.DB.QueryRow(`
         SELECT
             id,
             job_id,

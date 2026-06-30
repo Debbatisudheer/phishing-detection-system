@@ -1,5 +1,9 @@
 package database
 
+import (
+    "phishing-platform/database"
+)
+
 func GetIOCReputation(
 	ioc string,
 ) (
@@ -10,7 +14,7 @@ func GetIOCReputation(
 	var reputation string
 	var source string
 
-	err := DB.QueryRow(`
+	err := database.DB.QueryRow(`
 		SELECT
 			reputation,
 			source

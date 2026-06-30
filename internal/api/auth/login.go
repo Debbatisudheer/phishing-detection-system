@@ -4,7 +4,7 @@ import (
     "encoding/json"
     "net/http"
 
-    "phishing-platform/database"
+    userrepo "phishing-platform/database/users"
     "phishing-platform/internal/jwt"
 )
 
@@ -35,7 +35,7 @@ func LoginHandler(
 	storedPassword,
 		role,
 		err :=
-		database.GetUserByUsername(
+		userrepo.GetUserByUsername(
 			req.Username,
 		)
 

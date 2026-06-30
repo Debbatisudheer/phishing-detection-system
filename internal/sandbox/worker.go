@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
-
-	"phishing-platform/database"
+	sandboxrepo "phishing-platform/database/sandbox"
 	"phishing-platform/internal/hash"
 )
 
@@ -16,7 +15,7 @@ func StartSandboxWorker() {
 		for {
 
 			jobs, err :=
-				database.GetSandboxJobs()
+				sandboxrepo.GetSandboxJobs()
 
 			if err != nil {
 
@@ -44,7 +43,7 @@ func StartSandboxWorker() {
 				)
 
 				err :=
-					database.UpdateSandboxJobStatus(
+					sandboxrepo.UpdateSandboxJobStatus(
 						job.ID,
 						"RUNNING",
 					)
@@ -117,7 +116,7 @@ if err != nil {
 	executionStatus = "FAILED"
 }
 
-err = database.SaveDockerReport(
+err = sandboxrepo.SaveDockerReport(
 	job.ID,
 	"DESTROYED",
 	executionStatus,
@@ -236,7 +235,7 @@ fmt.Println(
 )
 
 				err =
-    database.SaveSandboxReport(
+    sandboxrepo.SaveSandboxReport(
         job.ID,
         metadata.FileName,
         metadata.FileSize,
@@ -308,7 +307,7 @@ fmt.Println(
 )
 
 err =
-    database.UpdateSandboxJobStatus(
+    sandboxrepo.UpdateSandboxJobStatus(
         job.ID,
         status,
     )

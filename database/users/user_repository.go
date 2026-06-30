@@ -1,11 +1,15 @@
-package database
+package users
+
+import (
+    "phishing-platform/database"
+)
 
 func CreateUser(
 	username string,
 	password string,
 ) error {
 
-	_, err := DB.Exec(
+	_, err := database.DB.Exec(
 		`INSERT INTO users
 		(username, password)
 		VALUES ($1, $2)`,
@@ -27,7 +31,7 @@ func GetUserByUsername(
 	var password string
 	var role string
 
-	err := DB.QueryRow(
+	err := database.DB.QueryRow(
 		`SELECT password, role
 		FROM users
 		WHERE username = $1`,

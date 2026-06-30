@@ -1,8 +1,10 @@
 package database
 
+
 import (
 	"time"
 	"fmt"
+	 "phishing-platform/database"
 )
 
 type SandboxJob struct {
@@ -24,7 +26,7 @@ func CreateSandboxJob(
 
 	var jobID int
 
-	err := DB.QueryRow(
+	err := database.DB.QueryRow(
 		`
 		INSERT INTO sandbox_jobs
 		(
@@ -58,7 +60,7 @@ func GetSandboxJobs() (
 	error,
 ) {
 
-	rows, err := DB.Query(
+	rows, err := database.DB.Query(
 		`
 		SELECT
 			id,
@@ -117,7 +119,7 @@ func UpdateSandboxJobStatus(
 	status string,
 ) error {
 
-	_, err := DB.Exec(
+	_, err := database.DB.Exec(
 		`
 		UPDATE sandbox_jobs
 		SET

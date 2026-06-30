@@ -1,5 +1,9 @@
 package database
 
+import (
+    "phishing-platform/database"
+)
+
 func GetInvestigationSummary(
 	ioc string,
 ) (
@@ -7,7 +11,7 @@ func GetInvestigationSummary(
 	error,
 ) {
 
-	rows, err := DB.Query(`
+	rows, err := database.DB.Query(`
 		SELECT
 			source_type,
 			file_name,
@@ -85,7 +89,7 @@ func GetInvestigationSummary(
 	var verdict string
 	var mitre string
 
-	DB.QueryRow(`
+	database.DB.QueryRow(`
 	SELECT
 		risk_level,
 		verdict,

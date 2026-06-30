@@ -1,11 +1,15 @@
 package database
 
+import (
+    "phishing-platform/database"
+)
+
 func GetCorrelatedIOCsDetailed() (
 	[]map[string]interface{},
 	error,
 ) {
 
-	rows, err := DB.Query(`
+	rows, err := database.DB.Query(`
 		SELECT
 			ioc,
 			SUM(hit_count) as count,

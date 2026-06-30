@@ -1,4 +1,8 @@
-package database
+package ioc
+
+import (
+    "phishing-platform/database"
+)
 
 func SaveIOC(
 	ioc string,
@@ -8,7 +12,7 @@ func SaveIOC(
 
 	var existing int
 
-	err := DB.QueryRow(
+	err := database.DB.QueryRow(
 		`
 		SELECT COUNT(*)
 		FROM ioc_correlation
@@ -23,7 +27,7 @@ func SaveIOC(
 
 	if existing > 0 {
 
-		_, err = DB.Exec(
+		_, err = database.DB.Exec(
 			`
 			UPDATE ioc_correlation
 			SET
@@ -37,7 +41,7 @@ func SaveIOC(
 		return err
 	}
 
-	_, err = DB.Exec(
+	_, err = database.DB.Exec(
 		`
 		INSERT INTO ioc_correlation(
 			ioc,

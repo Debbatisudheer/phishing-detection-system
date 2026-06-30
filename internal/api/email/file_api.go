@@ -22,9 +22,10 @@ import (
 "phishing-platform/internal/websocket"
 "phishing-platform/internal/virustotal"
 "phishing-platform/internal/domain"
-"phishing-platform/database"
 analysisrepo "phishing-platform/database/analysis"
 alertsrepo "phishing-platform/database/alerts"
+iocrepo "phishing-platform/database/ioc"
+sandboxrepo "phishing-platform/database/sandbox"
 )
 
 type AnalyzeFileResponse struct {
@@ -189,7 +190,7 @@ if strings.HasSuffix(
 
 	for _, qrURL := range qrResults {
 
-		err := database.SaveIOC(
+		err := iocrepo.SaveIOC(
 	qrURL,
 	"QR",
 	header.Filename,
@@ -371,7 +372,7 @@ pdfFindings :=
 )
 
 		for _, url := range urls {
-			err := database.SaveIOC(
+			err := iocrepo.SaveIOC(
 	url,
 	"PDF",
 	header.Filename,
@@ -599,7 +600,7 @@ if strings.HasSuffix(
     sandboxStatus = "RUNNING"
 
     jobID, err :=
-        database.CreateSandboxJob(
+        sandboxrepo.CreateSandboxJob(
             header.Filename,
             savePath,
         )

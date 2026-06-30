@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"phishing-platform/database"
+	sandboxrepo "phishing-platform/database/sandbox"
 )
 
 func GetSandboxJobsHandler(
@@ -15,7 +15,7 @@ func GetSandboxJobsHandler(
 ) {
 
 	jobs, err :=
-		database.GetSandboxJobs()
+		sandboxrepo.GetSandboxJobs()
 
 	if err != nil {
 
@@ -59,7 +59,7 @@ func GetSandboxReportHandler(
 	}
 
 	report, err :=
-		database.GetSandboxReportByJobID(
+		sandboxrepo.GetSandboxReportByJobID(
 			jobID,
 		)
 

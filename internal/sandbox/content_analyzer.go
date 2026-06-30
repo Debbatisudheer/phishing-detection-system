@@ -3,8 +3,7 @@ package sandbox
 import (
 	"os"
 	"strings"
-
-	"phishing-platform/database"
+	iocrepo "phishing-platform/database/ioc"
 	"phishing-platform/internal/hash"
 	"phishing-platform/internal/macroanalyzer"
 	"phishing-platform/internal/virustotal"
@@ -110,7 +109,7 @@ func AnalyzeSandboxContent(
 		)
 
 		err :=
-			database.SaveIOC(
+			iocrepo.SaveIOC(
 				url,
 				"SANDBOX",
 				filePath,
@@ -142,7 +141,7 @@ func AnalyzeSandboxContent(
 		)
 
 		err :=
-			database.SaveIOC(
+			iocrepo.SaveIOC(
 				domain,
 				"SANDBOX",
 				filePath,
@@ -174,7 +173,7 @@ func AnalyzeSandboxContent(
 		)
 
 		err :=
-			database.SaveIOC(
+			iocrepo.SaveIOC(
 				ip,
 				"SANDBOX",
 				filePath,
@@ -206,7 +205,7 @@ func AnalyzeSandboxContent(
 		)
 
 		err :=
-			database.SaveIOC(
+			iocrepo.SaveIOC(
 				email,
 				"SANDBOX",
 				filePath,

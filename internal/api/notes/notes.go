@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	notesrepo "phishing-platform/database/notes"
 )
 
 type AnalystNoteRequest struct {
@@ -27,7 +26,7 @@ var req AnalystNoteRequest
 	)
 
 	err :=
-		database.SaveAnalystNote(
+		notesrepo.SaveAnalystNote(
 			req.IOC,
 			req.Analyst,
 			req.Notes,
@@ -62,7 +61,7 @@ func GetNotesHandler(
 		)
 
 	data, err :=
-		database.GetAnalystNotes(
+		notesrepo.GetAnalystNotes(
 			ioc,
 		)
 

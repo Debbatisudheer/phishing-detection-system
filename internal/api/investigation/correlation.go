@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	investigationrepo "phishing-platform/database/investigation"
 )
 
 func CorrelationHandler(
@@ -13,7 +12,7 @@ func CorrelationHandler(
 ) {
 
 	data, err :=
-		database.GetCorrelatedIOCsDetailed()
+		investigationrepo.GetCorrelatedIOCsDetailed()
 
 	if err != nil {
 

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"phishing-platform/database"
+	mitrerepo "phishing-platform/database/mitre"
 )
 
 func MITREHeatmapHandler(
@@ -13,7 +13,7 @@ func MITREHeatmapHandler(
 ) {
 
 	data, err :=
-		database.GetMITREHeatmap()
+		mitrerepo.GetMITREHeatmap()
 
 	if err != nil {
 

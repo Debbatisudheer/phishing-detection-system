@@ -3,8 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	investigationrepo "phishing-platform/database/investigation"
 )
 
 func InvestigationSummaryHandler(
@@ -18,7 +17,7 @@ func InvestigationSummaryHandler(
 		)
 
 	data, err :=
-		database.GetInvestigationSummary(
+		investigationrepo.GetInvestigationSummary(
 			ioc,
 		)
 

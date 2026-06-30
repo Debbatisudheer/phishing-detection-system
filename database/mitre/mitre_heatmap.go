@@ -1,13 +1,16 @@
-package database
+package mitre
 
-import "strings"
+import (
+    "phishing-platform/database"
+	"strings"
+)
 
 func GetMITREHeatmap() (
 	[]map[string]interface{},
 	error,
 ) {
 
-	rows, err := DB.Query(`
+	rows, err := database.DB.Query(`
 		SELECT mitre
 		FROM analysis_results
 		WHERE mitre IS NOT NULL

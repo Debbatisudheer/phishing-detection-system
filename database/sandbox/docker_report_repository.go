@@ -1,5 +1,9 @@
 package database
 
+import (
+    "phishing-platform/database"
+)
+
 func SaveDockerReport(
 	jobID int,
 	containerStatus string,
@@ -17,7 +21,7 @@ func SaveDockerReport(
 	VALUES ($1,$2,$3,$4)
 	`
 
-	_, err := DB.Exec(
+	_, err := database.DB.Exec(
 		query,
 		jobID,
 		containerStatus,

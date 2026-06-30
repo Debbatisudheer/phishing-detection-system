@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"phishing-platform/database"
+	iocrepo "phishing-platform/database/ioc"
 	"phishing-platform/internal/attachment"
 	"phishing-platform/internal/decision"
 	"phishing-platform/internal/domain"
@@ -62,7 +63,7 @@ func ProcessEmail(
 	urls := parser.ExtractURLs(body)
 	for _, url := range urls {
 
-	err := database.SaveIOC(
+	err := iocrepo.SaveIOC(
 		url,
 		"EMAIL",
 		subject,

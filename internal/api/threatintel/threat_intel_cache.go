@@ -1,18 +1,25 @@
-package api
-
+package threatintel
 import (
 	"encoding/json"
 	"net/http"
-	campaignrepo "phishing-platform/database/campaign"
+
+	"phishing-platform/database"
 )
 
-func CampaignStatsHandler(
+func IOCReputationHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
+	ioc :=
+		r.URL.Query().Get(
+			"ioc",
+		)
+
 	data, err :=
-		campaignrepo.GetCampaignStats()
+		database.GetIOCReputation(
+			ioc,
+		)
 
 	if err != nil {
 

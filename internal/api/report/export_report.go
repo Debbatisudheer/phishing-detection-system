@@ -1,4 +1,4 @@
-package api
+package report
 
 import (
 	"net/http"

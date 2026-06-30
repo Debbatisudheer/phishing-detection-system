@@ -1,5 +1,4 @@
-package api
-
+package threatintel
 import (
 	"encoding/json"
 	"net/http"

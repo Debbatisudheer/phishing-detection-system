@@ -6,6 +6,17 @@ import (
     analysisapi "phishing-platform/internal/api/analysis"
     caseapi "phishing-platform/internal/api/cases"
 	incidentapi "phishing-platform/internal/api/incidents"
+	emailapi "phishing-platform/internal/api/email"
+	alertsapi "phishing-platform/internal/api/alerts"
+	investigationapi "phishing-platform/internal/api/investigation"
+	iocapi "phishing-platform/internal/api/ioc"
+	notesapi "phishing-platform/internal/api/notes"
+	sandboxapi "phishing-platform/internal/api/sandbox"
+	campaignapi "phishing-platform/internal/api/campaign"
+	threatintelapi "phishing-platform/internal/api/threatintel"
+	reportapi "phishing-platform/internal/api/report"
+	systemapi "phishing-platform/internal/api/system"
+	
 
     "phishing-platform/internal/handlers"
     "phishing-platform/internal/middleware"
@@ -25,12 +36,12 @@ func SetupRoutes() {
 
 http.HandleFunc(
 	"/api/analyze-email",
-	api.AnalyzeEmailHandler,
+	emailapi.AnalyzeEmailHandler,
 )
 
 http.HandleFunc(
 	"/api/analyze-file",
-	api.AnalyzeFileHandler,
+	emailapi.AnalyzeFileHandler,
 )
 
 http.HandleFunc(
@@ -40,7 +51,7 @@ http.HandleFunc(
 
 http.HandleFunc(
 	"/api/alerts",
-	api.AlertsHandler,
+	alertsapi.AlertsHandler,
 )
 
 http.HandleFunc(
@@ -138,80 +149,80 @@ http.HandleFunc(
 
 http.HandleFunc(
 	"/api/correlation",
-	api.CorrelationHandler,
+	investigationapi.CorrelationHandler,
 )
 
 http.HandleFunc(
 	"/api/campaigns",
-	api.CampaignHandler,
+	campaignapi.CampaignHandler,
 )
 http.HandleFunc(
 	"/api/ioc-sources",
-	api.IOCSourcesHandler,
+	iocapi.IOCSourcesHandler,
 )
 
 http.HandleFunc(
 	"/api/campaign-stats",
-	api.CampaignStatsHandler,
+	campaignapi.CampaignStatsHandler,
 )
 
 http.HandleFunc(
 	"/api/ioc-graph",
-	api.IOCGraphHandler,
+	iocapi.IOCGraphHandler,
 )
 
 http.HandleFunc(
 	"/api/mitre-heatmap",
-	api.MITREHeatmapHandler,
+	iocapi.MITREHeatmapHandler,
 )
 
 http.HandleFunc(
 	"/api/campaign-timeline",
-	api.CampaignTimelineHandler,
+	campaignapi.CampaignTimelineHandler,
 )
 
 http.HandleFunc(
 	"/api/ioc-trends",
-	api.IOCTrendsHandler,
+	iocapi.IOCTrendsHandler,
 )
 
 http.HandleFunc(
 	"/api/investigation-summary",
-	api.InvestigationSummaryHandler,
+	investigationapi.InvestigationSummaryHandler,
 )
 
 http.HandleFunc(
 	"/api/notes",
-	api.SaveNoteHandler,
+	notesapi.SaveNoteHandler,
 )
 
 http.HandleFunc(
 	"/api/get-notes",
-	api.GetNotesHandler,
+	notesapi.GetNotesHandler,
 )
 http.HandleFunc(
 	"/api/ioc-reputation",
-	api.IOCReputationHandler,
+	threatintelapi.IOCReputationHandler,
 )
 
 http.HandleFunc(
 	"/api/sandbox-jobs",
-	api.GetSandboxJobsHandler,
+	sandboxapi.GetSandboxJobsHandler,
 )
 
 http.HandleFunc(
 	"/api/sandbox-report/",
-	api.GetSandboxReportHandler,
+	sandboxapi.GetSandboxReportHandler,
 )
 
 http.HandleFunc(
 	"/api/threat-intel",
-	api.ThreatIntelHandler,
+	threatintelapi.ThreatIntelHandler,
 )
 
 http.HandleFunc(
 	"/api/export-report",
-	api.ExportReportHandler,
+	reportapi.ExportReportHandler,
 )
 
 http.HandleFunc(
@@ -225,7 +236,7 @@ http.HandleFunc(
 
 http.HandleFunc(
 	"/api/system-health",
-	api.GetSystemHealthHandler,
+	systemapi.GetSystemHealthHandler,
 )
 
 	// Home Route

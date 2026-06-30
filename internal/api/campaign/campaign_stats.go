@@ -1,26 +1,18 @@
-package api
+package campaign
 
 import (
 	"encoding/json"
 	"net/http"
-
-	"phishing-platform/database"
+	campaignrepo "phishing-platform/database/campaign"
 )
 
-func IOCReputationHandler(
+func CampaignStatsHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
 
-	ioc :=
-		r.URL.Query().Get(
-			"ioc",
-		)
-
 	data, err :=
-		database.GetIOCReputation(
-			ioc,
-		)
+		campaignrepo.GetCampaignStats()
 
 	if err != nil {
 

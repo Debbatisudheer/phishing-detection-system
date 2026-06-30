@@ -1,4 +1,4 @@
-package api
+package campaign
 
 import (
 	"encoding/json"

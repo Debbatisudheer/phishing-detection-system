@@ -154,3 +154,94 @@ func TestCheckRedirectURL(t *testing.T) {
 		})
 	}
 }
+
+func TestAnalyzeURL(t *testing.T) {
+
+	tests := []struct {
+		name     string
+		url      string
+		contains []string
+	}{
+		{
+			name: "Redirect URL",
+			url:  "https://bit.ly/test",
+			contains: []string{
+				"Suspicious URL redirection detected",
+			},
+		},
+		{
+			name: "Suspicious TLD",
+			url:  "https://evil.xyz",
+			contains: []string{
+				"WHOIS suspicious TLD detected: .xyz",
+				"Suspicious TLD detected: .xyz",
+			},
+		},
+		{
+			name: "IP URL",
+			url:  "http://192.168.1.1",
+			contains: []string{
+				"IP-based URL detected",
+			},
+		},
+		{
+			name: "Brand Impersonation",
+			url:  "https://paypal-login.com",
+			contains: []string{
+				"Brand impersonation detected: paypal",
+			},
+		},
+		{
+			name: "Lookalike Domain",
+			url:  "https://micr0soft-login.com",
+			contains: []string{
+				"Lookalike domain detected: microsoft",
+			},
+		},
+		{
+			name: "New Domain",
+			url:  "https://security-login.com",
+			contains: []string{
+				"Newly registered domain detected",
+			},
+		},
+		{
+			name: "DNS Reputation",
+			url:  "https://evil.com",
+			contains: []string{
+				"DNS reputation hit: evil.com",
+			},
+		},
+	}
+
+	for _, tc := range tests {
+
+		t.Run(tc.name, func(t *testing.T) {
+
+			result := AnalyzeURL(tc.url)
+
+			for _, expected := range tc.contains {
+
+				found := false
+
+				for _, finding := range result {
+
+					if finding == expected {
+
+						found = true
+						break
+					}
+				}
+
+				if !found {
+
+					t.Errorf(
+						"expected finding %q not found in %v",
+						expected,
+						result,
+					)
+				}
+			}
+		})
+	}
+}

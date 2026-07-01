@@ -8,7 +8,7 @@ func AnalyzeDomain(
 	domain string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	suspiciousTLDs := []string{
 		".xyz",

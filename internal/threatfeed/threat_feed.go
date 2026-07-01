@@ -13,7 +13,7 @@ func CheckThreatFeed(
 	url string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	url = strings.ToLower(
 		url,

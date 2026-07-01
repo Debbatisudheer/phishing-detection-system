@@ -50,7 +50,7 @@ func CheckPhishTank(
 	url string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	url = strings.ToLower(
 		url,

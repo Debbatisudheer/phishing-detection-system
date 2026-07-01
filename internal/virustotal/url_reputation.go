@@ -20,7 +20,7 @@ func CheckURLReputation(
 	jsonData []byte,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	var response VTURLResponse
 

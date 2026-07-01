@@ -30,7 +30,7 @@ func CheckHashReputation(
 		}
 	}
 
-	var findings []string
+	findings := []string{}
 
 	var response VTResponse
 

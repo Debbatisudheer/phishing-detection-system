@@ -5,6 +5,8 @@ import (
 	"os"
 )
 
+var marshalJSON = json.MarshalIndent
+
 type IOCReport struct {
 	Sender      string   `json:"sender"`
 	URLs        []string `json:"urls"`
@@ -21,12 +23,11 @@ func ExportIOC(
 	filename string,
 ) error {
 
-	data, err :=
-		json.MarshalIndent(
-			report,
-			"",
-			"  ",
-		)
+	data, err := marshalJSON(
+		report,
+		"",
+		"  ",
+	)
 
 	if err != nil {
 		return err

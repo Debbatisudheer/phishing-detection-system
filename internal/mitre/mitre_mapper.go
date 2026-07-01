@@ -86,16 +86,15 @@ func MapFileTechniques(
 		}
 	}
 
-	var techniques []string
+	techniques := []string{}
 
-	for technique :=
-		range techniqueMap {
+for technique := range techniqueMap {
 
-		techniques = append(
-			techniques,
-			technique,
-		)
-	}
+	techniques = append(
+		techniques,
+		technique,
+	)
+}
 
-	return techniques
+return techniques
 }

@@ -3,40 +3,37 @@ package sandbox
 import "strings"
 
 func AnalyzeNetworkActivity(
-	content string,
+    content string,
 ) []string {
 
-	var findings []string
+    var findings []string
 
-	if strings.Contains(
-		content,
-		"http://",
-	) || strings.Contains(
-		content,
-		"https://",
-	) {
+    content = strings.ToLower(content)
 
-		findings = append(
-			findings,
-			"Network Activity: Outbound Connection Detected",
-		)
+    if strings.Contains(content, "http://") ||
+        strings.Contains(content, "https://") {
 
-		findings = append(
-			findings,
-			"Network Activity: Internet Communication",
-		)
-	}
+        findings = append(
+            findings,
+            "Network Activity: Outbound Connection Detected",
+        )
 
-	if strings.Contains(
-		content,
-		"invoke-webrequest",
-	) {
+        findings = append(
+            findings,
+            "Network Activity: Internet Communication",
+        )
+    }
 
-		findings = append(
-			findings,
-			"Network Activity: Potential Payload Download",
-		)
-	}
+    if strings.Contains(
+        content,
+        "invoke-webrequest",
+    ) {
 
-	return findings
+        findings = append(
+            findings,
+            "Network Activity: Potential Payload Download",
+        )
+    }
+
+    return findings
 }

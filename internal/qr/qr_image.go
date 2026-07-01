@@ -14,7 +14,7 @@ func DecodeQRImage(
 	filePath string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	file, err := os.Open(filePath)
 	if err != nil {

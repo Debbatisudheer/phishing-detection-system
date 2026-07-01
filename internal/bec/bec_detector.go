@@ -9,7 +9,7 @@ func DetectBEC(
 	body string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	text :=
 		strings.ToLower(

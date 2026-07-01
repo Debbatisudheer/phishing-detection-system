@@ -8,7 +8,7 @@ func AnalyzeAttachments(
 	attachments []string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	for _, file := range attachments {
 

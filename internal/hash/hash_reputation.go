@@ -13,7 +13,7 @@ func CheckHashReputation(
 	hash string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	if MaliciousHashes[hash] {
 

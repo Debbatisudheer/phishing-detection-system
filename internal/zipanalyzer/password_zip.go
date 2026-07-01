@@ -9,7 +9,7 @@ func DetectPasswordProtectedZIP(
 	body string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	content :=
 		strings.ToLower(

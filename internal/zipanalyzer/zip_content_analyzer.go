@@ -8,7 +8,7 @@ func AnalyzeZIPFileContents(
 	files []string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	for _, file := range files {
 

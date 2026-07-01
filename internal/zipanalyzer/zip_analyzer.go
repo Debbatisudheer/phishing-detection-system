@@ -8,7 +8,7 @@ func AnalyzeZIPContents(
 	fileName string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	fileName = strings.ToLower(
 		fileName,

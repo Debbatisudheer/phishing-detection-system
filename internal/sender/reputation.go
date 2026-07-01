@@ -6,7 +6,7 @@ func CheckSenderReputation(
 	sender string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	sender = strings.ToLower(sender)
 

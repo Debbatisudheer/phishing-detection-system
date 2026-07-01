@@ -171,7 +171,7 @@ func DetectLookalikeDomain(
 	host string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	host = strings.ToLower(host)
 

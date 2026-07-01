@@ -6,7 +6,7 @@ func CheckDomainAge(
 	host string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	if strings.Contains(
 		host,

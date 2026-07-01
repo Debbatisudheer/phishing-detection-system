@@ -8,7 +8,7 @@ func CheckSenderHistory(
 	sender string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	var count int
 

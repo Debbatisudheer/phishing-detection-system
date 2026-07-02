@@ -1,0 +1,12 @@
+{
+  "sender": "PayPal Support \u003csupport@evil-paypal.xyz\u003e",
+  "urls": [
+    "https://evil.com/login"
+  ],
+  "domains": [],
+  "hashes": [],
+  "attachments": [],
+  "mitre": "T1566 - Phishing",
+  "risk_score": 1000,
+  "risk_level": "CRITICAL"
+}

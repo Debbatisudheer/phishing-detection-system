@@ -1022,17 +1022,42 @@ VALUES (
 	)
 
 	// WebSocket Broadcast
-	event := map[string]interface{}{
-		"sender":          senderEmail,
-		"subject":         subject,
-		"risk_score":      riskScore,
-		"decision":        decisionResult,
-		"mitre_technique": mitreTechnique,
+	// -------------------------
+// WebSocket Broadcast
+// -------------------------
+
+event := map[string]interface{}{
+	"sender":          senderEmail,
+	"subject":         subject,
+	"risk_score":      riskScore,
+	"decision":        decisionResult,
+	"mitre_technique": mitreTechnique,
+}
+
+eventJSON, err := json.Marshal(event)
+
+if err != nil {
+
+	fmt.Println(
+		"WebSocket JSON Marshal Error:",
+		err,
+	)
+
+} else {
+
+	select {
+
+	case websocket.Broadcast <- eventJSON:
+
+		fmt.Println(
+			"WebSocket event broadcasted",
+		)
+
+	default:
+
+		fmt.Println(
+			"No WebSocket clients connected. Broadcast skipped.",
+		)
 	}
-
-	eventJSON, _ :=
-		json.Marshal(event)
-
-	websocket.Broadcast <-
-		eventJSON
+}
 }

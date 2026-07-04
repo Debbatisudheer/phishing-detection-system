@@ -14,6 +14,18 @@ func GetSandboxJobsHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	jobs, err :=
 		sandboxrepo.GetSandboxJobs()
 
@@ -28,7 +40,20 @@ func GetSandboxJobsHandler(
 		return
 	}
 
-	json.NewEncoder(w).Encode(
+	
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		jobs,
 	)
 }
@@ -38,10 +63,33 @@ func GetSandboxReportHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	jobIDString := strings.TrimPrefix(
 		r.URL.Path,
 		"/api/sandbox-report/",
 	)
+
+	if jobIDString == "" {
+
+		http.Error(
+			w,
+			"Missing Job ID",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
 
 	jobID, err := strconv.Atoi(
 		jobIDString,
@@ -79,7 +127,13 @@ func GetSandboxReportHandler(
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		report,
 	)
 }

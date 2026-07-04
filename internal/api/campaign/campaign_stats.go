@@ -3,6 +3,7 @@ package campaign
 import (
 	"encoding/json"
 	"net/http"
+
 	campaignrepo "phishing-platform/database/campaign"
 )
 
@@ -10,6 +11,18 @@ func CampaignStatsHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
+
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
 
 	data, err :=
 		campaignrepo.GetCampaignStats()
@@ -30,7 +43,13 @@ func CampaignStatsHandler(
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		data,
 	)
 }

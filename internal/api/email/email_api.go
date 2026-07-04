@@ -28,6 +28,18 @@ func AnalyzeEmailHandler(
 	r *http.Request,
 ) {
 
+	// Only POST allowed
+	if r.Method != http.MethodPost {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	var req AnalyzeEmailRequest
 
 	err := json.NewDecoder(
@@ -45,13 +57,28 @@ func AnalyzeEmailHandler(
 		return
 	}
 
+	// Validate request
+	if req.Subject == "" &&
+		req.Body == "" {
+
+		http.Error(
+			w,
+			"subject or body is required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
+
 	urls := parser.ExtractURLs(
 		req.Body,
 	)
 
 	// Never return null
 	if urls == nil {
+
 		urls = []string{}
+
 	}
 
 	var findings []string
@@ -87,12 +114,13 @@ func AnalyzeEmailHandler(
 			findings,
 			phishTankFindings...,
 		)
-
 	}
 
 	// Never return null
 	if findings == nil {
+
 		findings = []string{}
+
 	}
 
 	riskScore :=
@@ -119,6 +147,10 @@ func AnalyzeEmailHandler(
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	err = json.NewEncoder(

@@ -12,6 +12,18 @@ func IncidentDashboardHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	stats, err :=
 		incidentrepo.GetIncidentStats()
 
@@ -26,7 +38,18 @@ func IncidentDashboardHandler(
 		return
 	}
 
-	json.NewEncoder(w).Encode(
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		stats,
 	)
 }

@@ -1,16 +1,28 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    alertrepo "phishing-platform/database/alerts"
+	alertrepo "phishing-platform/database/alerts"
 )
 
 func AlertsHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
+
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
 
 	alerts, err :=
 		alertrepo.GetAlerts()
@@ -26,12 +38,35 @@ func AlertsHandler(
 		return
 	}
 
+	if alerts == nil {
+
+		alerts = []map[string]interface{}{}
+
+	}
+
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	err = json.NewEncoder(
+		w,
+	).Encode(
 		alerts,
 	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Failed to encode response",
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
 }

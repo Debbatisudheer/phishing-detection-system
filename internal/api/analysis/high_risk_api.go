@@ -12,6 +12,18 @@ func HighRiskFilesHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	results, err :=
 		analysisrepo.GetHighRiskAnalysisResults()
 
@@ -26,9 +38,20 @@ func HighRiskFilesHandler(
 		return
 	}
 
+	// Never return null
+	if results == nil {
+
+		results = []map[string]interface{}{}
+
+	}
+
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(

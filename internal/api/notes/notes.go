@@ -3,13 +3,14 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+
 	notesrepo "phishing-platform/database/notes"
 )
 
 type AnalystNoteRequest struct {
-	IOC string `json:"ioc"`
+	IOC     string `json:"ioc"`
 	Analyst string `json:"analyst"`
-	Notes string `json:"notes"`
+	Notes   string `json:"notes"`
 }
 
 func SaveNoteHandler(
@@ -17,20 +18,55 @@ func SaveNoteHandler(
 	r *http.Request,
 ) {
 
-var req AnalystNoteRequest
+	// Only POST allowed
+	if r.Method != http.MethodPost {
 
-	json.NewDecoder(
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
+	var req AnalystNoteRequest
+
+	err := json.NewDecoder(
 		r.Body,
 	).Decode(
 		&req,
 	)
 
-	err :=
-		notesrepo.SaveAnalystNote(
-			req.IOC,
-			req.Analyst,
-			req.Notes,
+	if err != nil {
+
+		http.Error(
+			w,
+			"Invalid Request",
+			http.StatusBadRequest,
 		)
+
+		return
+	}
+
+	if req.IOC == "" ||
+		req.Analyst == "" ||
+		req.Notes == "" {
+
+		http.Error(
+			w,
+			"ioc, analyst and notes are required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
+
+	err = notesrepo.SaveAnalystNote(
+		req.IOC,
+		req.Analyst,
+		req.Notes,
+	)
 
 	if err != nil {
 
@@ -43,10 +79,21 @@ var req AnalystNoteRequest
 		return
 	}
 
-	w.Write(
-		[]byte(
-			"Note Saved",
-		),
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusCreated,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
+		map[string]string{
+			"message": "Note Saved",
+		},
 	)
 }
 
@@ -55,15 +102,36 @@ func GetNotesHandler(
 	r *http.Request,
 ) {
 
-	ioc :=
-		r.URL.Query().Get(
-			"ioc",
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
 		)
 
-	data, err :=
-		notesrepo.GetAnalystNotes(
-			ioc,
+		return
+	}
+
+	ioc := r.URL.Query().Get(
+		"ioc",
+	)
+
+	if ioc == "" {
+
+		http.Error(
+			w,
+			"ioc is required",
+			http.StatusBadRequest,
 		)
+
+		return
+	}
+
+	data, err := notesrepo.GetAnalystNotes(
+		ioc,
+	)
 
 	if err != nil {
 
@@ -76,7 +144,24 @@ func GetNotesHandler(
 		return
 	}
 
-	json.NewEncoder(w).Encode(
+	if data == nil {
+
+		data = []map[string]interface{}{}
+
+	}
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		data,
 	)
 }

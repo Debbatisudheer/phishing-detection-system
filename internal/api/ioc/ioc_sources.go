@@ -1,10 +1,10 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    threatrepo "phishing-platform/database/threatintel"
+	threatrepo "phishing-platform/database/threatintel"
 )
 
 func IOCSourcesHandler(
@@ -12,10 +12,33 @@ func IOCSourcesHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	ioc :=
 		r.URL.Query().Get(
 			"ioc",
 		)
+
+	if ioc == "" {
+
+		http.Error(
+			w,
+			"ioc is required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
 
 	data, err :=
 		threatrepo.GetIOCSources(
@@ -36,6 +59,10 @@ func IOCSourcesHandler(
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(

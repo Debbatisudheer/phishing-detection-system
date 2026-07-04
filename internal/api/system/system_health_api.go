@@ -12,6 +12,18 @@ func GetSystemHealthHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	lastCleanup := "Never"
 
 	if !database.LastCleanupTime.IsZero() {
@@ -39,7 +51,24 @@ func GetSystemHealthHandler(
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	err := json.NewEncoder(
+		w,
+	).Encode(
 		response,
 	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Failed to encode response",
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
 }

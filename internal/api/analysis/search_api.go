@@ -12,10 +12,30 @@ func SearchHandler(
 	r *http.Request,
 ) {
 
-	query :=
-		r.URL.Query().Get(
-			"q",
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
 		)
+
+		return
+	}
+
+	query := r.URL.Query().Get("q")
+
+	if query == "" {
+
+		http.Error(
+			w,
+			"search query is required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
 
 	results, err :=
 		searchrepo.SearchAnalysisResults(
@@ -36,6 +56,10 @@ func SearchHandler(
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(

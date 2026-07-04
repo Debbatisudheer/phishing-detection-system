@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	 caserepo "phishing-platform/database/cases"
+	caserepo "phishing-platform/database/cases"
 )
 
 type CreateCaseRequest struct {
@@ -23,31 +23,53 @@ func CreateCaseHandler(
 	r *http.Request,
 ) {
 
+	// Only POST allowed
+	if r.Method != http.MethodPost {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	var req CreateCaseRequest
 
-	err :=
-		json.NewDecoder(
-			r.Body,
-		).Decode(
-			&req,
-		)
+	err := json.NewDecoder(
+		r.Body,
+	).Decode(
+		&req,
+	)
 
 	if err != nil {
 
 		http.Error(
 			w,
-			err.Error(),
+			"Invalid Request",
 			http.StatusBadRequest,
 		)
 
 		return
 	}
 
-	err =
-		caserepo.CreateCase(
-			req.FileName,
-			req.Analyst,
+	if req.FileName == "" ||
+		req.Analyst == "" {
+
+		http.Error(
+			w,
+			"file_name and analyst are required",
+			http.StatusBadRequest,
 		)
+
+		return
+	}
+
+	err = caserepo.CreateCase(
+		req.FileName,
+		req.Analyst,
+	)
 
 	if err != nil {
 
@@ -60,6 +82,15 @@ func CreateCaseHandler(
 		return
 	}
 
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusCreated,
+	)
+
 	json.NewEncoder(w).Encode(
 		map[string]string{
 			"message": "Case created",
@@ -71,6 +102,18 @@ func GetCasesHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
+
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
 
 	cases, err :=
 		caserepo.GetAllCases()
@@ -86,9 +129,19 @@ func GetCasesHandler(
 		return
 	}
 
+	if cases == nil {
+
+		cases = []map[string]interface{}{}
+
+	}
+
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(
@@ -101,38 +154,59 @@ func UpdateCaseHandler(
 	r *http.Request,
 ) {
 
-	id :=
-		strings.TrimPrefix(
-			r.URL.Path,
-			"/api/case-details/",
-		)
-
-	var req UpdateCaseRequest
-
-	err :=
-		json.NewDecoder(
-			r.Body,
-		).Decode(
-			&req,
-		)
-
-	if err != nil {
+	// Only PUT allowed
+	if r.Method != http.MethodPut {
 
 		http.Error(
 			w,
-			err.Error(),
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
+	// Fixed route
+	id := strings.TrimPrefix(
+		r.URL.Path,
+		"/api/case/",
+	)
+
+	if id == "" {
+
+		http.Error(
+			w,
+			"Missing case id",
 			http.StatusBadRequest,
 		)
 
 		return
 	}
 
-	err =
-		caserepo.UpdateCase(
-			id,
-			req.Status,
-			req.Notes,
+	var req UpdateCaseRequest
+
+	err := json.NewDecoder(
+		r.Body,
+	).Decode(
+		&req,
+	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Invalid Request",
+			http.StatusBadRequest,
 		)
+
+		return
+	}
+
+	err = caserepo.UpdateCase(
+		id,
+		req.Status,
+		req.Notes,
+	)
 
 	if err != nil {
 
@@ -144,6 +218,15 @@ func UpdateCaseHandler(
 
 		return
 	}
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
 
 	json.NewEncoder(w).Encode(
 		map[string]string{
@@ -157,11 +240,33 @@ func GetCaseHandler(
 	r *http.Request,
 ) {
 
-	id :=
-		strings.TrimPrefix(
-			r.URL.Path,
-			"/api/case-details/",
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
 		)
+
+		return
+	}
+
+	id := strings.TrimPrefix(
+		r.URL.Path,
+		"/api/case-details/",
+	)
+
+	if id == "" {
+
+		http.Error(
+			w,
+			"Missing case id",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
 
 	caseData, err :=
 		caserepo.GetCaseByID(
@@ -172,7 +277,7 @@ func GetCaseHandler(
 
 		http.Error(
 			w,
-			err.Error(),
+			"Case not found",
 			http.StatusNotFound,
 		)
 
@@ -182,6 +287,10 @@ func GetCaseHandler(
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(
@@ -194,16 +303,37 @@ func CloseCaseHandler(
 	r *http.Request,
 ) {
 
-	id :=
-		strings.TrimPrefix(
-			r.URL.Path,
-			"/api/case-close/",
+	// Only POST allowed
+	if r.Method != http.MethodPost {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
 		)
 
-	err :=
-		caserepo.CloseCase(
-			id,
+		return
+	}
+
+	id := strings.TrimPrefix(
+		r.URL.Path,
+		"/api/case-close/",
+	)
+
+	if id == "" {
+
+		http.Error(
+			w,
+			"Missing case id",
+			http.StatusBadRequest,
 		)
+
+		return
+	}
+
+	err := caserepo.CloseCase(
+		id,
+	)
 
 	if err != nil {
 
@@ -215,6 +345,15 @@ func CloseCaseHandler(
 
 		return
 	}
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
 
 	json.NewEncoder(w).Encode(
 		map[string]string{

@@ -12,7 +12,7 @@ URLs:
 [https://evil.com/login]
 
 Findings:
-[Sandbox behavior: Network communication YARA rule matched: URL Indicator Reply-To mismatch detected Return-Path mismatch detected Display name spoofing detected: paypal SPF FAIL DKIM FAIL DMARC FAIL Suspicious sender reputation detected Repeated malicious sender detected DNS reputation hit: evil.com URL found in reputation database Known malicious domain detected: evil.com]
+[Sandbox behavior: Network communication YARA rule matched: URL Indicator Reply-To mismatch detected Return-Path mismatch detected Display name spoofing detected: paypal SPF FAIL DKIM FAIL DMARC FAIL Suspicious sender reputation detected Repeated malicious sender detected Potential phishing campaign detected DNS reputation hit: evil.com URL found in reputation database Known malicious domain detected: evil.com]
 
 Risk Score:
 1000

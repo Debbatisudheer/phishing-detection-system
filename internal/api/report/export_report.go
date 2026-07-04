@@ -12,6 +12,18 @@ func ExportReportHandler(
 	r *http.Request,
 ) {
 
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
 	var fileName string
 	var riskScore int
 	var riskLevel string
@@ -19,47 +31,25 @@ func ExportReportHandler(
 	var findings string
 	var mitre string
 
-	err :=
-		database.DB.QueryRow(`
-			SELECT
-				file_name,
-				risk_score,
-				risk_level,
-				verdict,
-				findings,
-				mitre
-			FROM sandbox_reports
-			ORDER BY id DESC
-			LIMIT 1
-		`).Scan(
-			&fileName,
-			&riskScore,
-			&riskLevel,
-			&verdict,
-			&findings,
-			&mitre,
-		)
-
-	if err != nil {
-
-		http.Error(
-			w,
-			err.Error(),
-			http.StatusInternalServerError,
-		)
-
-		return
-	}
-
-	err =
-		report.GeneratePDFReport(
-			fileName,
-			riskScore,
-			riskLevel,
+	err := database.DB.QueryRow(`
+		SELECT
+			file_name,
+			risk_score,
+			risk_level,
 			verdict,
 			findings,
-			mitre,
-		)
+			mitre
+		FROM sandbox_reports
+		ORDER BY id DESC
+		LIMIT 1
+	`).Scan(
+		&fileName,
+		&riskScore,
+		&riskLevel,
+		&verdict,
+		&findings,
+		&mitre,
+	)
 
 	if err != nil {
 
@@ -71,10 +61,39 @@ func ExportReportHandler(
 
 		return
 	}
+
+	err = report.GeneratePDFReport(
+		fileName,
+		riskScore,
+		riskLevel,
+		verdict,
+		findings,
+		mitre,
+	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			err.Error(),
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
 
 	w.Write(
 		[]byte(
-			"PDF Report Generated Successfully",
+			`{"message":"PDF Report Generated Successfully"}`,
 		),
 	)
 }

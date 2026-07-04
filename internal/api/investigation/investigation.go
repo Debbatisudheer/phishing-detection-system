@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+
 	investigationrepo "phishing-platform/database/investigation"
 )
 
@@ -11,10 +12,32 @@ func InvestigationSummaryHandler(
 	r *http.Request,
 ) {
 
-	ioc :=
-		r.URL.Query().Get(
-			"ioc",
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
 		)
+
+		return
+	}
+
+	ioc := r.URL.Query().Get(
+		"ioc",
+	)
+
+	if ioc == "" {
+
+		http.Error(
+			w,
+			"ioc is required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
 
 	data, err :=
 		investigationrepo.GetInvestigationSummary(
@@ -37,7 +60,13 @@ func InvestigationSummaryHandler(
 		"application/json",
 	)
 
-	json.NewEncoder(w).Encode(
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	json.NewEncoder(
+		w,
+	).Encode(
 		data,
 	)
 }

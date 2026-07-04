@@ -1,10 +1,10 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 
-    dashboardrepo "phishing-platform/database/dashboard"
+	dashboardrepo "phishing-platform/database/dashboard"
 )
 
 type DashboardResponse struct {
@@ -19,6 +19,18 @@ func DashboardHandler(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
+
+	// Only GET allowed
+	if r.Method != http.MethodGet {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
 
 	total,
 		allow,
@@ -39,18 +51,21 @@ func DashboardHandler(
 		return
 	}
 
-	response :=
-		DashboardResponse{
-			TotalAnalyzed: total,
-			Allow:         allow,
-			Suspicious:    suspicious,
-			Quarantine:    quarantine,
-			Critical:      critical,
-		}
+	response := DashboardResponse{
+		TotalAnalyzed: total,
+		Allow:         allow,
+		Suspicious:    suspicious,
+		Quarantine:    quarantine,
+		Critical:      critical,
+	}
 
 	w.Header().Set(
 		"Content-Type",
 		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
 	)
 
 	json.NewEncoder(w).Encode(

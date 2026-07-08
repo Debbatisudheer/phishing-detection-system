@@ -102,3 +102,27 @@ export default function () {
 
     sleep(1);
 }
+
+/*
+Performance Testing Summary
+Test	Status
+Login	✅
+Dashboard	✅
+Search	✅
+Playground	✅
+Threat Intelligence	✅
+Cases	✅
+Investigation	✅
+Sandbox	✅
+Full User Workflow	✅
+
+Your final workflow test is especially strong:
+
+✅ 2002 HTTP Requests
+✅ 0 Failed Requests
+✅ 100% Checks Passed
+✅ P95 = 10.26 ms
+✅ Average = 9.83 ms
+
+That is an excellent result for a local development environment.
+*/

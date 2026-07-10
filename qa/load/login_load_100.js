@@ -58,3 +58,26 @@ export default function () {
     sleep(1);
 
 }
+
+/*
+
+100 Virtual Users Load Test Results
+Metric	Result	Status
+Max Virtual Users	100	✅
+Duration	3 minutes	✅
+Total Requests	14,924	✅
+Failed Requests	0%	🟢
+Successful Checks	100%	🟢
+Average Response Time	7.83 ms	🟢
+Median	1.23 ms	🟢
+P95	4.39 ms	🟢
+Maximum	1.3 s	Acceptable (rare outlier)
+Verdict
+✅ 100 concurrent users handled successfully
+✅ Nearly 15,000 requests
+✅ Zero failures
+✅ P95 well below the 1-second threshold
+✅ System remained stable
+
+At this point, your backend has demonstrated solid performance under moderate concurrent load.
+*/

@@ -5,12 +5,46 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"phishing-platform/database"
 	reportapi "phishing-platform/internal/api/report"
 )
 
 func TestReportAPI(t *testing.T) {
 
 	setupDatabase()
+
+	// Clean old data
+	_, err := database.DB.Exec(`
+		DELETE FROM sandbox_reports
+	`)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Insert one report for testing
+	_, err = database.DB.Exec(`
+		INSERT INTO sandbox_reports
+		(
+			file_name,
+			risk_score,
+			risk_level,
+			verdict,
+			findings,
+			mitre
+		)
+		VALUES
+		(
+			'sample.pdf',
+			900,
+			'CRITICAL',
+			'QUARANTINE',
+			'Test Findings',
+			'T1566'
+		)
+	`)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	tests := []struct {
 		name           string
@@ -49,10 +83,11 @@ func TestReportAPI(t *testing.T) {
 			if rec.Code != tc.expectedStatus {
 
 				t.Fatalf(
-					"%s expected %d got %d",
+					"%s expected %d got %d\nResponse: %s",
 					tc.name,
 					tc.expectedStatus,
 					rec.Code,
+					rec.Body.String(),
 				)
 			}
 		})

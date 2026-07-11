@@ -1,9 +1,9 @@
 {
   "type": "indicator",
   "spec_version": "2.1",
-  "id": "indicator--2026-07-04T08:26:16Z",
-  "created": "2026-07-04T08:26:16Z",
-  "modified": "2026-07-04T08:26:16Z",
+  "id": "indicator--2026-07-11T07:29:27Z",
+  "created": "2026-07-11T07:29:27Z",
+  "modified": "2026-07-11T07:29:27Z",
   "name": "Malicious URL",
   "pattern": "[url:value = 'https://evil.com/login']",
   "pattern_type": "stix"

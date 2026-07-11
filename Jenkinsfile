@@ -35,21 +35,40 @@ pipeline {
             }
         }
 
-        stage('Database Check') {
+        stage('Verify Database') {
             steps {
                 sh '''
                     echo "========== DATABASE ENV =========="
                     echo "DB_HOST=$DB_HOST"
                     echo "DB_PORT=$DB_PORT"
                     echo "DB_USER=$DB_USER"
-                    echo "DB_PASSWORD=$DB_PASSWORD"
                     echo "DB_NAME=$DB_NAME"
 
                     echo "========== DNS =========="
-                    getent hosts postgres-ci || true
+                    getent hosts $DB_HOST || true
 
-                    echo "========== RUNNING CONTAINERS =========="
+                    echo "========== CONTAINERS =========="
                     docker ps
+                '''
+            }
+        }
+
+        stage('Import Database Schema') {
+            steps {
+                sh '''
+                    echo "Waiting for PostgreSQL..."
+
+                    until docker exec postgres-ci pg_isready -U postgres
+                    do
+                      sleep 2
+                    done
+
+                    echo "Importing schema..."
+
+                    docker exec -i postgres-ci psql \
+                      -U postgres \
+                      -d phishing_platform \
+                      < database/schema.sql
                 '''
             }
         }
@@ -74,27 +93,28 @@ pipeline {
             }
         }
 
-        stage('Run Backend Tests') {
+        stage('Backend Tests') {
             steps {
                 sh '''
                     go test ./... -v
                 '''
             }
         }
+
     }
 
     post {
 
         success {
-            echo '====================================='
-            echo 'CI BUILD SUCCESSFUL'
-            echo '====================================='
+            echo "====================================="
+            echo "CI BUILD SUCCESSFUL"
+            echo "====================================="
         }
 
         failure {
-            echo '====================================='
-            echo 'CI BUILD FAILED'
-            echo '====================================='
+            echo "====================================="
+            echo "CI BUILD FAILED"
+            echo "====================================="
         }
 
         always {

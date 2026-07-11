@@ -7,7 +7,6 @@ pipeline {
 
     environment {
         GO111MODULE = 'on'
-        NODE_ENV = 'production'
     }
 
     stages {
@@ -35,28 +34,15 @@ pipeline {
         }
 
         stage('Frontend Build') {
-    steps {
-        dir('frontend') {
-            sh '''
-                pwd
-
-                npm config list
-
-                npm root
-
-                npm prefix
-
-                npm install
-
-                ls -la
-
-                ls -la node_modules || true
-
-                ls -la node_modules/.bin || true
-            '''
+            steps {
+                dir('frontend') {
+                    sh '''
+                        npm install --include=dev
+                        npm run build
+                    '''
+                }
+            }
         }
-    }
-}
 
         stage('Backend Tests') {
             steps {
@@ -67,12 +53,19 @@ pipeline {
 
     post {
         success {
-            echo 'CI BUILD SUCCESSFUL'
+            echo '====================================='
+            echo ' CI BUILD SUCCESSFUL '
+            echo '====================================='
         }
 
         failure {
-            echo 'CI BUILD FAILED'
+            echo '====================================='
+            echo ' CI BUILD FAILED '
+            echo '====================================='
         }
 
+        always {
+            cleanWs()
+        }
     }
 }

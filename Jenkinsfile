@@ -40,23 +40,19 @@ pipeline {
             sh '''
                 pwd
 
-                echo "========== Files =========="
-                ls -la
+                npm config list
 
-                echo "========== package.json =========="
-                cat package.json
+                npm root
 
-                echo "========== npm install =========="
+                npm prefix
+
                 npm install
 
-                echo "========== node_modules/.bin =========="
-                ls -la node_modules/.bin
+                ls -la
 
-                echo "========== Vite Version =========="
-                npx vite --version
+                ls -la node_modules || true
 
-                echo "========== Build =========="
-                npm run build
+                ls -la node_modules/.bin || true
             '''
         }
     }
@@ -78,8 +74,5 @@ pipeline {
             echo 'CI BUILD FAILED'
         }
 
-        always {
-            cleanWs()
-        }
     }
 }

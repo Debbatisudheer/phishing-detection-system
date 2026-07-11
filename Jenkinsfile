@@ -3,13 +3,7 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Environment') {
+        stage('Environment Check') {
             steps {
                 sh 'git --version'
                 sh 'go version'
@@ -21,7 +15,7 @@ pipeline {
         stage('Backend Build') {
             steps {
                 sh 'go mod download'
-                sh 'go build -v ./...'
+                sh 'go build ./...'
             }
         }
 
@@ -34,15 +28,5 @@ pipeline {
             }
         }
 
-    }
-
-    post {
-        success {
-            echo '✅ Build Successful!'
-        }
-
-        failure {
-            echo '❌ Build Failed!'
-        }
     }
 }

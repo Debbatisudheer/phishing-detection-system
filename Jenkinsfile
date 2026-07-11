@@ -35,13 +35,28 @@ pipeline {
         }
 
         stage('Frontend Build') {
-            steps {
-                dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
-            }
-        }
+    dir('frontend') {
+        sh '''
+            pwd
+            ls -la
+
+            echo "========== package.json =========="
+            cat package.json
+
+            echo "========== npm install =========="
+            npm install
+
+            echo "========== node_modules/.bin =========="
+            ls -la node_modules/.bin
+
+            echo "========== vite =========="
+            npx vite --version
+
+            echo "========== build =========="
+            npm run build
+        '''
+    }
+}
 
         stage('Backend Tests') {
             steps {

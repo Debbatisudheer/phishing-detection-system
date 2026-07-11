@@ -35,26 +35,30 @@ pipeline {
         }
 
         stage('Frontend Build') {
-    dir('frontend') {
-        sh '''
-            pwd
-            ls -la
+    steps {
+        dir('frontend') {
+            sh '''
+                pwd
 
-            echo "========== package.json =========="
-            cat package.json
+                echo "========== Files =========="
+                ls -la
 
-            echo "========== npm install =========="
-            npm install
+                echo "========== package.json =========="
+                cat package.json
 
-            echo "========== node_modules/.bin =========="
-            ls -la node_modules/.bin
+                echo "========== npm install =========="
+                npm install
 
-            echo "========== vite =========="
-            npx vite --version
+                echo "========== node_modules/.bin =========="
+                ls -la node_modules/.bin
 
-            echo "========== build =========="
-            npm run build
-        '''
+                echo "========== Vite Version =========="
+                npx vite --version
+
+                echo "========== Build =========="
+                npm run build
+            '''
+        }
     }
 }
 

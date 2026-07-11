@@ -25,30 +25,31 @@ pipeline {
 
         stage('Environment Check') {
             steps {
-                sh 'git --version'
-                sh 'go version'
-                sh 'node -v'
-                sh 'npm -v'
-                sh 'docker --version'
+                sh '''
+                    git --version
+                    go version
+                    node -v
+                    npm -v
+                    docker --version
+                '''
             }
         }
 
-        stage('Start PostgreSQL') {
+        stage('Database Check') {
             steps {
                 sh '''
-                    docker rm -f postgres-ci || true
+                    echo "========== DATABASE ENV =========="
+                    echo "DB_HOST=$DB_HOST"
+                    echo "DB_PORT=$DB_PORT"
+                    echo "DB_USER=$DB_USER"
+                    echo "DB_PASSWORD=$DB_PASSWORD"
+                    echo "DB_NAME=$DB_NAME"
 
-                    docker run -d \
-                      --name postgres-ci \
-                      -e POSTGRES_USER=postgres \
-                      -e POSTGRES_PASSWORD=postgres \
-                      -e POSTGRES_DB=phishing_platform \
-                      -p 5432:5432 \
-                      postgres:17
+                    echo "========== DNS =========="
+                    getent hosts postgres-ci || true
 
-                    echo "Waiting for PostgreSQL..."
-
-                    sleep 15
+                    echo "========== RUNNING CONTAINERS =========="
+                    docker ps
                 '''
             }
         }
@@ -73,7 +74,7 @@ pipeline {
             }
         }
 
-        stage('Run All Tests') {
+        stage('Run Backend Tests') {
             steps {
                 sh '''
                     go test ./... -v
@@ -85,23 +86,18 @@ pipeline {
     post {
 
         success {
-            echo "====================================="
-            echo "CI BUILD SUCCESSFUL"
-            echo "====================================="
+            echo '====================================='
+            echo 'CI BUILD SUCCESSFUL'
+            echo '====================================='
         }
 
         failure {
-            echo "====================================="
-            echo "CI BUILD FAILED"
-            echo "====================================="
+            echo '====================================='
+            echo 'CI BUILD FAILED'
+            echo '====================================='
         }
 
         always {
-
-            sh '''
-                docker rm -f postgres-ci || true
-            '''
-
             cleanWs()
         }
     }

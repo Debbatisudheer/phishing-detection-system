@@ -47,7 +47,7 @@ pipeline {
                     echo "========== DNS =========="
                     getent hosts $DB_HOST || true
 
-                    echo "========== CONTAINERS =========="
+                    echo "========== RUNNING CONTAINERS =========="
                     docker ps
                 '''
             }
@@ -60,15 +60,16 @@ pipeline {
 
                     until docker exec postgres-ci pg_isready -U postgres
                     do
-                      sleep 2
+                        sleep 2
                     done
 
                     echo "Importing schema..."
 
-                    docker exec -i postgres-ci psql \
-                      -U postgres \
-                      -d phishing_platform \
-                      < database/schema.sql
+                    docker exec -i postgres-ci \
+                        psql \
+                        -U postgres \
+                        -d phishing_platform \
+                        < database/schema.sql
                 '''
             }
         }
@@ -101,6 +102,19 @@ pipeline {
             }
         }
 
+        stage('UI Tests (Playwright)') {
+            steps {
+                dir('qa') {
+                    sh '''
+                        npm install
+
+                        npx playwright install --with-deps
+
+                        npx playwright test
+                    '''
+                }
+            }
+        }
     }
 
     post {

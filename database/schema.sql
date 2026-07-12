@@ -461,7 +461,7 @@ CREATE TABLE public.sandbox_reports (
     mitre text,
     created_at timestamp without time zone DEFAULT now(),
     file_name text,
-    file_size bigint,
+    file_size BIGINT NOT NULL CHECK (file_size > 0),
     extension text,
     mime_type text,
     md5 text,

@@ -73,15 +73,15 @@ func TestCalculateRisk(t *testing.T) {
 			urls: []string{
 				"https://example.com",
 			},
-			findings: []string{},
+			findings:     []string{},
 			expectedRisk: 40,
 		},
 		{
-			name:    "Urgent Login",
-			subject: "Urgent",
-			body:    "Please login",
-			urls:    []string{},
-			findings: []string{},
+			name:         "Urgent Login",
+			subject:      "Urgent",
+			body:         "Please login",
+			urls:         []string{},
+			findings:     []string{},
 			expectedRisk: 50, // 30 + 20
 		},
 		{

@@ -1,7 +1,7 @@
 package dashboard
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func GetDashboardStats() (
@@ -92,9 +92,9 @@ func GetRecentFindings() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -123,6 +123,3 @@ func GetRecentFindings() (
 
 	return results, nil
 }
-
-
-

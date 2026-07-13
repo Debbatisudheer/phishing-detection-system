@@ -23,9 +23,9 @@ func TestAnalyzeMacroContent(t *testing.T) {
 			name:    "PowerShell",
 			content: "powershell -enc abc",
 			expected: []string{
-    "Suspicious macro detected: shell",
-    "Suspicious macro detected: powershell",
-},
+				"Suspicious macro detected: shell",
+				"Suspicious macro detected: powershell",
+			},
 		},
 		{
 			name:    "Shell",
@@ -39,20 +39,20 @@ func TestAnalyzeMacroContent(t *testing.T) {
 			name:    "CreateObject",
 			content: "CreateObject(\"WScript.Shell\")",
 			expected: []string{
-    "Suspicious macro detected: shell",
-    "Suspicious macro detected: createobject",
-    "Suspicious macro detected: wscript",
-},
+				"Suspicious macro detected: shell",
+				"Suspicious macro detected: createobject",
+				"Suspicious macro detected: wscript",
+			},
 		},
 		{
 			name:    "Multiple Indicators",
 			content: "AutoOpen powershell cmd.exe",
 			expected: []string{
-    "Suspicious macro detected: autoopen",
-    "Suspicious macro detected: shell",
-    "Suspicious macro detected: powershell",
-    "Suspicious macro detected: cmd.exe",
-},
+				"Suspicious macro detected: autoopen",
+				"Suspicious macro detected: shell",
+				"Suspicious macro detected: powershell",
+				"Suspicious macro detected: cmd.exe",
+			},
 		},
 		{
 			name:     "Safe Macro",

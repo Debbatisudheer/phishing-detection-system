@@ -2,12 +2,12 @@ package sandbox
 
 import (
 	"os"
-	"strings"
 	iocrepo "phishing-platform/database/ioc"
 	"phishing-platform/internal/hash"
 	"phishing-platform/internal/macroanalyzer"
 	"phishing-platform/internal/virustotal"
 	"phishing-platform/internal/yara"
+	"strings"
 )
 
 func AnalyzeSandboxContent(

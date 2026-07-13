@@ -1,7 +1,7 @@
 package alerts
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetAlerts() (

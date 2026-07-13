@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetCampaignTimeline() (
@@ -27,9 +27,9 @@ func GetCampaignTimeline() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 

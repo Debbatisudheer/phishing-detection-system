@@ -16,7 +16,9 @@ func TestLoadPhishTankFeed(t *testing.T) {
 		}
 		defer os.Remove(tmp.Name())
 
-		tmp.WriteString("evil.com\n")
+		if _, err := tmp.WriteString("evil.com\n"); err != nil {
+			t.Fatal(err)
+		}
 		tmp.WriteString("Phishing.com\n")
 		tmp.Close()
 

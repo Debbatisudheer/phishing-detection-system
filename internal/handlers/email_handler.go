@@ -64,18 +64,18 @@ func EmailHandler(w http.ResponseWriter, r *http.Request) {
 	for _, extractedURL := range urls {
 
 		err := iocrepo.SaveIOC(
-	extractedURL,
-	"EMAIL",
-		email.Subject,
-)
+			extractedURL,
+			"EMAIL",
+			email.Subject,
+		)
 
-if err != nil {
+		if err != nil {
 
-	fmt.Println(
-		"IOC Save Error:",
-		err,
-	)
-}
+			fmt.Println(
+				"IOC Save Error:",
+				err,
+			)
+		}
 
 		findings := domain.AnalyzeURL(extractedURL)
 

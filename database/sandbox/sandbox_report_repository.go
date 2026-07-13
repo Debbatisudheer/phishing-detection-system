@@ -1,22 +1,22 @@
 package database
 
 import (
-	"time"
 	"fmt"
+	"phishing-platform/database"
 	"phishing-platform/internal/models"
-     "phishing-platform/database"
+	"time"
 )
 
 type SandboxReport struct {
-	ID        int       `json:"id"`
-	JobID     int       `json:"job_id"`
+	ID    int `json:"id"`
+	JobID int `json:"job_id"`
 
-	FileName  string    `json:"file_name"`
-	FileSize  int64     `json:"file_size"`
-	Extension string    `json:"extension"`
-	MIMEType  string    `json:"mime_type"`
-	MD5       string    `json:"md5"`
-	SHA256    string    `json:"sha256"`
+	FileName  string `json:"file_name"`
+	FileSize  int64  `json:"file_size"`
+	Extension string `json:"extension"`
+	MIMEType  string `json:"mime_type"`
+	MD5       string `json:"md5"`
+	SHA256    string `json:"sha256"`
 
 	Findings  string    `json:"findings"`
 	RiskScore int       `json:"risk_score"`
@@ -79,34 +79,34 @@ func SaveSandboxReport(
 
 	if err != nil {
 
-    fmt.Println(
-        "DATABASE INSERT ERROR:",
-        err,
-    )
+		fmt.Println(
+			"DATABASE INSERT ERROR:",
+			err,
+		)
 
-    return err
-}
+		return err
+	}
 
-rows, _ := result.RowsAffected()
+	rows, _ := result.RowsAffected()
 
-fmt.Println(
-    "ROWS INSERTED:",
-    rows,
-)
+	fmt.Println(
+		"ROWS INSERTED:",
+		rows,
+	)
 
-return nil
+	return nil
 }
 
 func GetSandboxReportByID(
-    id int,
+	id int,
 ) (
-    models.SandboxReport,
-    error,
+	models.SandboxReport,
+	error,
 ) {
 
-    var report models.SandboxReport
+	var report models.SandboxReport
 
-    err := database.DB.QueryRow(`
+	err := database.DB.QueryRow(`
         SELECT
             id,
             file_name,
@@ -123,33 +123,33 @@ func GetSandboxReportByID(
         FROM sandbox_reports
         WHERE id=$1
     `, id).Scan(
-        &report.ID,
-        &report.FileName,
-        &report.FileSize,
-        &report.Extension,
-        &report.MimeType,
-        &report.MD5,
-        &report.SHA256,
-        &report.Findings,
-        &report.RiskScore,
-        &report.RiskLevel,
-        &report.Verdict,
-        &report.MITRE,
-    )
+		&report.ID,
+		&report.FileName,
+		&report.FileSize,
+		&report.Extension,
+		&report.MimeType,
+		&report.MD5,
+		&report.SHA256,
+		&report.Findings,
+		&report.RiskScore,
+		&report.RiskLevel,
+		&report.Verdict,
+		&report.MITRE,
+	)
 
-    return report, err
+	return report, err
 }
 
 func GetSandboxReportByJobID(
-    jobID int,
+	jobID int,
 ) (
-    models.SandboxReport,
-    error,
+	models.SandboxReport,
+	error,
 ) {
 
-    var report models.SandboxReport
+	var report models.SandboxReport
 
-    err := database.DB.QueryRow(`
+	err := database.DB.QueryRow(`
         SELECT
             id,
             job_id,
@@ -167,20 +167,20 @@ func GetSandboxReportByJobID(
         FROM sandbox_reports
         WHERE job_id = $1
     `, jobID).Scan(
-        &report.ID,
-        &report.JobID,
-        &report.FileName,
-        &report.FileSize,
-        &report.Extension,
-        &report.MimeType,
-        &report.MD5,
-        &report.SHA256,
-        &report.Findings,
-        &report.RiskScore,
-        &report.RiskLevel,
-        &report.Verdict,
-        &report.MITRE,
-    )
+		&report.ID,
+		&report.JobID,
+		&report.FileName,
+		&report.FileSize,
+		&report.Extension,
+		&report.MimeType,
+		&report.MD5,
+		&report.SHA256,
+		&report.Findings,
+		&report.RiskScore,
+		&report.RiskLevel,
+		&report.Verdict,
+		&report.MITRE,
+	)
 
-    return report, err
+	return report, err
 }

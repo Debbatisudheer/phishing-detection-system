@@ -83,9 +83,9 @@ func main() {
 		cors.Options{
 
 			AllowedOrigins: []string{
-    "http://localhost:5173",
-    "https://phishing-detection-system-iota.vercel.app",
-},
+				"http://localhost:5173",
+				"https://phishing-detection-system-iota.vercel.app",
+			},
 			AllowedMethods: []string{
 
 				"GET",

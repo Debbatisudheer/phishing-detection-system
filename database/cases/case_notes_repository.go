@@ -1,7 +1,7 @@
 package database
 
 import (
-    database "phishing-platform/database"
+	database "phishing-platform/database"
 )
 
 func AddCaseNote(
@@ -60,8 +60,8 @@ func GetCaseNotes(
 		notes = append(
 			notes,
 			map[string]interface{}{
-				"analyst": analyst,
-				"note": note,
+				"analyst":    analyst,
+				"note":       note,
 				"created_at": createdAt,
 			},
 		)

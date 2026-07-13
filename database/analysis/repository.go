@@ -1,7 +1,7 @@
 package analysis
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func SaveAnalysisResult(
@@ -58,9 +58,9 @@ func GetAllAnalysisResults() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -70,8 +70,8 @@ func GetAllAnalysisResults() (
 		var verdict string
 		var findings string
 		var sha256 string
-var urls string
-var mitre string
+		var urls string
+		var mitre string
 
 		rows.Scan(
 			&fileName,
@@ -80,8 +80,8 @@ var mitre string
 			&verdict,
 			&findings,
 			&sha256,
-&urls,
-&mitre,
+			&urls,
+			&mitre,
 		)
 
 		results = append(
@@ -92,9 +92,9 @@ var mitre string
 				"risk_level": riskLevel,
 				"verdict":    verdict,
 				"findings":   findings,
-				"sha256": sha256,
-"urls": urls,
-"mitre": mitre,
+				"sha256":     sha256,
+				"urls":       urls,
+				"mitre":      mitre,
 			},
 		)
 	}
@@ -130,9 +130,9 @@ func GetHighRiskAnalysisResults() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -142,8 +142,8 @@ func GetHighRiskAnalysisResults() (
 		var verdict string
 		var findings string
 		var sha256 string
-var urls string
-var mitre string
+		var urls string
+		var mitre string
 
 		rows.Scan(
 			&fileName,
@@ -152,8 +152,8 @@ var mitre string
 			&verdict,
 			&findings,
 			&sha256,
-&urls,
-&mitre,
+			&urls,
+			&mitre,
 		)
 
 		results = append(
@@ -164,9 +164,9 @@ var mitre string
 				"risk_level": riskLevel,
 				"verdict":    verdict,
 				"findings":   findings,
-				"sha256": sha256,
-"urls": urls,
-"mitre": mitre,
+				"sha256":     sha256,
+				"urls":       urls,
+				"mitre":      mitre,
 			},
 		)
 	}
@@ -179,12 +179,12 @@ func GetAnalysisResultByFileName(
 ) (map[string]interface{}, error) {
 
 	var riskScore int
-var riskLevel string
-var verdict string
-var findings string
-var sha256 string
-var urls string
-var mitre string
+	var riskLevel string
+	var verdict string
+	var findings string
+	var sha256 string
+	var urls string
+	var mitre string
 
 	err := database.DB.QueryRow(
 		`SELECT
@@ -202,12 +202,12 @@ var mitre string
 		fileName,
 	).Scan(
 		&riskScore,
-&riskLevel,
-&verdict,
-&findings,
-&sha256,
-&urls,
-&mitre,
+		&riskLevel,
+		&verdict,
+		&findings,
+		&sha256,
+		&urls,
+		&mitre,
 	)
 
 	if err != nil {
@@ -221,9 +221,9 @@ var mitre string
 			"risk_level": riskLevel,
 			"verdict":    verdict,
 			"findings":   findings,
-			"sha256": sha256,
-"urls": urls,
-"mitre": mitre,
+			"sha256":     sha256,
+			"urls":       urls,
+			"mitre":      mitre,
 		}
 
 	return result, nil

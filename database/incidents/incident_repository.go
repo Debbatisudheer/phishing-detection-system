@@ -1,7 +1,7 @@
 package database
 
 import (
-    database "phishing-platform/database"
+	database "phishing-platform/database"
 )
 
 func GetIncidentStats() (
@@ -29,8 +29,8 @@ func GetIncidentStats() (
 	)
 
 	return map[string]int{
-		"open": open,
+		"open":   open,
 		"closed": closed,
-		"total": open + closed,
+		"total":  open + closed,
 	}, nil
 }

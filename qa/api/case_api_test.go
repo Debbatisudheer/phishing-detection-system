@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"net/http"
 	"net/http/httptest"
-	"testing"
 	caseapi "phishing-platform/internal/api/cases"
+	"testing"
 )
 
 func TestCaseAPI(t *testing.T) {
@@ -139,4 +139,3 @@ func TestCaseAPI(t *testing.T) {
 		})
 	}
 }
-

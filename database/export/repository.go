@@ -1,9 +1,8 @@
 package export
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
-
 
 func ExportIOCs() (
 	map[string]interface{},

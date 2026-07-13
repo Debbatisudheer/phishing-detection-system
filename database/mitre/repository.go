@@ -1,8 +1,8 @@
 package mitre
 
 import (
-    "phishing-platform/database"
-    "strings"
+	"phishing-platform/database"
+	"strings"
 )
 
 func GetMITREStats() (
@@ -50,25 +50,22 @@ func GetMITREStats() (
 				continue
 			}
 
-			techniqueCount[
-				technique,
-			]++
+			techniqueCount[technique]++
 		}
 	}
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
-	for technique, count :=
-		range techniqueCount {
+	for technique, count := range techniqueCount {
 
 		results = append(
 			results,
 			map[string]interface{}{
 				"technique": technique,
-				"count": count,
+				"count":     count,
 			},
 		)
 	}

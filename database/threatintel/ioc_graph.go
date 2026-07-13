@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetIOCGraph() (
@@ -25,9 +25,9 @@ func GetIOCGraph() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -44,9 +44,9 @@ func GetIOCGraph() (
 		results = append(
 			results,
 			map[string]interface{}{
-				"ioc": ioc,
+				"ioc":    ioc,
 				"source": sourceType,
-				"file": fileName,
+				"file":   fileName,
 			},
 		)
 	}

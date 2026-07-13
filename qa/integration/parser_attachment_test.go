@@ -1,9 +1,9 @@
 package integration
 
 import (
+	"path/filepath"
 	"strings"
 	"testing"
-	"path/filepath"
 
 	"phishing-platform/internal/parser"
 )
@@ -48,16 +48,16 @@ THIS_IS_FAKE_EXE_DATA
 	}
 
 	expected := filepath.Join(
-	"uploads",
-	"invoice.exe",
-)
-
-if parsed.Attachments[0] != expected {
-
-	t.Fatalf(
-		"expected %s got %s",
-		expected,
-		parsed.Attachments[0],
+		"uploads",
+		"invoice.exe",
 	)
-}
+
+	if parsed.Attachments[0] != expected {
+
+		t.Fatalf(
+			"expected %s got %s",
+			expected,
+			parsed.Attachments[0],
+		)
+	}
 }

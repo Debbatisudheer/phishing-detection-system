@@ -80,45 +80,45 @@ func ParseRawEmail(
 
 			filename := part.FileName()
 
-if filename != "" {
+			if filename != "" {
 
-	os.MkdirAll(
-		"uploads",
-		0755,
-	)
+				os.MkdirAll(
+					"uploads",
+					0755,
+				)
 
-	savePath :=
-		filepath.Join(
-			"uploads",
-			filename,
-		)
+				savePath :=
+					filepath.Join(
+						"uploads",
+						filename,
+					)
 
-	fileData, err :=
-		io.ReadAll(
-			part,
-		)
+				fileData, err :=
+					io.ReadAll(
+						part,
+					)
 
-	if err == nil {
+				if err == nil {
 
-		os.WriteFile(
-			savePath,
-			fileData,
-			0644,
-		)
+					os.WriteFile(
+						savePath,
+						fileData,
+						0644,
+					)
 
-		fmt.Println(
-			"Saved Attachment:",
-			savePath,
-		)
+					fmt.Println(
+						"Saved Attachment:",
+						savePath,
+					)
 
-		attachments = append(
-			attachments,
-			savePath,
-		)
-	}
+					attachments = append(
+						attachments,
+						savePath,
+					)
+				}
 
-	continue
-}
+				continue
+			}
 
 			partBytes := new(bytes.Buffer)
 
@@ -145,22 +145,22 @@ if filename != "" {
 	}
 
 	parsed := &ParsedEmail{
-	From:        msg.Header.Get("From"),
-	ReplyTo:     msg.Header.Get("Reply-To"),
-	ReturnPath:  msg.Header.Get("Return-Path"),
-	Subject:     msg.Header.Get("Subject"),
-	Body:        body,
-	Attachments: attachments,
-}
-fmt.Println(
-	"Reply-To:",
-	parsed.ReplyTo,
-)
+		From:        msg.Header.Get("From"),
+		ReplyTo:     msg.Header.Get("Reply-To"),
+		ReturnPath:  msg.Header.Get("Return-Path"),
+		Subject:     msg.Header.Get("Subject"),
+		Body:        body,
+		Attachments: attachments,
+	}
+	fmt.Println(
+		"Reply-To:",
+		parsed.ReplyTo,
+	)
 
-fmt.Println(
-	"Return-Path:",
-	parsed.ReturnPath,
-)
+	fmt.Println(
+		"Return-Path:",
+		parsed.ReturnPath,
+	)
 
 	return parsed, nil
 }

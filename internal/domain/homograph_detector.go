@@ -14,7 +14,6 @@ func DetectHomographDomain(
 		host,
 	)
 
-
 	suspiciousChars := []string{
 		"а", // Cyrillic a
 		"е", // Cyrillic e

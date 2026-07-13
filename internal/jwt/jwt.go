@@ -18,12 +18,12 @@ func GenerateToken(
 	token := jwtlib.NewWithClaims(
 		jwtlib.SigningMethodHS256,
 		jwtlib.MapClaims{
-	"username": username,
-	"role": role,
-	"exp": time.Now().
-		Add(24 * time.Hour).
-		Unix(),
-},
+			"username": username,
+			"role":     role,
+			"exp": time.Now().
+				Add(24 * time.Hour).
+				Unix(),
+		},
 	)
 
 	return token.SignedString(

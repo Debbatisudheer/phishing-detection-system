@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	sandboxrepo "phishing-platform/database/sandbox"
 	"strconv"
 	"strings"
-	sandboxrepo "phishing-platform/database/sandbox"
 )
 
 func GetSandboxReportHandler(

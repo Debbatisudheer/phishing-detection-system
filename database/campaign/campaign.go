@@ -1,9 +1,8 @@
 package database
 
 import (
-
 	"fmt"
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetCampaigns() (

@@ -1,7 +1,7 @@
 package search
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func SearchAnalysisResults(
@@ -36,9 +36,9 @@ func SearchAnalysisResults(
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 

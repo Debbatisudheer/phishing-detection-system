@@ -1,7 +1,7 @@
 package database
 
 import (
-    database "phishing-platform/database"
+	database "phishing-platform/database"
 )
 
 func GetRecentIncidents() (
@@ -27,7 +27,6 @@ func GetRecentIncidents() (
 	defer rows.Close()
 
 	var incidents []map[string]interface{}
-	
 
 	for rows.Next() {
 
@@ -46,10 +45,10 @@ func GetRecentIncidents() (
 		incidents = append(
 			incidents,
 			map[string]interface{}{
-				"id": id,
+				"id":        id,
 				"file_name": fileName,
-				"analyst": analyst,
-				"status": status,
+				"analyst":   analyst,
+				"status":    status,
 			},
 		)
 	}

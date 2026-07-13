@@ -6,8 +6,7 @@ func MapSandboxMITRE(
 	findings []string,
 ) string {
 
-	for _, finding :=
-		range findings {
+	for _, finding := range findings {
 
 		if strings.Contains(
 			finding,

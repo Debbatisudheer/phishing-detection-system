@@ -32,8 +32,8 @@ func TestSandboxPipeline(t *testing.T) {
 	}
 
 	score,
-	level,
-	verdict := sandbox.CalculateSandboxRisk(
+		level,
+		verdict := sandbox.CalculateSandboxRisk(
 		findings,
 	)
 

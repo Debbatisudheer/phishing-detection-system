@@ -36,7 +36,7 @@ func TestCalculateSandboxRisk(t *testing.T) {
 				"YARA rule matched: PowerShell",
 			},
 			expectedScore: 600,
-expectedLevel: "CRITICAL",
+			expectedLevel: "CRITICAL",
 			expectedVerd:  "QUARANTINE",
 		},
 		{
@@ -47,7 +47,7 @@ expectedLevel: "CRITICAL",
 				"VirusTotal malicious hash detected",
 			},
 			expectedScore: 1000,
-expectedLevel: "CRITICAL",
+			expectedLevel: "CRITICAL",
 			expectedVerd:  "QUARANTINE",
 		},
 		{

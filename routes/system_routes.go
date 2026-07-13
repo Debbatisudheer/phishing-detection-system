@@ -3,9 +3,9 @@ package routes
 import (
 	"net/http"
 
+	api "phishing-platform/internal/api"
 	reportapi "phishing-platform/internal/api/report"
 	systemapi "phishing-platform/internal/api/system"
-	api "phishing-platform/internal/api"
 )
 
 func RegisterSystemRoutes() {

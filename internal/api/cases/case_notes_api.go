@@ -10,9 +10,9 @@ import (
 )
 
 type NoteRequest struct {
-	CaseID   int    `json:"case_id"`
-	Analyst  string `json:"analyst"`
-	Note     string `json:"note"`
+	CaseID  int    `json:"case_id"`
+	Analyst string `json:"analyst"`
+	Note    string `json:"note"`
 }
 
 func AddCaseNoteHandler(

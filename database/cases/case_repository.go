@@ -1,7 +1,7 @@
 package database
 
 import (
-    database "phishing-platform/database"
+	database "phishing-platform/database"
 )
 
 func CreateCase(

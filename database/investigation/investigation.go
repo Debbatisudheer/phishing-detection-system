@@ -1,7 +1,7 @@
 package database
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func GetInvestigationSummary(
@@ -98,20 +98,20 @@ func GetInvestigationSummary(
 	ORDER BY id DESC
 	LIMIT 1
 `).Scan(
-	&riskLevel,
-	&verdict,
-	&mitre,
-)
+		&riskLevel,
+		&verdict,
+		&mitre,
+	)
 
 	return map[string]interface{}{
-		"ioc":         ioc,
-		"count":       count,
-		"sources":     sources,
-		"files":       files,
-		"first_seen":  firstSeen,
-		"last_seen":   lastSeen,
-		"risk_level":  riskLevel,
-		"verdict":     verdict,
-		"mitre":       mitre,
+		"ioc":        ioc,
+		"count":      count,
+		"sources":    sources,
+		"files":      files,
+		"first_seen": firstSeen,
+		"last_seen":  lastSeen,
+		"risk_level": riskLevel,
+		"verdict":    verdict,
+		"mitre":      mitre,
 	}, nil
 }

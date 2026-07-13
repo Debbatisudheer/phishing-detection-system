@@ -1,8 +1,8 @@
 package threathunting
 
 import (
-    "phishing-platform/database"
-    "strings"
+	"phishing-platform/database"
+	"strings"
 )
 
 func GetThreatHuntingStats() (
@@ -52,28 +52,26 @@ func GetThreatHuntingStats() (
 
 		if mitre != "" {
 
-	techniques :=
-		strings.Split(
-			mitre,
-			"\n",
-		)
+			techniques :=
+				strings.Split(
+					mitre,
+					"\n",
+				)
 
-	for _, technique := range techniques {
+			for _, technique := range techniques {
 
-		technique =
-			strings.TrimSpace(
-				technique,
-			)
+				technique =
+					strings.TrimSpace(
+						technique,
+					)
 
-		if technique == "" {
-			continue
+				if technique == "" {
+					continue
+				}
+
+				mitreMap[technique]++
+			}
 		}
-
-		mitreMap[
-			technique,
-		]++
-	}
-}
 	}
 
 	return map[string]interface{}{

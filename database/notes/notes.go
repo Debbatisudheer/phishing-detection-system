@@ -1,7 +1,7 @@
 package database
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func SaveAnalystNote(
@@ -52,9 +52,9 @@ func GetAnalystNotes(
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -71,8 +71,8 @@ func GetAnalystNotes(
 		results = append(
 			results,
 			map[string]interface{}{
-				"analyst": analyst,
-				"notes": notes,
+				"analyst":    analyst,
+				"notes":      notes,
 				"created_at": created,
 			},
 		)

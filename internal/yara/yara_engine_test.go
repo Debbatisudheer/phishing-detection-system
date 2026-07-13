@@ -91,15 +91,15 @@ func TestScanContent(t *testing.T) {
 			result := ScanContent(tc.content)
 
 			sort.Strings(result)
-sort.Strings(tc.expected)
+			sort.Strings(tc.expected)
 
-if !reflect.DeepEqual(result, tc.expected) {
-	t.Errorf(
-		"expected %v got %v",
-		tc.expected,
-		result,
-	)
-}
+			if !reflect.DeepEqual(result, tc.expected) {
+				t.Errorf(
+					"expected %v got %v",
+					tc.expected,
+					result,
+				)
+			}
 		})
 	}
 }

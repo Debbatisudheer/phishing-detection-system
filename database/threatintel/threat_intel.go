@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetThreatIntelStats() (
@@ -30,8 +30,8 @@ func GetThreatIntelStats() (
 	`).Scan(&criticalFiles)
 
 	return map[string]interface{}{
-		"total_iocs": totalIOCs,
-		"total_alerts": totalAlerts,
+		"total_iocs":     totalIOCs,
+		"total_alerts":   totalAlerts,
 		"critical_files": criticalFiles,
 	}, nil
 }
@@ -63,9 +63,9 @@ func GetTopRiskFiles() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -82,7 +82,7 @@ func GetTopRiskFiles() (
 		results = append(
 			results,
 			map[string]interface{}{
-				"file": file,
+				"file":  file,
 				"score": score,
 				"level": level,
 			},
@@ -114,9 +114,9 @@ LIMIT 10
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -131,7 +131,7 @@ LIMIT 10
 		results = append(
 			results,
 			map[string]interface{}{
-				"ioc": ioc,
+				"ioc":   ioc,
 				"count": count,
 			},
 		)

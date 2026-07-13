@@ -65,8 +65,8 @@ script.vbs
 			},
 		},
 		{
-			name:    "System Process Ignored",
-			content: "powershell.exe cmd.exe wscript.exe cscript.exe",
+			name:     "System Process Ignored",
+			content:  "powershell.exe cmd.exe wscript.exe cscript.exe",
 			expected: nil,
 		},
 		{

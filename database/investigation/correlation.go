@@ -1,7 +1,7 @@
 package database
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func GetCorrelatedIOCsDetailed() (
@@ -30,9 +30,9 @@ func GetCorrelatedIOCsDetailed() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 

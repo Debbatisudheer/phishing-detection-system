@@ -24,12 +24,12 @@ func ExportEvent(
 ) error {
 
 	data, err :=
-	marshalJSON(
-		event,
-		"",
-		"  ",
-	)
-	
+		marshalJSON(
+			event,
+			"",
+			"  ",
+		)
+
 	if err != nil {
 		return err
 	}

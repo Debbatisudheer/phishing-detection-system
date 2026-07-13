@@ -1,18 +1,17 @@
 package database
 
-
 import (
-	"time"
 	"fmt"
-	 "phishing-platform/database"
+	"phishing-platform/database"
+	"time"
 )
 
 type SandboxJob struct {
-	ID          int       `json:"id"`
+	ID          int        `json:"id"`
 	FileName    *string    `json:"file_name"`
-	FilePath    string    `json:"file_path"`
-	Status      string    `json:"status"`
-	SubmittedAt time.Time `json:"submitted_at"`
+	FilePath    string     `json:"file_path"`
+	Status      string     `json:"status"`
+	SubmittedAt time.Time  `json:"submitted_at"`
 	CompletedAt *time.Time `json:"completed_at"`
 }
 
@@ -87,23 +86,23 @@ func GetSandboxJobs() (
 		var job SandboxJob
 
 		err = rows.Scan(
-	&job.ID,
-	&job.FileName,
-	&job.FilePath,
-	&job.Status,
-	&job.SubmittedAt,
-	&job.CompletedAt,
-)
+			&job.ID,
+			&job.FileName,
+			&job.FilePath,
+			&job.Status,
+			&job.SubmittedAt,
+			&job.CompletedAt,
+		)
 
-if err != nil {
+		if err != nil {
 
-	fmt.Println(
-		"SCAN ERROR:",
-		err,
-	)
+			fmt.Println(
+				"SCAN ERROR:",
+				err,
+			)
 
-	continue
-}
+			continue
+		}
 
 		jobs = append(
 			jobs,

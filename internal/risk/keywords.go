@@ -2,9 +2,9 @@ package risk
 
 var SubjectWeights = map[string]int{
 
-	"urgent":             30,
-	"security alert":     25,
-	"account suspended":  30,
+	"urgent":            30,
+	"security alert":    25,
+	"account suspended": 30,
 }
 
 var BodyWeights = map[string]int{

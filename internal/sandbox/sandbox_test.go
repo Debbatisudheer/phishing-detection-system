@@ -63,7 +63,7 @@ func TestAnalyzeBehavior(t *testing.T) {
 			},
 		},
 		{
-			name: "Multiple",
+			name:    "Multiple",
 			content: "PowerShell cmd.exe wscript CreateObject DownloadString https://evil.com",
 			expected: []string{
 				"Sandbox behavior: PowerShell execution",
@@ -93,9 +93,9 @@ func TestAnalyzeBehavior(t *testing.T) {
 			result := AnalyzeBehavior(tt.content)
 
 			sort.Strings(result)
-sort.Strings(tt.expected)
+			sort.Strings(tt.expected)
 
-if !reflect.DeepEqual(result, tt.expected) {
+			if !reflect.DeepEqual(result, tt.expected) {
 				t.Errorf(
 					"expected %v got %v",
 					tt.expected,

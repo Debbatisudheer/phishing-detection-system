@@ -12,8 +12,8 @@ func StartCleanupWorker() {
 	go func() {
 
 		ticker := time.NewTicker(
-    7 * 24 * time.Hour,
-)
+			7 * 24 * time.Hour,
+		)
 
 		defer ticker.Stop()
 

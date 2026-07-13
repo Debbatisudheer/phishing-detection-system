@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetIOCSources(
@@ -31,9 +31,9 @@ func GetIOCSources(
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -51,8 +51,8 @@ func GetIOCSources(
 			results,
 			map[string]interface{}{
 				"source_type": sourceType,
-				"file_name": fileName,
-				"created_at": createdAt,
+				"file_name":   fileName,
+				"created_at":  createdAt,
 			},
 		)
 	}

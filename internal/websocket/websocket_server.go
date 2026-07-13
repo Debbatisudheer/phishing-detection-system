@@ -11,19 +11,17 @@ var Clients = make(
 	map[*websocket.Conn]bool,
 )
 
-var Broadcast =
-	make(chan []byte)
+var Broadcast = make(chan []byte)
 
-var upgrader =
-	websocket.Upgrader{
+var upgrader = websocket.Upgrader{
 
-		CheckOrigin: func(
-			r *http.Request,
-		) bool {
+	CheckOrigin: func(
+		r *http.Request,
+	) bool {
 
-			return true
-		},
-	}
+		return true
+	},
+}
 
 func HandleConnections(
 	w http.ResponseWriter,

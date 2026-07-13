@@ -13,126 +13,126 @@ func TestAnalyzeDockerOutput(t *testing.T) {
 		expected []string
 	}{
 		{
-			name: "PowerShell",
+			name:   "PowerShell",
 			output: "powershell",
 			expected: []string{
 				"Docker Analysis: PowerShell Indicator",
 			},
 		},
 		{
-			name: "URL",
+			name:   "URL",
 			output: "https://evil.com",
 			expected: []string{
 				"Docker Analysis: URL Detected",
 			},
 		},
 		{
-			name: "Executable",
+			name:   "Executable",
 			output: "payload.exe",
 			expected: []string{
 				"Docker Analysis: Executable Reference",
 			},
 		},
 		{
-			name: "Hash",
+			name:   "Hash",
 			output: "sha256",
 			expected: []string{
 				"Docker Analysis: Hash Generated",
 			},
 		},
 		{
-			name: "Text",
+			name:   "Text",
 			output: "ASCII text",
 			expected: []string{
 				"Docker Analysis: Text File Detected",
 			},
 		},
 		{
-			name: "ZIP",
+			name:   "ZIP",
 			output: "Zip archive",
 			expected: []string{
 				"Docker Analysis: ZIP Archive Detected",
 			},
 		},
 		{
-			name: "PDF",
+			name:   "PDF",
 			output: "PDF document",
 			expected: []string{
 				"Docker Analysis: PDF Document Detected",
 			},
 		},
 		{
-			name: "Base64",
+			name:   "Base64",
 			output: "FromBase64String",
 			expected: []string{
 				"Docker Analysis: Base64 Decode Function",
 			},
 		},
 		{
-			name: "Encoded PS",
+			name:   "Encoded PS",
 			output: "-EncodedCommand",
 			expected: []string{
 				"Docker Analysis: Encoded PowerShell",
 			},
 		},
 		{
-			name: "Download",
+			name:   "Download",
 			output: "Invoke-WebRequest",
 			expected: []string{
 				"Docker Analysis: Download Activity",
 			},
 		},
 		{
-			name: "Registry",
+			name:   "Registry",
 			output: "CurrentVersion\\Run",
 			expected: []string{
 				"Docker Analysis: Registry Persistence",
 			},
 		},
 		{
-			name: "ClamAV Clean",
+			name:   "ClamAV Clean",
 			output: "Infected files: 0",
 			expected: []string{
 				"Docker Analysis: ClamAV Clean",
 			},
 		},
 		{
-			name: "ClamAV Malware",
+			name:   "ClamAV Malware",
 			output: "Infected files: 1",
 			expected: []string{
 				"Docker Analysis: ClamAV Malware Detected",
 			},
 		},
 		{
-			name: "Timeout",
+			name:   "Timeout",
 			output: "context deadline exceeded",
 			expected: []string{
 				"Docker Analysis: ClamAV Timeout",
 			},
 		},
 		{
-    name: "YARA PowerShell",
-    output: "powershell_downloader",
-    expected: []string{
-        "Docker Analysis: PowerShell Indicator",
-        "Docker YARA Match: PowerShell Downloader",
-    },
-},
+			name:   "YARA PowerShell",
+			output: "powershell_downloader",
+			expected: []string{
+				"Docker Analysis: PowerShell Indicator",
+				"Docker YARA Match: PowerShell Downloader",
+			},
+		},
 		{
-			name: "YARA Registry",
+			name:   "YARA Registry",
 			output: "registry_persistence",
 			expected: []string{
 				"Docker YARA Match: Registry Persistence",
 			},
 		},
 		{
-    name: "YARA Encoded",
-    output: "encoded_powershell",
-    expected: []string{
-        "Docker Analysis: PowerShell Indicator",
-        "Docker YARA Match: Encoded PowerShell",
-    },
-},
+			name:   "YARA Encoded",
+			output: "encoded_powershell",
+			expected: []string{
+				"Docker Analysis: PowerShell Indicator",
+				"Docker YARA Match: Encoded PowerShell",
+			},
+		},
 		{
 			name:     "Safe",
 			output:   "hello world",

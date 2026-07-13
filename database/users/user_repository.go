@@ -1,7 +1,7 @@
 package users
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func CreateUser(

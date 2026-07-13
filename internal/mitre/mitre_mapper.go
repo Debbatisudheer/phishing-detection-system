@@ -60,9 +60,7 @@ func MapFileTechniques(
 			"powershell",
 		) {
 
-			techniqueMap[
-				"T1059.001 - PowerShell",
-			] = true
+			techniqueMap["T1059.001 - PowerShell"] = true
 		}
 
 		if strings.Contains(
@@ -70,9 +68,7 @@ func MapFileTechniques(
 			"macro",
 		) {
 
-			techniqueMap[
-				"T1566.001 - Spearphishing Attachment",
-			] = true
+			techniqueMap["T1566.001 - Spearphishing Attachment"] = true
 		}
 
 		if strings.Contains(
@@ -80,21 +76,19 @@ func MapFileTechniques(
 			"url",
 		) {
 
-			techniqueMap[
-				"T1566.002 - Spearphishing Link",
-			] = true
+			techniqueMap["T1566.002 - Spearphishing Link"] = true
 		}
 	}
 
 	techniques := []string{}
 
-for technique := range techniqueMap {
+	for technique := range techniqueMap {
 
-	techniques = append(
-		techniques,
-		technique,
-	)
-}
+		techniques = append(
+			techniques,
+			technique,
+		)
+	}
 
-return techniques
+	return techniques
 }

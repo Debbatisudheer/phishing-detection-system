@@ -1,7 +1,7 @@
 package database
 
 import (
-    "phishing-platform/database"
+	"phishing-platform/database"
 )
 
 func SaveDockerReport(

@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetCampaignStats() (
@@ -50,8 +50,8 @@ func GetCampaignStats() (
 
 	return map[string]interface{}{
 		"total_campaigns": total,
-		"medium": medium,
-		"high": high,
-		"critical": critical,
+		"medium":          medium,
+		"high":            high,
+		"critical":        critical,
 	}, nil
 }

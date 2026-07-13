@@ -29,4 +29,3 @@ func SaveAlert(
 
 	return err
 }
-

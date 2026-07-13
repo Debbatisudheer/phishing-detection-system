@@ -5,9 +5,9 @@ import "testing"
 func TestAnalyzeSandboxFile(t *testing.T) {
 
 	tests := []struct {
-		name       string
-		fileName   string
-		expected   SandboxAnalysis
+		name     string
+		fileName string
+		expected SandboxAnalysis
 	}{
 		{
 			name:     "Executable",

@@ -1,8 +1,8 @@
 package database
 
 import (
-	"phishing-platform/internal/models"
 	rootdb "phishing-platform/database"
+	"phishing-platform/internal/models"
 )
 
 func GetSandboxReports() (

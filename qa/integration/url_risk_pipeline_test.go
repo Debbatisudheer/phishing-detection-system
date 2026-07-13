@@ -50,22 +50,22 @@ https://security-paypal.xyz/login
 	}
 
 	score := risk.CalculateRisk(
-	email.Subject,
-	email.Body,
-	urls,
-	findings,
-)
-
-if score <= 0 {
-	t.Fatalf(
-		"expected positive risk score got %d",
-		score,
+		email.Subject,
+		email.Body,
+		urls,
+		findings,
 	)
-}
 
-level := risk.GetRiskLevel(score)
+	if score <= 0 {
+		t.Fatalf(
+			"expected positive risk score got %d",
+			score,
+		)
+	}
 
-if level == "" {
-	t.Fatal("expected risk level")
-}
+	level := risk.GetRiskLevel(score)
+
+	if level == "" {
+		t.Fatal("expected risk level")
+	}
 }

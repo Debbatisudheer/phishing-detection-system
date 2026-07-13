@@ -1,12 +1,12 @@
 package domain
 
 import (
+	"fmt"
 	"net/url"
+	"phishing-platform/internal/dnsreputation"
+	"phishing-platform/internal/whois"
 	"regexp"
 	"strings"
-	"fmt"
-	"phishing-platform/internal/whois"
-	"phishing-platform/internal/dnsreputation"
 )
 
 var SuspiciousTLDs = []string{
@@ -30,14 +30,14 @@ func AnalyzeURL(rawURL string) []string {
 	var findings []string
 
 	redirectFindings :=
-	CheckRedirectURL(
-		rawURL,
-	)
+		CheckRedirectURL(
+			rawURL,
+		)
 
-findings = append(
-	findings,
-	redirectFindings...,
-)
+	findings = append(
+		findings,
+		redirectFindings...,
+	)
 
 	parsedURL, err := url.Parse(rawURL)
 
@@ -50,33 +50,33 @@ findings = append(
 	)
 
 	whoisFindings :=
-	whois.AnalyzeDomain(
-		host,
+		whois.AnalyzeDomain(
+			host,
+		)
+
+	findings = append(
+		findings,
+		whoisFindings...,
 	)
 
-findings = append(
-	findings,
-	whoisFindings...,
-)
+	dnsFindings :=
+		dnsreputation.CheckDNSReputation(
+			host,
+		)
 
-dnsFindings :=
-	dnsreputation.CheckDNSReputation(
-		host,
-	)
-
-findings = append(
+	findings = append(
 		findings,
 		dnsFindings...,
-)
-	domainAgeFindings :=
-	CheckDomainAge(
-		host,
 	)
+	domainAgeFindings :=
+		CheckDomainAge(
+			host,
+		)
 
-findings = append(
-	findings,
-	domainAgeFindings...,
-)
+	findings = append(
+		findings,
+		domainAgeFindings...,
+	)
 
 	// Remove port if present
 	host = strings.Split(
@@ -85,14 +85,14 @@ findings = append(
 	)[0]
 
 	homographFindings :=
-	DetectHomographDomain(
-		host,
-	)
+		DetectHomographDomain(
+			host,
+		)
 
-findings = append(
-	findings,
-	homographFindings...,
-)
+	findings = append(
+		findings,
+		homographFindings...,
+	)
 
 	// Lookalike domain detection
 	lookalikeFindings :=
@@ -160,9 +160,9 @@ findings = append(
 		}
 	}
 	fmt.Println(
-	"DNS Findings:",
-	dnsFindings,
-)
+		"DNS Findings:",
+		dnsFindings,
+	)
 
 	return findings
 }

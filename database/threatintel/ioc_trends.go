@@ -1,7 +1,7 @@
 package database
 
 import (
-    rootdb "phishing-platform/database"
+	rootdb "phishing-platform/database"
 )
 
 func GetIOCTrends() (
@@ -25,9 +25,9 @@ func GetIOCTrends() (
 	defer rows.Close()
 
 	results := make(
-	[]map[string]interface{},
-	0,
-)
+		[]map[string]interface{},
+		0,
+	)
 
 	for rows.Next() {
 
@@ -42,7 +42,7 @@ func GetIOCTrends() (
 		results = append(
 			results,
 			map[string]interface{}{
-				"date": trendDate,
+				"date":  trendDate,
 				"count": count,
 			},
 		)

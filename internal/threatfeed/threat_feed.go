@@ -4,10 +4,9 @@ import (
 	"strings"
 )
 
-var MaliciousDomains =
-	LoadFeed(
-		"feeds/openphish_feed.txt",
-	)
+var MaliciousDomains = LoadFeed(
+	"feeds/openphish_feed.txt",
+)
 
 func CheckThreatFeed(
 	url string,

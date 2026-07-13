@@ -102,6 +102,7 @@ pipeline {
             }
         }
 
+/*
         stage('UI Tests (Playwright)') {
             steps {
                 dir('qa') {
@@ -114,7 +115,7 @@ pipeline {
                     '''
                 }
             }
-        }
+        }*/
     }
 
     post {

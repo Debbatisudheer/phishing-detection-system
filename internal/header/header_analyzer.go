@@ -10,7 +10,7 @@ func AnalyzeHeaders(
 	returnPath string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	// Reply-To mismatch
 	if replyTo != "" &&

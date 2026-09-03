@@ -9,16 +9,16 @@ import (
 )
 
 type EmailRecord struct {
-	ID              int
-	Sender          string
-	Subject         string
-	Body            string
-	RiskScore       int
-	Decision        string
-	Findings        string
-	Attachments     string
-	AnalystNote     sql.NullString
-	MitreTechnique  sql.NullString
+	ID             int
+	Sender         string
+	Subject        string
+	Body           string
+	RiskScore      int
+	Decision       string
+	Findings       string
+	Attachments    string
+	AnalystNote    sql.NullString
+	MitreTechnique sql.NullString
 }
 
 func GetEmailsHandler(
@@ -105,16 +105,16 @@ ORDER BY id DESC
 
 		response :=
 			map[string]interface{}{
-				"id":               email.ID,
-				"sender":           email.Sender,
-				"subject":          email.Subject,
-				"body":             email.Body,
-				"risk_score":       email.RiskScore,
-				"decision":         email.Decision,
-				"findings":         email.Findings,
-				"attachments":      email.Attachments,
-				"analyst_note":     note,
-				"mitre_technique":  mitreTechnique,
+				"id":              email.ID,
+				"sender":          email.Sender,
+				"subject":         email.Subject,
+				"body":            email.Body,
+				"risk_score":      email.RiskScore,
+				"decision":        email.Decision,
+				"findings":        email.Findings,
+				"attachments":     email.Attachments,
+				"analyst_note":    note,
+				"mitre_technique": mitreTechnique,
 			}
 
 		emails = append(

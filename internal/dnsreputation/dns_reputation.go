@@ -8,7 +8,7 @@ func CheckDNSReputation(
 	domain string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	knownBadDomains := []string{
 		"evil.com",

@@ -6,7 +6,7 @@ func DetectShortenedURL(
 	url string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	shorteners := []string{
 		"bit.ly",

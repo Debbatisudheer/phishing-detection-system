@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"phishing-platform/database"
+	iocrepo "phishing-platform/database/ioc"
 	"phishing-platform/internal/attachment"
 	"phishing-platform/internal/decision"
 	"phishing-platform/internal/domain"
@@ -62,19 +63,19 @@ func EmailHandler(w http.ResponseWriter, r *http.Request) {
 	// URL + Domain + Threat Intel Analysis
 	for _, extractedURL := range urls {
 
-		err := database.SaveIOC(
-	extractedURL,
-	"EMAIL",
-		email.Subject,
-)
+		err := iocrepo.SaveIOC(
+			extractedURL,
+			"EMAIL",
+			email.Subject,
+		)
 
-if err != nil {
+		if err != nil {
 
-	fmt.Println(
-		"IOC Save Error:",
-		err,
-	)
-}
+			fmt.Println(
+				"IOC Save Error:",
+				err,
+			)
+		}
 
 		findings := domain.AnalyzeURL(extractedURL)
 

@@ -1,0 +1,9 @@
+{
+  "timestamp": "2026-07-02 16:53:59",
+  "event_type": "phishing_detected",
+  "sender": "PayPal Support \u003csupport@evil-paypal.xyz\u003e",
+  "subject": "Verify Your PayPal Account Immediately",
+  "risk_score": 1000,
+  "decision": "QUARANTINE",
+  "mitre": "T1566 - Phishing"
+}

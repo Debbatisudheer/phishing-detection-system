@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"phishing-platform/database"
+	sandboxrepo "phishing-platform/database/sandbox"
 )
 
 func GetSandboxReportsHandler(
@@ -13,7 +13,7 @@ func GetSandboxReportsHandler(
 ) {
 
 	reports, err :=
-		database.GetSandboxReports()
+		sandboxrepo.GetSandboxReports()
 
 	if err != nil {
 

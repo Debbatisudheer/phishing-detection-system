@@ -6,10 +6,9 @@ import (
 	"strings"
 )
 
-var PhishTankDomains =
-	LoadPhishTankFeed(
-		"feeds/phishtank_feed.txt",
-	)
+var PhishTankDomains = LoadPhishTankFeed(
+	"feeds/phishtank_feed.txt",
+)
 
 func LoadPhishTankFeed(
 	filePath string,
@@ -50,7 +49,7 @@ func CheckPhishTank(
 	url string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	url = strings.ToLower(
 		url,

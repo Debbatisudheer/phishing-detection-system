@@ -8,7 +8,7 @@ func AnalyzeMacroContent(
 	content string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	content = strings.ToLower(content)
 

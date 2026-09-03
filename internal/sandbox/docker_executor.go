@@ -70,11 +70,11 @@ func ExecuteInDocker(
 		"sh",
 		"-c",
 
-		"file /sample ; " +
-"strings /sample | head -100 ; " +
-"sha256sum /sample ; " +
-"timeout 45 clamscan --no-summary /sample ; " +
-"yara /rules/malware.yar /sample",
+		"file /sample ; "+
+			"strings /sample | head -100 ; "+
+			"sha256sum /sample ; "+
+			"timeout 45 clamscan --no-summary /sample ; "+
+			"yara /rules/malware.yar /sample",
 	)
 
 	var out bytes.Buffer

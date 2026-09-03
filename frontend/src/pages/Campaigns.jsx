@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "./Campaigns.css";
 
 function Campaigns() {
-
   const [campaigns, setCampaigns] =
     useState([]);
 
@@ -10,14 +10,11 @@ function Campaigns() {
     useState([]);
 
   useEffect(() => {
-
     loadCampaigns();
-
   }, []);
 
   const loadCampaigns =
     async () => {
-
       const token =
         localStorage.getItem(
           "token",
@@ -41,7 +38,6 @@ function Campaigns() {
 
   const loadSources =
     async (ioc) => {
-
       const token =
         localStorage.getItem(
           "token",
@@ -64,126 +60,232 @@ function Campaigns() {
     };
 
   return (
+    <main className="campaigns-page">
 
-    <div>
+      <div className="campaigns-container">
 
-      <h1>
-        Campaign Dashboard
-      </h1>
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
-      <table
-        border="1"
-        width="100%"
-      >
+        <header className="campaigns-header">
 
-        <thead>
+          <div className="campaigns-title-area">
 
-          <tr>
+            <div className="campaigns-section-label">
+              <span className="campaigns-live-dot" />
+              Threat Campaign Intelligence
+            </div>
 
-            <th>IOC</th>
+            <h1>
+              Campaign Dashboard
+            </h1>
 
-            <th>Count</th>
+          </div>
 
-            <th>Severity</th>
+        </header>
 
-            <th>Action</th>
 
-          </tr>
+        {/* =================================================
+            CAMPAIGNS PANEL
+            ================================================= */}
 
-        </thead>
+        <section className="campaign-panel">
 
-        <tbody>
+          <div className="campaign-panel-header">
 
-          {campaigns.map(
-            (campaign, index) => (
+            <div>
+              <h2>
+                Campaign Dashboard
+              </h2>
+            </div>
 
-              <tr key={index}>
+          </div>
 
-                <td>
-                  {campaign.ioc}
-                </td>
 
-                <td>
-                  {campaign.count}
-                </td>
+          <div className="campaign-table-wrapper">
 
-                <td>
-                  {campaign.severity}
-                </td>
+            <table className="campaign-table">
 
-                <td>
+              <thead>
+                <tr>
 
-                  <button
-                    onClick={() =>
-                      loadSources(
-                        campaign.ioc,
-                      )
-                    }
-                  >
-                    View Sources
-                  </button>
+                  <th>
+                    IOC
+                  </th>
 
-                </td>
+                  <th>
+                    Count
+                  </th>
 
-              </tr>
-            ),
-          )}
+                  <th>
+                    Severity
+                  </th>
 
-        </tbody>
+                  <th>
+                    Action
+                  </th>
 
-      </table>
+                </tr>
+              </thead>
 
-      <h2>
-        IOC Sources
-      </h2>
 
-      <table
-        border="1"
-        width="100%"
-      >
+              <tbody>
 
-        <thead>
+                {campaigns.map(
+                  (
+                    campaign,
+                    index,
+                  ) => (
 
-          <tr>
+                    <tr
+                      key={index}
+                    >
 
-            <th>Source</th>
+                      <td>
+                        <span className="ioc-value">
+                          {campaign.ioc}
+                        </span>
+                      </td>
 
-            <th>File</th>
+                      <td>
+                        <span className="count-value">
+                          {campaign.count}
+                        </span>
+                      </td>
 
-            <th>Time</th>
+                      <td>
+                        <span
+                          className={`severity-badge severity-${String(
+                            campaign.severity ||
+                              "",
+                          ).toLowerCase()}`}
+                        >
+                          <span className="severity-dot" />
 
-          </tr>
+                          {campaign.severity}
+                        </span>
+                      </td>
 
-        </thead>
+                      <td>
 
-        <tbody>
+                        <button
+                          className="sources-button"
+                          onClick={() =>
+                            loadSources(
+                              campaign.ioc,
+                            )
+                          }
+                        >
+                          View Sources
+                        </button>
 
-          {sources.map(
-            (source, index) => (
+                      </td>
 
-              <tr key={index}>
+                    </tr>
 
-                <td>
-                  {source.source_type}
-                </td>
+                  ),
+                )}
 
-                <td>
-                  {source.file_name}
-                </td>
+              </tbody>
 
-                <td>
-                  {source.created_at}
-                </td>
+            </table>
 
-              </tr>
-            ),
-          )}
+          </div>
 
-        </tbody>
+        </section>
 
-      </table>
 
-    </div>
+        {/* =================================================
+            IOC SOURCES
+            ================================================= */}
+
+        <section className="sources-panel">
+
+          <div className="sources-panel-header">
+
+            <div>
+
+              <h2>
+                IOC Sources
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div className="sources-table-wrapper">
+
+            <table className="sources-table">
+
+              <thead>
+
+                <tr>
+
+                  <th>
+                    Source
+                  </th>
+
+                  <th>
+                    File
+                  </th>
+
+                  <th>
+                    Time
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {sources.map(
+                  (
+                    source,
+                    index,
+                  ) => (
+
+                    <tr
+                      key={index}
+                    >
+
+                      <td>
+                        <span className="source-type">
+                          {source.source_type}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="source-file">
+                          {source.file_name}
+                        </span>
+                      </td>
+
+                      <td>
+                        <span className="source-time">
+                          {source.created_at}
+                        </span>
+                      </td>
+
+                    </tr>
+
+                  ),
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
   );
 }
 

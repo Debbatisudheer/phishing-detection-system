@@ -16,15 +16,15 @@ func QueryHash(
 			"VT_API_KEY",
 		)
 
-		fmt.Println(
-    "VT API KEY LOADED:",
-    apiKey,
-)
+	fmt.Println(
+		"VT API KEY LOADED:",
+		apiKey,
+	)
 
-fmt.Println(
-    "VT API KEY LENGTH:",
-    len(apiKey),
-)
+	fmt.Println(
+		"VT API KEY LENGTH:",
+		len(apiKey),
+	)
 
 	url :=
 		"https://www.virustotal.com/api/v3/files/" +
@@ -63,9 +63,9 @@ fmt.Println(
 	)
 
 	fmt.Println(
-	"VT Hash Queried:",
-	hash,
-)
+		"VT Hash Queried:",
+		hash,
+	)
 
 	if resp.StatusCode == 404 {
 

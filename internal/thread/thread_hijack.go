@@ -9,7 +9,7 @@ func DetectThreadHijack(
 	body string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	subject = strings.ToLower(
 		subject,

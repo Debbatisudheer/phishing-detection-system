@@ -1,0 +1,29 @@
+====================================
+PHISHING INVESTIGATION REPORT
+====================================
+
+Sender:
+alice@example.com
+
+Subject:
+Urgent Login
+
+URLs:
+[https://evil.com]
+
+Findings:
+[VirusTotal malicious URL detected]
+
+Risk Score:
+850
+
+Risk Level:
+CRITICAL
+
+Decision:
+QUARANTINE
+
+MITRE:
+T1566 - Phishing
+
+====================================

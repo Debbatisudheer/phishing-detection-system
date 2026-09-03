@@ -3,10 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
+	sandboxrepo "phishing-platform/database/sandbox"
 	"strconv"
 	"strings"
-
-	"phishing-platform/database"
 )
 
 func GetSandboxReportHandler(
@@ -35,7 +34,7 @@ func GetSandboxReportHandler(
 	}
 
 	report, err :=
-		database.GetSandboxReportByID(
+		sandboxrepo.GetSandboxReportByID(
 			id,
 		)
 

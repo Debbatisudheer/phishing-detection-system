@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var marshalJSON = json.MarshalIndent
+
 type SplunkEvent struct {
 	Timestamp string `json:"timestamp"`
 	EventType string `json:"event_type"`
@@ -22,7 +24,7 @@ func ExportEvent(
 ) error {
 
 	data, err :=
-		json.MarshalIndent(
+		marshalJSON(
 			event,
 			"",
 			"  ",

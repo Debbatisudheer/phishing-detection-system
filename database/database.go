@@ -14,54 +14,61 @@ func ConnectDatabase() {
 
 	var connStr string
 
-	// Railway
 	databaseURL := os.Getenv("DATABASE_URL")
 
 	if databaseURL != "" {
 
 		connStr = databaseURL
-
-		fmt.Println(
-			"Using Railway DATABASE_URL",
-		)
+		fmt.Println("Using DATABASE_URL")
 
 	} else {
 
-		// Local Development
+		host := os.Getenv("DB_HOST")
+		if host == "" {
+			host = "localhost"
+		}
 
-		connStr =
-			"user=postgres " +
-				"password=sudheer " +
-				"dbname=phishing_platform " +
-				"sslmode=disable"
+		port := os.Getenv("DB_PORT")
+		if port == "" {
+			port = "5432"
+		}
 
-		fmt.Println(
-			"Using Local PostgreSQL",
+		user := os.Getenv("DB_USER")
+		if user == "" {
+			user = "postgres"
+		}
+
+		password := os.Getenv("DB_PASSWORD")
+		if password == "" {
+			password = "sudheer"
+		}
+
+		dbname := os.Getenv("DB_NAME")
+		if dbname == "" {
+			dbname = "phishing_platform"
+		}
+
+		connStr = fmt.Sprintf(
+			"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+			host,
+			port,
+			user,
+			password,
+			dbname,
 		)
+
+		fmt.Println("Using Local PostgreSQL")
 	}
 
-	db, err := sql.Open(
-		"postgres",
-		connStr,
-	)
-
+	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-
 		panic(err)
-
 	}
 
-	err = db.Ping()
-
-	if err != nil {
-
+	if err := db.Ping(); err != nil {
 		panic(err)
-
 	}
 
-	fmt.Println(
-		"Database Connected Successfully",
-	)
-
+	fmt.Println("Database Connected Successfully")
 	DB = db
 }

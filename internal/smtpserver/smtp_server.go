@@ -93,18 +93,18 @@ func (s *Session) Data(
 	)
 
 	fmt.Println(
-	"Attachments:",
-	parsedEmail.Attachments,
-)
+		"Attachments:",
+		parsedEmail.Attachments,
+	)
 
 	pipeline.ProcessEmail(
-	parsedEmail.From,
-	parsedEmail.ReplyTo,
-	parsedEmail.ReturnPath,
-	parsedEmail.Subject,
-	parsedEmail.Body,
-	parsedEmail.Attachments,
-)
+		parsedEmail.From,
+		parsedEmail.ReplyTo,
+		parsedEmail.ReturnPath,
+		parsedEmail.Subject,
+		parsedEmail.Body,
+		parsedEmail.Attachments,
+	)
 
 	return nil
 }

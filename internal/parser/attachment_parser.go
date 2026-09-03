@@ -8,7 +8,7 @@ func ExtractAttachmentNames(
 	contentType string,
 ) []string {
 
-	var attachments []string
+	attachments := []string{}
 
 	_, params, err :=
 		mime.ParseMediaType(
@@ -19,8 +19,7 @@ func ExtractAttachmentNames(
 		return attachments
 	}
 
-	filename :=
-		params["filename"]
+	filename := params["filename"]
 
 	if filename != "" {
 

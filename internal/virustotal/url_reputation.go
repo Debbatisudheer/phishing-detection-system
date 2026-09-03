@@ -20,7 +20,7 @@ func CheckURLReputation(
 	jsonData []byte,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	var response VTURLResponse
 
@@ -38,17 +38,17 @@ func CheckURLReputation(
 
 	if stats.Malicious > 0 {
 
-	findings = append(
-		findings,
-		"VirusTotal malicious URL detected",
-	)
+		findings = append(
+			findings,
+			"VirusTotal malicious URL detected",
+		)
 
-} else if stats.Suspicious > 0 {
+	} else if stats.Suspicious > 0 {
 
-	findings = append(
-		findings,
-		"VirusTotal suspicious URL detected",
-	)
-}
+		findings = append(
+			findings,
+			"VirusTotal suspicious URL detected",
+		)
+	}
 	return findings
 }

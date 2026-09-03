@@ -6,7 +6,7 @@ func CheckRedirectURL(
 	rawURL string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	redirectServices := []string{
 		"bit.ly",

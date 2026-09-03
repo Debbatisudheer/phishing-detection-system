@@ -8,12 +8,11 @@ func DetectHomographDomain(
 	host string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	host = strings.ToLower(
 		host,
 	)
-
 
 	suspiciousChars := []string{
 		"а", // Cyrillic a

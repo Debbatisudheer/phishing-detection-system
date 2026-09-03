@@ -6,14 +6,16 @@ import (
 	"time"
 )
 
+var marshalJSON = json.MarshalIndent
+
 type Indicator struct {
-	Type       string `json:"type"`
+	Type        string `json:"type"`
 	SpecVersion string `json:"spec_version"`
-	ID         string `json:"id"`
-	Created    string `json:"created"`
-	Modified   string `json:"modified"`
-	Name       string `json:"name"`
-	Pattern    string `json:"pattern"`
+	ID          string `json:"id"`
+	Created     string `json:"created"`
+	Modified    string `json:"modified"`
+	Name        string `json:"name"`
+	Pattern     string `json:"pattern"`
 	PatternType string `json:"pattern_type"`
 }
 
@@ -39,7 +41,7 @@ func ExportURLIndicator(
 	}
 
 	data, err :=
-		json.MarshalIndent(
+		marshalJSON(
 			indicator,
 			"",
 			"  ",

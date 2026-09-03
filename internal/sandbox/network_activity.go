@@ -8,13 +8,10 @@ func AnalyzeNetworkActivity(
 
 	var findings []string
 
-	if strings.Contains(
-		content,
-		"http://",
-	) || strings.Contains(
-		content,
-		"https://",
-	) {
+	content = strings.ToLower(content)
+
+	if strings.Contains(content, "http://") ||
+		strings.Contains(content, "https://") {
 
 		findings = append(
 			findings,

@@ -9,7 +9,7 @@ func DetectNestedZIP(
 	zipPath string,
 ) []string {
 
-	var findings []string
+	findings := []string{}
 
 	reader, err :=
 		zip.OpenReader(

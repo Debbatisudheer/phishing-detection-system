@@ -8,6 +8,8 @@ func DetectPersistence(
 
 	var findings []string
 
+	content = strings.ToLower(content)
+
 	if strings.Contains(
 		content,
 		"currentversion\\run",

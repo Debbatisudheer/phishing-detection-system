@@ -1,0 +1,172 @@
+package api
+
+import (
+	"encoding/json"
+	"net/http"
+
+	"phishing-platform/internal/domain"
+	"phishing-platform/internal/parser"
+	"phishing-platform/internal/phishtank"
+	"phishing-platform/internal/risk"
+	"phishing-platform/internal/threatfeed"
+)
+
+type AnalyzeEmailRequest struct {
+	Subject string `json:"subject"`
+	Body    string `json:"body"`
+}
+
+type AnalyzeEmailResponse struct {
+	URLs      []string `json:"urls"`
+	Findings  []string `json:"findings"`
+	RiskScore int      `json:"risk_score"`
+	RiskLevel string   `json:"risk_level"`
+}
+
+func AnalyzeEmailHandler(
+	w http.ResponseWriter,
+	r *http.Request,
+) {
+
+	// Only POST allowed
+	if r.Method != http.MethodPost {
+
+		http.Error(
+			w,
+			"Method Not Allowed",
+			http.StatusMethodNotAllowed,
+		)
+
+		return
+	}
+
+	var req AnalyzeEmailRequest
+
+	err := json.NewDecoder(
+		r.Body,
+	).Decode(&req)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Invalid Request",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
+
+	// Validate request
+	if req.Subject == "" &&
+		req.Body == "" {
+
+		http.Error(
+			w,
+			"subject or body is required",
+			http.StatusBadRequest,
+		)
+
+		return
+	}
+
+	urls := parser.ExtractURLs(
+		req.Body,
+	)
+
+	// Never return null
+	if urls == nil {
+
+		urls = []string{}
+
+	}
+
+	var findings []string
+
+	for _, extractedURL := range urls {
+
+		domainFindings :=
+			domain.AnalyzeURL(
+				extractedURL,
+			)
+
+		findings = append(
+			findings,
+			domainFindings...,
+		)
+
+		threatFeedFindings :=
+			threatfeed.CheckThreatFeed(
+				extractedURL,
+			)
+
+		findings = append(
+			findings,
+			threatFeedFindings...,
+		)
+
+		phishTankFindings :=
+			phishtank.CheckPhishTank(
+				extractedURL,
+			)
+
+		findings = append(
+			findings,
+			phishTankFindings...,
+		)
+	}
+
+	// Never return null
+	if findings == nil {
+
+		findings = []string{}
+
+	}
+
+	riskScore :=
+		risk.CalculateRisk(
+			req.Subject,
+			req.Body,
+			urls,
+			findings,
+		)
+
+	riskLevel :=
+		risk.GetRiskLevel(
+			riskScore,
+		)
+
+	response :=
+		AnalyzeEmailResponse{
+			URLs:      urls,
+			Findings:  findings,
+			RiskScore: riskScore,
+			RiskLevel: riskLevel,
+		}
+
+	w.Header().Set(
+		"Content-Type",
+		"application/json",
+	)
+
+	w.WriteHeader(
+		http.StatusOK,
+	)
+
+	err = json.NewEncoder(
+		w,
+	).Encode(
+		response,
+	)
+
+	if err != nil {
+
+		http.Error(
+			w,
+			"Failed to encode response",
+			http.StatusInternalServerError,
+		)
+
+		return
+	}
+}

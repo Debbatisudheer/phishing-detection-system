@@ -2,11 +2,10 @@ package sandbox
 
 import (
 	"fmt"
+	sandboxrepo "phishing-platform/database/sandbox"
+	"phishing-platform/internal/hash"
 	"strings"
 	"time"
-
-	"phishing-platform/database"
-	"phishing-platform/internal/hash"
 )
 
 func StartSandboxWorker() {
@@ -16,7 +15,7 @@ func StartSandboxWorker() {
 		for {
 
 			jobs, err :=
-				database.GetSandboxJobs()
+				sandboxrepo.GetSandboxJobs()
 
 			if err != nil {
 
@@ -44,7 +43,7 @@ func StartSandboxWorker() {
 				)
 
 				err :=
-					database.UpdateSandboxJobStatus(
+					sandboxrepo.UpdateSandboxJobStatus(
 						job.ID,
 						"RUNNING",
 					)
@@ -63,134 +62,134 @@ func StartSandboxWorker() {
 					5 * time.Second,
 				)
 				contentFindings :=
-	AnalyzeSandboxContent(
-		job.FilePath,
-	)
+					AnalyzeSandboxContent(
+						job.FilePath,
+					)
 
-fmt.Println(
-	"SANDBOX PATH:",
-		job.FilePath,
-)
+				fmt.Println(
+					"SANDBOX PATH:",
+					job.FilePath,
+				)
 
-output,
-duration,
-err :=
-	ExecuteInDocker(
-		job.FilePath,
-	)
+				output,
+					duration,
+					err :=
+					ExecuteInDocker(
+						job.FilePath,
+					)
 
-	fmt.Println(
-    "========== DOCKER OUTPUT ==========",
-)
-fmt.Println(
-    output,
-)
-fmt.Println(
-    "===================================",
-)
+				fmt.Println(
+					"========== DOCKER OUTPUT ==========",
+				)
+				fmt.Println(
+					output,
+				)
+				fmt.Println(
+					"===================================",
+				)
 
-fmt.Println(
-	"DOCKER OUTPUT:",
-	output,
-)
+				fmt.Println(
+					"DOCKER OUTPUT:",
+					output,
+				)
 
-dockerFindings :=
-	BuildDockerReport(
-		output,
-		err,
-	)
+				dockerFindings :=
+					BuildDockerReport(
+						output,
+						err,
+					)
 
-	analysisFindings :=
-	AnalyzeDockerOutput(
-		output,
-	)
+				analysisFindings :=
+					AnalyzeDockerOutput(
+						output,
+					)
 
-contentFindings = append(
-	contentFindings,
-	analysisFindings...,
-)
+				contentFindings = append(
+					contentFindings,
+					analysisFindings...,
+				)
 
-	executionStatus := "SUCCESS"
+				executionStatus := "SUCCESS"
 
-if err != nil {
+				if err != nil {
 
-	executionStatus = "FAILED"
-}
+					executionStatus = "FAILED"
+				}
 
-err = database.SaveDockerReport(
-	job.ID,
-	"DESTROYED",
-	executionStatus,
-	duration,
-)
+				err = sandboxrepo.SaveDockerReport(
+					job.ID,
+					"DESTROYED",
+					executionStatus,
+					duration,
+				)
 
-if err != nil {
+				if err != nil {
 
-	fmt.Println(
-		"Docker Report Error:",
-		err,
-	)
-}
+					fmt.Println(
+						"Docker Report Error:",
+						err,
+					)
+				}
 
-contentFindings = append(
-	contentFindings,
-	dockerFindings...,
-)
-contentFindings = append(
-	contentFindings,
-	"Docker Duration: "+
-		fmt.Sprint(duration)+
-		" seconds",
-)
+				contentFindings = append(
+					contentFindings,
+					dockerFindings...,
+				)
+				contentFindings = append(
+					contentFindings,
+					"Docker Duration: "+
+						fmt.Sprint(duration)+
+						" seconds",
+				)
 
-timeline :=
-	BuildTimeline(
-		contentFindings,
-	)
+				timeline :=
+					BuildTimeline(
+						contentFindings,
+					)
 
-fmt.Println(
-	"Sandbox Timeline:",
-)
+				fmt.Println(
+					"Sandbox Timeline:",
+				)
 
-for _, event := range timeline {
+				for _, event := range timeline {
 
-	fmt.Println(
-		event,
-	)
-}
-					metadata :=
-	GetFileMetadata(
-		job.FilePath,
-	)
-	sha256 :=
-	hash.CalculateSHA256(
-		job.FilePath,
-	)
+					fmt.Println(
+						event,
+					)
+				}
+				metadata :=
+					GetFileMetadata(
+						job.FilePath,
+					)
+				sha256 :=
+					hash.CalculateSHA256(
+						job.FilePath,
+					)
 
-fmt.Println(
-	"File Name:",
-	metadata.FileName,
-)
+				fmt.Println(
+					"File Name:",
+					metadata.FileName,
+				)
 
-fmt.Println(
-	"File Size:",
-	metadata.FileSize,
-)
+				fmt.Println(
+					"File Size:",
+					metadata.FileSize,
+				)
 
-fmt.Println(
-	"Extension:",
-	metadata.Extension,
-)
+				fmt.Println(
+					"Extension:",
+					metadata.Extension,
+				)
 
-fmt.Println(
-	"MIME Type:",
-	metadata.MIMEType,
-)
+				fmt.Println(
+					"MIME Type:",
+					metadata.MIMEType,
+				)
 
-fmt.Println(
-	"MD5:",
-	metadata.MD5,
-)
+				fmt.Println(
+					"MD5:",
+					metadata.MD5,
+				)
 
 				fmt.Println(
 					"Sandbox Findings:",
@@ -204,20 +203,20 @@ fmt.Println(
 						contentFindings,
 					)
 
-					fmt.Println(
-    "RISK SCORE:",
-    riskScore,
-)
+				fmt.Println(
+					"RISK SCORE:",
+					riskScore,
+				)
 
-fmt.Println(
-    "RISK LEVEL:",
-    riskLevel,
-)
+				fmt.Println(
+					"RISK LEVEL:",
+					riskLevel,
+				)
 
-fmt.Println(
-    "VERDICT:",
-    verdict,
-)
+				fmt.Println(
+					"VERDICT:",
+					verdict,
+				)
 
 				mitre :=
 					MapSandboxMITRE(
@@ -230,88 +229,88 @@ fmt.Println(
 						"\n",
 					)
 
-					fmt.Println(
-	"FINAL FINDINGS STRING:",
-	findings,
-)
+				fmt.Println(
+					"FINAL FINDINGS STRING:",
+					findings,
+				)
 
 				err =
-    database.SaveSandboxReport(
-        job.ID,
-        metadata.FileName,
-        metadata.FileSize,
-        metadata.Extension,
-        metadata.MIMEType,
-        metadata.MD5,
-        sha256,
-        findings,
-        riskScore,
-        riskLevel,
-        verdict,
-        mitre,
-    )
+					sandboxrepo.SaveSandboxReport(
+						job.ID,
+						metadata.FileName,
+						metadata.FileSize,
+						metadata.Extension,
+						metadata.MIMEType,
+						metadata.MD5,
+						sha256,
+						findings,
+						riskScore,
+						riskLevel,
+						verdict,
+						mitre,
+					)
 
-if err != nil {
+				if err != nil {
 
-    fmt.Println(
-        "Sandbox Report Error:",
-        err,
-    )
+					fmt.Println(
+						"Sandbox Report Error:",
+						err,
+					)
 
-} else {
+				} else {
 
-    fmt.Println(
-        "SANDBOX REPORT SAVED SUCCESSFULLY",
-    )
+					fmt.Println(
+						"SANDBOX REPORT SAVED SUCCESSFULLY",
+					)
 
-    fmt.Println(
-        "JOB ID:",
-        job.ID,
-    )
+					fmt.Println(
+						"JOB ID:",
+						job.ID,
+					)
 
-    fmt.Println(
-        "RISK SCORE:",
-        riskScore,
-    )
+					fmt.Println(
+						"RISK SCORE:",
+						riskScore,
+					)
 
-    fmt.Println(
-        "RISK LEVEL:",
-        riskLevel,
-    )
-}
+					fmt.Println(
+						"RISK LEVEL:",
+						riskLevel,
+					)
+				}
 
 				status := "COMPLETED"
 
-if riskLevel == "HIGH" ||
-    riskLevel == "CRITICAL" {
+				if riskLevel == "HIGH" ||
+					riskLevel == "CRITICAL" {
 
-    status = "MALICIOUS"
+					status = "MALICIOUS"
 
-} else if riskLevel == "MEDIUM" {
+				} else if riskLevel == "MEDIUM" {
 
-    status = "SUSPICIOUS"
-}
+					status = "SUSPICIOUS"
+				}
 
-fmt.Println(
-    "SANDBOX RISK SCORE:",
-    riskScore,
-)
+				fmt.Println(
+					"SANDBOX RISK SCORE:",
+					riskScore,
+				)
 
-fmt.Println(
-    "SANDBOX RISK LEVEL:",
-    riskLevel,
-)
+				fmt.Println(
+					"SANDBOX RISK LEVEL:",
+					riskLevel,
+				)
 
-fmt.Println(
-    "SANDBOX STATUS:",
-    status,
-)
+				fmt.Println(
+					"SANDBOX STATUS:",
+					status,
+				)
 
-err =
-    database.UpdateSandboxJobStatus(
-        job.ID,
-        status,
-    )
+				err =
+					sandboxrepo.UpdateSandboxJobStatus(
+						job.ID,
+						status,
+					)
 
 				if err != nil {
 

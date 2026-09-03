@@ -1,20 +1,17 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import "./CampaignTimeline.css";
 
 function CampaignTimeline() {
-
   const [timeline, setTimeline] =
     useState([]);
 
   useEffect(() => {
-
     loadTimeline();
-
   }, []);
 
   const loadTimeline =
     async () => {
-
       const token =
         localStorage.getItem(
           "token",
@@ -37,66 +34,145 @@ function CampaignTimeline() {
     };
 
   return (
+    <main className="campaign-timeline-page">
 
-    <div>
+      <div className="campaign-timeline-container">
 
-      <h1>
-        Campaign Timeline
-      </h1>
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
-      <table
-        border="1"
-        width="100%"
-      >
+        <header className="campaign-timeline-header">
 
-        <thead>
+          <div className="campaign-timeline-title-area">
 
-          <tr>
+            <div className="campaign-timeline-label">
+              <span className="campaign-timeline-dot" />
+              Campaign Intelligence
+            </div>
 
-            <th>IOC</th>
+            <h1>
+              Campaign Timeline
+            </h1>
 
-            <th>First Seen</th>
+          </div>
 
-            <th>Last Seen</th>
+        </header>
 
-            <th>Occurrences</th>
 
-          </tr>
+        {/* =================================================
+            TIMELINE PANEL
+            ================================================= */}
 
-        </thead>
+        <section className="campaign-timeline-panel">
 
-        <tbody>
+          <div className="campaign-timeline-panel-header">
 
-          {timeline.map(
-            (item, index) => (
+            <h2>
+              Campaign Timeline
+            </h2>
 
-              <tr key={index}>
+          </div>
 
-                <td>
-                  {item.ioc}
-                </td>
 
-                <td>
-                  {item.first_seen}
-                </td>
+          <div className="campaign-timeline-table-wrapper">
 
-                <td>
-                  {item.last_seen}
-                </td>
+            <table className="campaign-timeline-table">
 
-                <td>
-                  {item.occurrences}
-                </td>
+              <thead>
 
-              </tr>
-            ),
-          )}
+                <tr>
 
-        </tbody>
+                  <th>
+                    IOC
+                  </th>
 
-      </table>
+                  <th>
+                    First Seen
+                  </th>
 
-    </div>
+                  <th>
+                    Last Seen
+                  </th>
+
+                  <th>
+                    Occurrences
+                  </th>
+
+                </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                {timeline.map(
+                  (
+                    item,
+                    index,
+                  ) => (
+
+                    <tr
+                      key={index}
+                    >
+
+                      <td>
+
+                        <div className="timeline-ioc">
+
+                          <span className="ioc-indicator" />
+
+                          <span className="ioc-text">
+                            {item.ioc}
+                          </span>
+
+                        </div>
+
+                      </td>
+
+
+                      <td>
+
+                        <span className="timeline-date">
+                          {item.first_seen}
+                        </span>
+
+                      </td>
+
+
+                      <td>
+
+                        <span className="timeline-date">
+                          {item.last_seen}
+                        </span>
+
+                      </td>
+
+
+                      <td>
+
+                        <span className="occurrences-badge">
+                          {item.occurrences}
+                        </span>
+
+                      </td>
+
+                    </tr>
+
+                  ),
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
   );
 }
 

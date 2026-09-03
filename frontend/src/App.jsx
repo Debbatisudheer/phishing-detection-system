@@ -5,68 +5,56 @@ import {
 } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
+import HealthBanner from "./components/common/HealthBanner";
+import ProtectedRoute from "./components/ProtectedRoute";
 
+// Pages
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Cases from "./pages/Cases";
 import Search from "./pages/Search";
 import RecentFindings from "./pages/RecentFindings";
 import UpdateCase from "./pages/UpdateCase";
-
-import ProtectedRoute from "./components/ProtectedRoute";
-import ExportIOC
-from "./pages/ExportIOC";
-import LiveAlerts
-from "./pages/LiveAlerts";
-import ThreatHunting
-from "./pages/ThreatHunting";
-import FileDetails
-from "./pages/FileDetails";
-import ThreatIntel
-from "./pages/ThreatIntel";
-import MITREDashboard
-from "./pages/MITREDashboard";
-import IncidentDashboard
-from "./pages/IncidentDashboard";
+import ExportIOC from "./pages/ExportIOC";
+import LiveAlerts from "./pages/LiveAlerts";
+import ThreatHunting from "./pages/ThreatHunting";
+import FileDetails from "./pages/FileDetails";
+import ThreatIntel from "./pages/ThreatIntel";
+import MITREDashboard from "./pages/MITREDashboard";
+import IncidentDashboard from "./pages/IncidentDashboard";
 import AlertHistory from "./pages/AlertHistory";
 import Correlation from "./pages/Correlation";
 import Campaigns from "./pages/Campaigns";
 import IOCGraph from "./pages/IOCGraph";
-import MITREHeatmap
-from "./pages/MITREHeatmap";
-import CampaignTimeline
-from "./pages/CampaignTimeline";
-import IOCTrends
-from "./pages/IOCTrends";
-import IOCNetworkGraph
-from "./pages/IOCNetworkGraph";
-import InvestigationWorkbench
-from "./pages/InvestigationWorkbench";
+import MITREHeatmap from "./pages/MITREHeatmap";
+import CampaignTimeline from "./pages/CampaignTimeline";
+import IOCTrends from "./pages/IOCTrends";
+import IOCNetworkGraph from "./pages/IOCNetworkGraph";
+import InvestigationWorkbench from "./pages/InvestigationWorkbench";
 import SandboxDashboard from "./pages/SandboxDashboard";
-import SandboxReportDetails
-from "./pages/SandboxReportDetails";
-import NotFound
-from "./pages/NotFound";
-import HealthBanner
-from "./components/common/HealthBanner";
+import SandboxReportDetails from "./pages/SandboxReportDetails";
 import Playground from "./pages/Playground";
+import NotFound from "./pages/NotFound";
 
 function App() {
-
   return (
-
     <BrowserRouter>
-    <HealthBanner />
-
+      {/* Global Application UI */}
+      <HealthBanner />
       <Navbar />
 
       <Routes>
-
+        {/* ============================================================
+            Authentication
+            ============================================================ */}
         <Route
           path="/login"
           element={<Login />}
         />
 
+        {/* ============================================================
+            Protected Application Routes
+            ============================================================ */}
         <Route
           path="/"
           element={
@@ -113,130 +101,148 @@ function App() {
         />
 
         <Route
-  path="/export-iocs"
-  element={
-    <ProtectedRoute>
-      <ExportIOC />
-    </ProtectedRoute>
-  }
-/>
+          path="/export-iocs"
+          element={
+            <ProtectedRoute>
+              <ExportIOC />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/live-alerts"
-  element={
-    <ProtectedRoute>
-      <LiveAlerts />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/threat-hunting"
-  element={
-    <ProtectedRoute>
-      <ThreatHunting />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/live-alerts"
+          element={
+            <ProtectedRoute>
+              <LiveAlerts />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-	path="/file/:fileName"
-	element={
-		<FileDetails />
-	}
-/>
+        <Route
+          path="/threat-hunting"
+          element={
+            <ProtectedRoute>
+              <ThreatHunting />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/api/threat-intel"
-  element={
-    <ThreatIntel />
-  }
-/>
-<Route
-  path="/mitre"
-  element={
-    <MITREDashboard />
-  }
-/>
+        <Route
+          path="/playground"
+          element={
+            <ProtectedRoute>
+              <Playground />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/mitre-heatmap"
-  element={<MITREHeatmap />}
-/>
+        {/* ============================================================
+            File Investigation
+            ============================================================ */}
+        <Route
+          path="/file/:fileName"
+          element={<FileDetails />}
+        />
 
-<Route
-  path="/incidents"
-  element={
-    <IncidentDashboard />
-  }
-/>
-<Route
-  path="/alert-history"
-  element={<AlertHistory />}
-/>
-<Route
-  path="/correlation"
-  element={<Correlation />}
-/>
+        {/* ============================================================
+            Threat Intelligence
+            ============================================================ */}
+        <Route
+          path="/api/threat-intel"
+          element={<ThreatIntel />}
+        />
 
-<Route
-  path="/campaigns"
-  element={<Campaigns />}
-/>
+        {/* ============================================================
+            MITRE ATT&CK
+            ============================================================ */}
+        <Route
+          path="/mitre"
+          element={<MITREDashboard />}
+        />
 
-<Route
-  path="/ioc-graph"
-  element={<IOCGraph />}
-/>
+        <Route
+          path="/mitre-heatmap"
+          element={<MITREHeatmap />}
+        />
 
-<Route
-  path="/campaign-timeline"
-  element={<CampaignTimeline />}
-/>
-<Route
-  path="/ioc-trends"
-  element={<IOCTrends />}
-/>
+        {/* ============================================================
+            Incident Management
+            ============================================================ */}
+        <Route
+          path="/incidents"
+          element={<IncidentDashboard />}
+        />
 
-<Route
-  path="/ioc-network"
-  element={
-    <IOCNetworkGraph />
-  }
-/>
+        <Route
+          path="/alert-history"
+          element={<AlertHistory />}
+        />
 
-<Route
-  path="/investigation"
-  element={
-    <InvestigationWorkbench />
-  }
-/>
-<Route
-  path="/sandbox"
-  element={<SandboxDashboard />}
-/>
+        <Route
+          path="/correlation"
+          element={<Correlation />}
+        />
 
-<Route
-  path="/sandbox-report/:id"
-  element={
-    <SandboxReportDetails />
-  }
-/>
+        {/* ============================================================
+            Campaign Analysis
+            ============================================================ */}
+        <Route
+          path="/campaigns"
+          element={<Campaigns />}
+        />
 
-<Route
-  path="/playground"
-  element={
-    <ProtectedRoute>
-      <Playground />
-    </ProtectedRoute>
-  }
-/>
+        <Route
+          path="/campaign-timeline"
+          element={<CampaignTimeline />}
+        />
 
-<Route
-  path="*"
-  element={<NotFound />}
-/>
+        {/* ============================================================
+            IOC Analysis & Visualization
+            ============================================================ */}
+        <Route
+          path="/ioc-graph"
+          element={<IOCGraph />}
+        />
+
+        <Route
+          path="/ioc-trends"
+          element={<IOCTrends />}
+        />
+
+        <Route
+          path="/ioc-network"
+          element={<IOCNetworkGraph />}
+        />
+
+        {/* ============================================================
+            Investigation
+            ============================================================ */}
+        <Route
+          path="/investigation"
+          element={<InvestigationWorkbench />}
+        />
+
+        {/* ============================================================
+            Sandbox
+            ============================================================ */}
+        <Route
+          path="/sandbox"
+          element={<SandboxDashboard />}
+        />
+
+        <Route
+          path="/sandbox-report/:id"
+          element={<SandboxReportDetails />}
+        />
+
+        {/* ============================================================
+            Fallback
+            ============================================================ */}
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
       </Routes>
-
     </BrowserRouter>
   );
 }

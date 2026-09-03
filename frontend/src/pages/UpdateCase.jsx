@@ -1,8 +1,8 @@
 import { useState } from "react";
 import api from "../services/api";
+import "./UpdateCase.css";
 
 function UpdateCase() {
-
   const [caseId, setCaseId] =
     useState("");
 
@@ -20,7 +20,6 @@ function UpdateCase() {
 
   const updateCase =
     async () => {
-
       const token =
         localStorage.getItem(
           "token",
@@ -47,7 +46,6 @@ function UpdateCase() {
 
   const addNote =
     async () => {
-
       const token =
         localStorage.getItem(
           "token",
@@ -83,10 +81,9 @@ function UpdateCase() {
 
       loadNotes();
     };
-    
+
   const loadNotes =
     async () => {
-
       if (!caseId) {
         return;
       }
@@ -113,127 +110,249 @@ function UpdateCase() {
     };
 
   return (
+    <main className="update-case-page">
 
-    <div
-      style={{
-        padding: "20px",
-      }}
-    >
+      <div className="update-case-container">
 
-      <h1>
-        Update Case
-      </h1>
+        {/* =================================================
+            HEADER
+            ================================================= */}
 
-      <input
-        placeholder="Case ID"
-        value={caseId}
-        onChange={(e) =>
-          setCaseId(
-            e.target.value,
-          )
-        }
-      />
+        <header className="update-case-header">
 
-      <button
-        onClick={loadNotes}
-      >
-        Load Notes
-      </button>
+          <div className="update-case-heading">
 
-      <br />
-      <br />
+            <div className="update-case-label">
+              <span className="case-status-dot" />
+              Case Management
+            </div>
 
-      <input
-        placeholder="Status"
-        value={status}
-        onChange={(e) =>
-          setStatus(
-            e.target.value,
-          )
-        }
-      />
-
-      <br />
-      <br />
-
-      <textarea
-        placeholder="Case Notes"
-        value={notes}
-        onChange={(e) =>
-          setNotes(
-            e.target.value,
-          )
-        }
-      />
-
-      <br />
-      <br />
-
-      <button
-        onClick={updateCase}
-      >
-        Update Case
-      </button>
-
-      <hr />
-
-      <h2>
-        Analyst Timeline
-      </h2>
-
-      <textarea
-        placeholder="Add Investigation Note"
-        value={timelineNote}
-        onChange={(e) =>
-          setTimelineNote(
-            e.target.value,
-          )
-        }
-      />
-
-      <br />
-      <br />
-
-      <button
-        onClick={addNote}
-      >
-        Add Note
-      </button>
-
-      <hr />
-
-      {caseNotes.map(
-        (
-          note,
-          index,
-        ) => (
-
-          <div
-            key={index}
-            className="card"
-          >
-
-            <h4>
-              {note.analyst}
-            </h4>
-
-            <p>
-              {note.note}
-            </p>
-
-            <small>
-  {
-    new Date(
-      note.created_at,
-    ).toLocaleString()
-  }
-</small>
+            <h1>
+              Update Case
+            </h1>
 
           </div>
-        ),
-      )}
 
-    </div>
+        </header>
+
+
+        {/* =================================================
+            CASE WORKSPACE
+            ================================================= */}
+
+        <section className="case-workspace">
+
+          {/* =================================================
+              CASE DETAILS
+              ================================================= */}
+
+          <div className="case-panel">
+
+            <div className="case-panel-header">
+
+              <div>
+                <h2>
+                  Case Details
+                </h2>
+              </div>
+
+            </div>
+
+
+            <div className="case-panel-body">
+
+              {/* Case ID */}
+
+              <div className="case-field">
+
+                <label>
+                  Case ID
+                </label>
+
+                <input
+                  placeholder="Case ID"
+                  value={caseId}
+                  onChange={(e) =>
+                    setCaseId(
+                      e.target.value,
+                    )
+                  }
+                />
+
+              </div>
+
+
+              <button
+                className="secondary-action"
+                onClick={loadNotes}
+              >
+                Load Notes
+              </button>
+
+
+              {/* Status */}
+
+              <div className="case-field">
+
+                <label>
+                  Status
+                </label>
+
+                <input
+                  placeholder="Status"
+                  value={status}
+                  onChange={(e) =>
+                    setStatus(
+                      e.target.value,
+                    )
+                  }
+                />
+
+              </div>
+
+
+              {/* Case Notes */}
+
+              <div className="case-field">
+
+                <label>
+                  Case Notes
+                </label>
+
+                <textarea
+                  placeholder="Case Notes"
+                  value={notes}
+                  onChange={(e) =>
+                    setNotes(
+                      e.target.value,
+                    )
+                  }
+                />
+
+              </div>
+
+
+              <button
+                className="primary-action"
+                onClick={updateCase}
+              >
+                Update Case
+              </button>
+
+            </div>
+
+          </div>
+
+
+          {/* =================================================
+              ANALYST TIMELINE
+              ================================================= */}
+
+          <div className="case-panel timeline-panel">
+
+            <div className="case-panel-header">
+
+              <div>
+                <h2>
+                  Analyst Timeline
+                </h2>
+              </div>
+
+            </div>
+
+
+            <div className="case-panel-body">
+
+              <div className="case-field">
+
+                <label>
+                  Add Investigation Note
+                </label>
+
+                <textarea
+                  placeholder="Add Investigation Note"
+                  value={timelineNote}
+                  onChange={(e) =>
+                    setTimelineNote(
+                      e.target.value,
+                    )
+                  }
+                />
+
+              </div>
+
+
+              <button
+                className="primary-action"
+                onClick={addNote}
+              >
+                Add Note
+              </button>
+
+            </div>
+
+
+            {/* =================================================
+                TIMELINE NOTES
+                ================================================= */}
+
+            <div className="timeline-list">
+
+              {caseNotes.map(
+                (
+                  note,
+                  index,
+                ) => (
+
+                  <article
+                    key={index}
+                    className="timeline-item"
+                  >
+
+                    <div className="timeline-marker">
+                      <span />
+                    </div>
+
+
+                    <div className="timeline-content">
+
+                      <div className="timeline-top">
+
+                        <h4>
+                          {note.analyst}
+                        </h4>
+
+                        <small>
+                          {
+                            new Date(
+                              note.created_at,
+                            ).toLocaleString()
+                          }
+                        </small>
+
+                      </div>
+
+
+                      <p>
+                        {note.note}
+                      </p>
+
+                    </div>
+
+                  </article>
+
+                ),
+              )}
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
   );
 }
 

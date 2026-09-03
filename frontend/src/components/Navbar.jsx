@@ -2,40 +2,28 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
-
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
   const logout = () => {
-
-    localStorage.removeItem(
-      "token"
-    );
-
-    navigate(
-      "/login"
-    );
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
-
     <nav className="navbar">
 
-      <Link
-        to="/"
-        className="nav-link"
-      >
+      {/* Dashboard */}
+      <Link to="/" className="nav-link">
         Dashboard
       </Link>
 
+      {/* Detection */}
       <div className="dropdown">
-
         <span className="nav-link">
           Detection ▼
         </span>
 
         <div className="dropdown-content">
-
           <Link to="/search">
             Search
           </Link>
@@ -55,19 +43,16 @@ function Navbar() {
           <Link to="/update-case">
             Update Case
           </Link>
-
         </div>
-
       </div>
 
+      {/* Investigation */}
       <div className="dropdown">
-
         <span className="nav-link">
           Investigation ▼
         </span>
 
         <div className="dropdown-content">
-
           <Link to="/cases">
             Cases
           </Link>
@@ -83,19 +68,16 @@ function Navbar() {
           <Link to="/sandbox">
             Sandbox
           </Link>
-
         </div>
-
       </div>
 
+      {/* Threat Intel */}
       <div className="dropdown">
-
         <span className="nav-link">
           Threat Intel ▼
         </span>
 
         <div className="dropdown-content">
-
           <Link to="/api/threat-intel">
             Threat Intel
           </Link>
@@ -119,19 +101,16 @@ function Navbar() {
           <Link to="/export-iocs">
             Export IOC
           </Link>
-
         </div>
-
       </div>
 
+      {/* Campaigns */}
       <div className="dropdown">
-
         <span className="nav-link">
           Campaigns ▼
         </span>
 
         <div className="dropdown-content">
-
           <Link to="/campaigns">
             Campaigns
           </Link>
@@ -139,19 +118,16 @@ function Navbar() {
           <Link to="/campaign-timeline">
             Campaign Timeline
           </Link>
-
         </div>
-
       </div>
 
+      {/* MITRE */}
       <div className="dropdown">
-
         <span className="nav-link">
           MITRE ▼
         </span>
 
         <div className="dropdown-content">
-
           <Link to="/mitre">
             MITRE Dashboard
           </Link>
@@ -159,11 +135,10 @@ function Navbar() {
           <Link to="/mitre-heatmap">
             MITRE Heatmap
           </Link>
-
         </div>
-
       </div>
 
+      {/* Threat Hunting */}
       <Link
         to="/threat-hunting"
         className="nav-link"
@@ -171,10 +146,15 @@ function Navbar() {
         Threat Hunting
       </Link>
 
-      <Link to="/playground">
-    Playground
-</Link>
+      {/* Playground */}
+      <Link
+        to="/playground"
+        className="nav-link"
+      >
+        Playground
+      </Link>
 
+      {/* Logout */}
       <button
         className="logout-btn"
         onClick={logout}
@@ -183,7 +163,6 @@ function Navbar() {
       </button>
 
     </nav>
-
   );
 }
 

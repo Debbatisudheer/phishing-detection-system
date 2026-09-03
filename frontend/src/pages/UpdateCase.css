@@ -1,0 +1,661 @@
+/* =========================================================
+   UPDATE CASE
+   SOC CASE MANAGEMENT INTERFACE
+   ========================================================= */
+
+.update-case-page {
+  min-height: calc(100vh - 68px);
+
+  padding: 32px;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(0, 196, 159, 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      rgba(38, 92, 150, 0.08),
+      transparent 35%
+    ),
+    #050b18;
+
+  color: #d9e4f2;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.update-case-container {
+  width: 100%;
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.update-case-header {
+  margin-bottom: 26px;
+
+  padding-bottom: 21px;
+
+  border-bottom: 1px solid #1d3049;
+}
+
+
+.update-case-heading {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.update-case-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #71839b;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.9px;
+
+  text-transform: uppercase;
+}
+
+
+.case-status-dot {
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #00c49f;
+
+  box-shadow:
+    0 0 0 4px rgba(0, 196, 159, 0.08),
+    0 0 12px rgba(0, 196, 159, 0.4);
+}
+
+
+.update-case-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.4px;
+}
+
+
+/* =========================================================
+   WORKSPACE
+   ========================================================= */
+
+.case-workspace {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 0.9fr)
+    minmax(0, 1.1fr);
+
+  gap: 20px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   PANELS
+   ========================================================= */
+
+.case-panel {
+  position: relative;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0c182b 0%,
+      #081321 100%
+    );
+
+  border: 1px solid #1d3049;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 14px 38px rgba(0, 0, 0, 0.22);
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.case-panel:hover {
+  border-color: #29445f;
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.28);
+}
+
+
+.case-panel::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 196, 159, 0.7),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   PANEL HEADER
+   ========================================================= */
+
+.case-panel-header {
+  display: flex;
+
+  align-items: center;
+
+  min-height: 64px;
+
+  padding: 0 22px;
+
+  border-bottom: 1px solid #1d3049;
+
+  background:
+    rgba(255, 255, 255, 0.012);
+}
+
+
+.case-panel-header h2 {
+  margin: 0;
+
+  color: #edf4fb;
+
+  font-size: 15px;
+
+  font-weight: 650;
+
+  letter-spacing: -0.1px;
+}
+
+
+/* =========================================================
+   PANEL BODY
+   ========================================================= */
+
+.case-panel-body {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 17px;
+
+  padding: 22px;
+}
+
+
+/* =========================================================
+   FORM FIELD
+   ========================================================= */
+
+.case-field {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.case-field label {
+  color: #8c9eb4;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.65px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.case-field input,
+.case-field textarea {
+  width: 100%;
+
+  box-sizing: border-box;
+
+  background: #050d1a;
+
+  border: 1px solid #233b58;
+
+  border-radius: 8px;
+
+  color: #dce7f2;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+
+.case-field input {
+  height: 44px;
+
+  padding: 0 13px;
+}
+
+
+.case-field textarea {
+  min-height: 125px;
+
+  padding: 12px 13px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+
+.case-field input::placeholder,
+.case-field textarea::placeholder {
+  color: #566980;
+}
+
+
+.case-field input:focus,
+.case-field textarea:focus {
+  outline: none;
+
+  border-color: #00c49f;
+
+  background: #071321;
+
+  box-shadow:
+    0 0 0 3px rgba(0, 196, 159, 0.08);
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.primary-action,
+.secondary-action {
+  min-height: 42px;
+
+  padding: 0 17px;
+
+  border-radius: 7px;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+
+.primary-action {
+  border: 1px solid rgba(0, 196, 159, 0.35);
+
+  background:
+    rgba(0, 196, 159, 0.10);
+
+  color: #00c49f;
+}
+
+
+.primary-action:hover {
+  transform: translateY(-1px);
+
+  background:
+    rgba(0, 196, 159, 0.17);
+
+  border-color:
+    rgba(0, 196, 159, 0.7);
+
+  color: #ffffff;
+
+  box-shadow:
+    0 7px 20px rgba(0, 196, 159, 0.10);
+}
+
+
+.secondary-action {
+  align-self: flex-start;
+
+  border: 1px solid #29415c;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  color: #a9b9cc;
+}
+
+
+.secondary-action:hover {
+  transform: translateY(-1px);
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  border-color: #3a5572;
+
+  color: #ffffff;
+}
+
+
+.primary-action:active,
+.secondary-action:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   TIMELINE
+   ========================================================= */
+
+.timeline-panel {
+  min-height: 500px;
+}
+
+
+.timeline-list {
+  padding: 5px 22px 24px;
+}
+
+
+.timeline-item {
+  position: relative;
+
+  display: flex;
+
+  gap: 14px;
+
+  padding-bottom: 22px;
+}
+
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+
+/* vertical line */
+
+.timeline-item:not(:last-child)::before {
+  content: "";
+
+  position: absolute;
+
+  top: 18px;
+
+  left: 5px;
+
+  bottom: 0;
+
+  width: 1px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #29445f,
+      rgba(41, 68, 95, 0.15)
+    );
+}
+
+
+/* =========================================================
+   TIMELINE MARKER
+   ========================================================= */
+
+.timeline-marker {
+  position: relative;
+
+  flex-shrink: 0;
+
+  width: 11px;
+
+  padding-top: 7px;
+}
+
+
+.timeline-marker span {
+  display: block;
+
+  width: 9px;
+
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #00c49f;
+
+  border: 2px solid #081321;
+
+  box-shadow:
+    0 0 0 1px rgba(0, 196, 159, 0.45);
+}
+
+
+/* =========================================================
+   TIMELINE CONTENT
+   ========================================================= */
+
+.timeline-content {
+  min-width: 0;
+
+  flex: 1;
+
+  padding: 13px 15px;
+
+  background:
+    rgba(5, 13, 26, 0.55);
+
+  border: 1px solid rgba(35, 59, 88, 0.7);
+
+  border-radius: 8px;
+}
+
+
+.timeline-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 9px;
+}
+
+
+.timeline-top h4 {
+  margin: 0;
+
+  color: #edf4fb;
+
+  font-size: 13px;
+
+  font-weight: 650;
+}
+
+
+.timeline-top small {
+  flex-shrink: 0;
+
+  color: #61748c;
+
+  font-size: 10px;
+}
+
+
+.timeline-content p {
+  margin: 0;
+
+  color: #9eafc4;
+
+  font-size: 12px;
+
+  line-height: 1.65;
+
+  white-space: pre-wrap;
+
+  overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .update-case-page {
+    padding: 24px;
+  }
+
+  .case-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .timeline-panel {
+    min-height: auto;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .update-case-page {
+    padding: 15px;
+  }
+
+  .update-case-header {
+    margin-bottom: 20px;
+
+    padding-bottom: 17px;
+  }
+
+  .update-case-header h1 {
+    font-size: 23px;
+  }
+
+  .case-panel-header {
+    min-height: 56px;
+
+    padding: 0 16px;
+  }
+
+  .case-panel-body {
+    padding: 16px;
+  }
+
+  .timeline-list {
+    padding:
+      5px
+      16px
+      20px;
+  }
+
+  .timeline-top {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 4px;
+  }
+
+  .timeline-top small {
+    white-space: normal;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 400px) {
+  .update-case-page {
+    padding: 10px;
+  }
+
+  .case-panel {
+    border-radius: 9px;
+  }
+
+  .case-panel-body {
+    padding: 14px;
+  }
+
+  .timeline-list {
+    padding-left: 13px;
+
+    padding-right: 13px;
+  }
+}

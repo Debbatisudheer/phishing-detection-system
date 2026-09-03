@@ -1,0 +1,680 @@
+/* =========================================================
+   INCIDENT DASHBOARD
+   SOC INCIDENT MANAGEMENT INTERFACE
+   ========================================================= */
+
+.incident-dashboard-page {
+  min-height: calc(100vh - 68px);
+
+  padding: 32px;
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(0, 196, 159, 0.065),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 100%,
+      rgba(38, 92, 150, 0.08),
+      transparent 35%
+    ),
+    #050b18;
+
+  color: #d9e4f2;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.incident-dashboard-container {
+  width: 100%;
+
+  max-width: 1500px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.incident-dashboard-header {
+  margin-bottom: 26px;
+
+  padding-bottom: 21px;
+
+  border-bottom: 1px solid #1d3049;
+}
+
+
+.incident-title-area {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+
+.incident-section-label {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: #71839b;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.9px;
+
+  text-transform: uppercase;
+}
+
+
+.incident-live-dot {
+  width: 7px;
+
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #00c49f;
+
+  box-shadow:
+    0 0 0 4px rgba(0, 196, 159, 0.08),
+    0 0 12px rgba(0, 196, 159, 0.45);
+}
+
+
+.incident-dashboard-header h1 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 28px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.4px;
+}
+
+
+/* =========================================================
+   STATISTICS GRID
+   ========================================================= */
+
+.incident-stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+
+  margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   STAT CARD
+   ========================================================= */
+
+.incident-stat-card {
+  position: relative;
+
+  min-height: 150px;
+
+  padding: 21px;
+
+  box-sizing: border-box;
+
+  background:
+    linear-gradient(
+      145deg,
+      #0c182b 0%,
+      #081321 100%
+    );
+
+  border: 1px solid #1d3049;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.20);
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.incident-stat-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+
+  left: 0;
+
+  right: 0;
+
+  height: 2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 196, 159, 0.7),
+      transparent
+    );
+}
+
+
+.incident-stat-card:hover {
+  transform: translateY(-3px);
+
+  border-color: #29445f;
+
+  box-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+
+/* =========================================================
+   STAT TOP
+   ========================================================= */
+
+.incident-stat-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+
+.incident-stat-top > span {
+  color: #889bb1;
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.7px;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   STAT ICON
+   ========================================================= */
+
+.stat-icon {
+  width: 34px;
+
+  height: 34px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+.total-icon {
+  color: #8da4bd;
+
+  background:
+    rgba(141, 164, 189, 0.08);
+
+  border: 1px solid rgba(141, 164, 189, 0.18);
+}
+
+
+.open-icon {
+  color: #ffbb28;
+
+  background:
+    rgba(255, 187, 40, 0.08);
+
+  border: 1px solid rgba(255, 187, 40, 0.18);
+}
+
+
+.closed-icon {
+  color: #00c49f;
+
+  background:
+    rgba(0, 196, 159, 0.08);
+
+  border: 1px solid rgba(0, 196, 159, 0.18);
+}
+
+
+/* =========================================================
+   STAT NUMBER
+   ========================================================= */
+
+.incident-stat-card h1 {
+  margin: 25px 0 0;
+
+  color: #ffffff;
+
+  font-size: 34px;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  letter-spacing: -1px;
+}
+
+
+.open-card::before {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 187, 40, 0.65),
+      transparent
+    );
+}
+
+
+.closed-card::before {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 196, 159, 0.7),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   RECENT INCIDENTS SECTION
+   ========================================================= */
+
+.recent-incidents-section {
+  background:
+    linear-gradient(
+      145deg,
+      #0c182b 0%,
+      #081321 100%
+    );
+
+  border: 1px solid #1d3049;
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 14px 38px rgba(0, 0, 0, 0.22);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+   ========================================================= */
+
+.recent-incidents-header {
+  display: flex;
+
+  align-items: center;
+
+  min-height: 65px;
+
+  padding: 0 22px;
+
+  border-bottom: 1px solid #1d3049;
+
+  background:
+    rgba(255, 255, 255, 0.012);
+}
+
+
+.recent-incidents-header h2 {
+  margin: 0;
+
+  color: #edf4fb;
+
+  font-size: 15px;
+
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.incidents-table-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.incidents-table {
+  width: 100%;
+
+  min-width: 650px;
+
+  border-collapse: collapse;
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.incidents-table thead {
+  background:
+    rgba(4, 11, 22, 0.55);
+}
+
+
+.incidents-table th {
+  padding: 13px 20px;
+
+  border-bottom: 1px solid #1d3049;
+
+  color: #63768d;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.8px;
+
+  text-align: left;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   TABLE ROW
+   ========================================================= */
+
+.incidents-table tbody tr {
+  border-bottom: 1px solid rgba(29, 48, 73, 0.65);
+
+  transition:
+    background 0.18s ease;
+}
+
+
+.incidents-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+
+.incidents-table tbody tr:hover {
+  background:
+    rgba(0, 196, 159, 0.035);
+}
+
+
+/* =========================================================
+   TABLE CELLS
+   ========================================================= */
+
+.incidents-table td {
+  padding: 16px 20px;
+
+  color: #9eafc4;
+
+  font-size: 13px;
+
+  vertical-align: middle;
+}
+
+
+/* =========================================================
+   INCIDENT ID
+   ========================================================= */
+
+.incident-id {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 34px;
+
+  height: 27px;
+
+  padding: 0 8px;
+
+  box-sizing: border-box;
+
+  background:
+    rgba(141, 164, 189, 0.06);
+
+  border: 1px solid rgba(141, 164, 189, 0.14);
+
+  border-radius: 6px;
+
+  color: #aebed0;
+
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+
+  font-size: 11px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FILE
+   ========================================================= */
+
+.incident-file {
+  color: #dce7f2;
+
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   ANALYST
+   ========================================================= */
+
+.incident-analyst {
+  color: #9eafc4;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.incident-status {
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  min-height: 28px;
+
+  padding: 0 9px;
+
+  border-radius: 6px;
+
+  font-size: 11px;
+
+  font-weight: 650;
+
+  white-space: nowrap;
+}
+
+
+.status-indicator {
+  width: 6px;
+
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+}
+
+
+/* =========================================================
+   STATUS COLORS
+   ========================================================= */
+
+.status-open,
+.status-running,
+.status-active {
+  color: #ffbb28;
+
+  background:
+    rgba(255, 187, 40, 0.07);
+
+  border: 1px solid rgba(255, 187, 40, 0.16);
+}
+
+
+.status-closed,
+.status-completed,
+.status-resolved {
+  color: #00c49f;
+
+  background:
+    rgba(0, 196, 159, 0.07);
+
+  border: 1px solid rgba(0, 196, 159, 0.16);
+}
+
+
+.status-critical,
+.status-high {
+  color: #ff6666;
+
+  background:
+    rgba(255, 68, 68, 0.07);
+
+  border: 1px solid rgba(255, 68, 68, 0.16);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .incident-dashboard-page {
+    padding: 24px;
+  }
+
+  .incident-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .incident-stat-card {
+    min-height: 130px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .incident-dashboard-page {
+    padding: 15px;
+  }
+
+  .incident-dashboard-header {
+    margin-bottom: 20px;
+
+    padding-bottom: 17px;
+  }
+
+  .incident-dashboard-header h1 {
+    font-size: 23px;
+  }
+
+  .incident-stat-card {
+    min-height: 125px;
+
+    padding: 17px;
+  }
+
+  .incident-stat-card h1 {
+    margin-top: 20px;
+
+    font-size: 30px;
+  }
+
+  .recent-incidents-header {
+    min-height: 57px;
+
+    padding: 0 16px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 400px) {
+  .incident-dashboard-page {
+    padding: 10px;
+  }
+
+  .incident-stat-card {
+    border-radius: 9px;
+  }
+
+  .incidents-table th,
+  .incidents-table td {
+    padding-left: 14px;
+
+    padding-right: 14px;
+  }
+}
